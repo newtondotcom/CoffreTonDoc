@@ -28,8 +28,8 @@
                 <!--Item Thumbnail-->
                 <ThumbnailItem class="mb-4" :item="pickedItem" />
 
-                <ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
-                    <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
+                <Form @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
+                    
                         <AppInputText title="Share with" :error="errors[0]" :is-last="true">
                             <MultiEmailInput
                                 rules="required"
@@ -38,8 +38,8 @@
 								:is-error="errors[0]"
                             />
                         </AppInputText>
-                    </ValidationProvider>
-                </ValidationObserver>
+                    
+                </Form>
             </PopupContent>
 
             <PopupActions>
@@ -69,17 +69,9 @@
                     <CopyShareLink :item="pickedItem" />
                 </AppInputText>
 
-                <ValidationObserver @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
+                <Form @submit.prevent ref="shareForm" v-slot="{ invalid }" tag="form">
                     <!--Permission Select-->
-                    <ValidationProvider
-                        v-if="isFolder"
-                        tag="div"
-                        mode="passive"
-                        name="Permission"
-                        rules="required"
-                        v-slot="{ errors }"
-                    >
-                        <AppInputText :title="$t('permission')" :error="errors[0]">
+                                            <AppInputText :title="$t('permission')" :error="errors[0]">
                             <SelectInput
                                 v-model="shareOptions.permission"
                                 :options="$translateSelectOptions(permissionOptions)"
@@ -88,7 +80,7 @@
                                 :isError="errors[0]"
                             />
                         </AppInputText>
-                    </ValidationProvider>
+                    
 
                     <!--Password Switch-->
                     <div>
@@ -116,15 +108,7 @@
                         </ActionButton>
 
                         <!--Set password-->
-                        <ValidationProvider
-                            v-if="shareOptions.isProtected && !canChangePassword"
-                            tag="div"
-                            mode="passive"
-                            name="Password"
-                            rules="required"
-                            v-slot="{ errors }"
-                        >
-                            <AppInputText :error="errors[0]" class="-mt-2">
+                                                    <AppInputText :error="errors[0]" class="-mt-2">
                                 <input
                                     v-model="shareOptions.password"
                                     :class="{ '!border-rose-600': errors[0] }"
@@ -133,7 +117,7 @@
                                     :placeholder="$t('page_sign_in.placeholder_password')"
                                 />
                             </AppInputText>
-                        </ValidationProvider>
+                        
                     </div>
 
                     <!--Expiration switch-->
@@ -160,7 +144,7 @@
                             />
                         </AppInputText>
                     </div>
-                </ValidationObserver>
+                </Form>
             </PopupContent>
 
             <PopupActions>
@@ -212,8 +196,8 @@ import axios from 'axios'
 export default {
     name: 'ShareEditPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         MultiEmailInput,
         AppInputSwitch,
         SelectBoxInput,
@@ -228,7 +212,7 @@ export default {
         SelectInput,
         SwitchInput,
         ButtonBase,
-        required,
+        // required,
         Spinner,
     },
     computed: {

@@ -9,9 +9,9 @@
             <ThumbnailItem class="mb-5" :item="item" />
 
             <!--Form to set team folder-->
-            <ValidationObserver @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
+            <Form @submit.prevent="updateTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
                 <!--Add Member-->
-                <ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('add_member')" :error="errors[0]">
                         <div class="relative">
                             <span
@@ -34,10 +34,10 @@
                             />
                         </div>
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" name="Members" v-slot="{ errors }">
+                
                     <label class="input-label">{{ $t('your_members') }}:</label>
                     <span v-if="errors[0]" class="text-left text-xs text-red-600" style="margin-top: -5px">{{
                         $t('add_at_least_one_member')
@@ -51,8 +51,8 @@
                     >
                         {{ $t('add_at_least_one_member_into_team_folder') }}
                     </p>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
         </PopupContent>
 
         <!--Actions-->
@@ -91,8 +91,8 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'EditTeamFolderPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         TeamList,
         ThumbnailItem,
@@ -101,7 +101,7 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
         InfoBox,
     },
     computed: {

@@ -3,14 +3,14 @@
         <PopupHeader :title="$t('create_personal_token')" icon="key" />
 
         <PopupContent>
-            <ValidationObserver
+            <Form
                 v-if="!token"
                 @submit.prevent="createTokenForm"
                 ref="createToken"
                 v-slot="{ invalid }"
                 tag="form"
             >
-                <ValidationProvider tag="div" mode="passive" name="Token Name" rules="required|min:3" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('token_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="name"
@@ -21,8 +21,8 @@
                             :placeholder="$t('popup_personal_token.plc')"
                         />
                     </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
 
             <AppInputText v-if="token" :title="$t('popup_personal_token.your_token')" :is-last="true">
                 <CopyInput size="small" :str="token['plainTextToken']" />
@@ -73,8 +73,8 @@ import axios from 'axios'
 export default {
     name: 'CreatePersonalTokenPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         PopupWrapper,
         PopupActions,
@@ -82,7 +82,7 @@ export default {
         PopupHeader,
         ButtonBase,
         CopyInput,
-        required,
+        // required,
         InfoBox,
     },
     data() {

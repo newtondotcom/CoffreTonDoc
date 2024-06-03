@@ -9,7 +9,7 @@
             <ThumbnailItem class="mb-5" :item="pickedItem" />
 
             <!--Form to set sharing-->
-            <ValidationObserver
+            <Form
                 v-if="!isGeneratedShared"
                 @submit.prevent
                 ref="shareForm"
@@ -17,15 +17,7 @@
                 tag="form"
             >
                 <!--Permission Select-->
-                <ValidationProvider
-                    v-if="isFolder"
-                    tag="div"
-                    mode="passive"
-                    name="Permission"
-                    rules="required"
-                    v-slot="{ errors }"
-                >
-                    <AppInputText :title="$t('permission')" :error="errors[0]">
+                                    <AppInputText :title="$t('permission')" :error="errors[0]">
                         <SelectInput
                             v-model="shareOptions.permission"
                             :options="$translateSelectOptions(permissionOptions)"
@@ -33,7 +25,7 @@
                             :isError="errors[0]"
                         />
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <!--Password Switch-->
                 <div>
@@ -49,15 +41,7 @@
                     </AppInputSwitch>
 
                     <!--Set password-->
-                    <ValidationProvider
-                        v-if="shareOptions.isPassword"
-                        tag="div"
-                        mode="passive"
-                        name="Password"
-                        rules="required"
-                        v-slot="{ errors }"
-                    >
-                        <AppInputText :error="errors[0]" class="-mt-2">
+                                            <AppInputText :error="errors[0]" class="-mt-2">
                             <input
                                 v-model="shareOptions.password"
                                 :class="{ '!border-rose-600': errors[0] }"
@@ -66,7 +50,7 @@
                                 :placeholder="$t('page_sign_in.placeholder_password')"
                             />
                         </AppInputText>
-                    </ValidationProvider>
+                    
                 </div>
 
                 <!--Expiration switch-->
@@ -96,16 +80,7 @@
                     </AppInputSwitch>
 
                     <!--Emails-->
-                    <ValidationProvider
-                        v-if="isEmailSharing"
-                        tag="div"
-                        mode="passive"
-                        name="Email"
-                        rules="required"
-                        v-slot="{ errors }"
-                        class="-mt-2 mb-1"
-                    >
-						<AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
+                    						<AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
 							<MultiEmailInput
 								rules="required"
 								v-model="shareOptions.emails"
@@ -113,9 +88,9 @@
 								:is-error="errors[0]"
 							/>
 						</AppInputText>
-                    </ValidationProvider>
+                    
                 </div>
-            </ValidationObserver>
+            </Form>
 
             <!--Copy generated link-->
             <AppInputText v-if="isGeneratedShared" :title="$t('get_your_link')" :is-last="true">
@@ -167,8 +142,8 @@ import axios from 'axios'
 export default {
     name: 'ShareCreatePopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         AppInputSwitch,
         SelectBoxInput,
@@ -184,7 +159,7 @@ export default {
         ButtonBase,
         CopyShareLink,
         MailIcon,
-        required,
+        // required,
         LinkIcon,
         InfoBox,
     },

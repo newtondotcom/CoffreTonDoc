@@ -9,9 +9,9 @@
             <ThumbnailItem class="mb-5" :item="pickedItem" :setFolderIcon="{ emoji: emoji, color: null }" />
 
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
+            <Form @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
                 <!--Update item name-->
-                <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
+                
                     <AppInputText
                         :title="$t('popup_rename.label')"
                         :error="errors[0]"
@@ -31,7 +31,7 @@
                             </div>
                         </div>
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <!--Emoji-->
                 <AppInputSwitch
@@ -49,7 +49,7 @@
                     v-model="emoji"
                     :default-emoji="emoji"
                 />
-            </ValidationObserver>
+            </Form>
         </PopupContent>
 
         <!--Actions-->
@@ -83,8 +83,8 @@ import { XIcon } from 'vue-feather-icons'
 export default {
     name: 'RenameItemPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         EmojiPicker,
         AppInputSwitch,
         SwitchInput,
@@ -95,7 +95,7 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
         XIcon,
     },
     computed: {

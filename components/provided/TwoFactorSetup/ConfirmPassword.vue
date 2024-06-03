@@ -3,8 +3,8 @@
         <PopupHeader :title="$t('confirm_password')" icon="edit" />
 
         <PopupContent>
-            <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+            <Form @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
+                
                     <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
@@ -15,8 +15,8 @@
                             :placeholder="$t('page_sign_in.placeholder_password')"
                         />
                     </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
         </PopupContent>
 
         <PopupActions>
@@ -52,15 +52,15 @@ import axios from 'axios'
 export default {
     name: 'ConfirmPassword',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         PopupWrapper,
         PopupActions,
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
     },
     computed: {
         ...mapGetters(['user']),

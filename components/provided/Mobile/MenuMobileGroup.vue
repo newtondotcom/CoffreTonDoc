@@ -11,10 +11,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-/*
-@import 'resources/sass/vuefilemanager/_variables';
-@import 'resources/sass/vuefilemanager/_mixins';
-*/
+@import '@/components/sass/vuefilemanager/_variables';
+@import '@/components/sass/vuefilemanager/_mixins';
 
 .menu-options {
     margin-top: 10px;

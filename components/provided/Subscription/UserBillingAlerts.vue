@@ -26,7 +26,7 @@
             </b>
         </div>
 
-        <ValidationObserver
+        <Form
             v-if="showUpdateBillingAlertForm"
             ref="updatebillingAlertForm"
             @submit.prevent="updateBillingAlert"
@@ -34,7 +34,7 @@
             tag="form"
             class="mt-6"
         >
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
+            
                 <AppInputText
                     :description="
                         $t(
@@ -65,10 +65,10 @@
                         </ButtonBase>
                     </div>
                 </AppInputText>
-            </ValidationProvider>
-        </ValidationObserver>
+            
+        </Form>
 
-        <ValidationObserver
+        <Form
             v-if="!user.data.relationships.alert"
             ref="billingAlertForm"
             @submit.prevent="setBillingAlert"
@@ -76,7 +76,7 @@
             tag="form"
             class="mt-6"
         >
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
+            
                 <AppInputText
                     :description="
                         $t(
@@ -107,12 +107,12 @@
                         </ButtonBase>
                     </div>
                 </AppInputText>
-            </ValidationProvider>
-        </ValidationObserver>
+            
+        </Form>
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+//import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
 import FormLabel from '@/components/provided/UI/Labels/FormLabel'

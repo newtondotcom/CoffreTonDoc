@@ -4,14 +4,7 @@
 			{{ $te('storage_driver') ? $t('storage_driver') : 'Storage Setup' }}
 		</FormLabel>
 
-		<ValidationProvider
-			tag="div"
-			mode="passive"
-			name="Storage Service"
-			rules="required"
-			v-slot="{ errors }"
-		>
-			<AppInputText title="Storage Service" :error="errors[0]" :is-last="storage.driver === 'local' || storage.driver === undefined">
+					<AppInputText title="Storage Service" :error="errors[0]" :is-last="storage.driver === 'local' || storage.driver === undefined">
 				<SelectInput
 					v-model="storage.driver"
 					:options="storageServiceList"
@@ -19,10 +12,9 @@
 					:isError="errors[0]"
 				/>
 			</AppInputText>
-		</ValidationProvider>
 
 		<div v-if="s3PredefinedList.includes(storage.driver)">
-			<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -32,9 +24,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -44,10 +35,9 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
 			<!--List Region-->
-			<ValidationProvider v-if="storage.driver !== 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+			
 				<AppInputText
 					title="Region"
 					description="Select your region where is your bucket created."
@@ -60,10 +50,9 @@
 						:isError="errors[0]"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
 			<!--Input Region-->
-			<ValidationProvider v-if="storage.driver === 'other'" tag="div" mode="passive" name="Region" rules="required" v-slot="{ errors }">
+			
 				<AppInputText
 					title="Region"
 					description="Type your region where is your bucket created."
@@ -78,16 +67,8 @@
 						:readonly="storage.driver !== 'other'"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider
-				tag="div"
-				mode="passive"
-				name="Endpoint"
-				rules="required"
-				v-slot="{ errors }"
-			>
-				<AppInputText title="Endpoint URL" :description="endpointUrlDescription" :error="errors[0]">
+							<AppInputText title="Endpoint URL" :description="endpointUrlDescription" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
 						v-model="storage.s3.endpoint"
@@ -97,9 +78,8 @@
 						:readonly="storage.driver !== 'other'"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Bucket" rules="required" v-slot="{ errors }">
+			
 				<AppInputText
 					title="Bucket"
 					description="Type your created unique bucket name"
@@ -114,11 +94,10 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 
 		<div v-if="storage.driver === 'ftp'">
-			<ValidationProvider tag="div" mode="passive" name="FTP Host" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="FTP Host" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -128,8 +107,7 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
-			<ValidationProvider tag="div" mode="passive" name="FTP Username" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="FTP Username" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -139,8 +117,7 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
-			<ValidationProvider tag="div" mode="passive" name="FTP Password" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="FTP Password" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
@@ -150,7 +127,6 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 	</div>
 </template>

@@ -46,8 +46,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import 'resources/sass/vuefilemanager/_variables';
-@import 'resources/sass/vuefilemanager/_mixins';
+@import '@/components/sass/vuefilemanager/_variables';
+@import '@/components/sass/vuefilemanager/_mixins';
 
 .team-folder {
     display: flex;

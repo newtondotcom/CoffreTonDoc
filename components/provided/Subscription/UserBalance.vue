@@ -9,21 +9,14 @@
         </b>
 
         <!-- Make payment form -->
-        <ValidationObserver
+        <Form
             ref="fundAccount"
             @submit.prevent="makePayment"
             v-slot="{ invalid }"
             tag="form"
             class="mt-6"
         >
-            <ValidationProvider
-                tag="div"
-                v-slot="{ errors }"
-                mode="passive"
-                name="Amount"
-                :rules="`required|min_value:${user.data.meta.totalDebt.amount}`"
-            >
-                <AppInputText
+                            <AppInputText
                     :description="
                         $t('amount_increase_description')
                     "
@@ -45,12 +38,12 @@
                         </ButtonBase>
                     </div>
                 </AppInputText>
-            </ValidationProvider>
-        </ValidationObserver>
+            
+        </Form>
     </div>
 </template>
 <script>
-import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
+//import { ValidationObserver, ValidationProvider } from 'vee-validate/dist/vee-validate.full'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import FormLabel from '@/components/provided/UI/Labels/FormLabel'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'

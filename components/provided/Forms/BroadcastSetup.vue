@@ -4,14 +4,7 @@
 			{{ $te('broadcasting') ? $t('broadcasting') : 'Broadcasting' }}
 		</FormLabel>
 
-		<ValidationProvider
-			tag="div"
-			mode="passive"
-			name="Broadcast Driver"
-			rules="required"
-			v-slot="{ errors }"
-		>
-			<AppInputText
+					<AppInputText
 				title="Broadcast Driver"
 				:error="errors[0]"
 				:is-last="broadcast.driver === 'none' || broadcast.driver === undefined"
@@ -23,10 +16,9 @@
 					:isError="errors[0]"
 				/>
 			</AppInputText>
-		</ValidationProvider>
 
 		<div v-if="broadcast.driver === 'native'">
-			<ValidationProvider tag="div" mode="passive" name="Host" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Hostname or IP" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -36,9 +28,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="TLS" v-slot="{ errors }">
+			
 				<AppInputSwitch
 					title="Required TLS Connection"
 					description="When enabled, you must have installed ssl certificate on your server host"
@@ -46,11 +37,10 @@
 				>
 					<SwitchInput v-model="broadcast.tls" :state="broadcast.tls" />
 				</AppInputSwitch>
-			</ValidationProvider>
 		</div>
 
 		<div v-if="broadcast.driver === 'pusher'">
-			<ValidationProvider tag="div" mode="passive" name="App ID" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="App ID" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -60,9 +50,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -72,9 +61,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -84,16 +72,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider
-				tag="div"
-				mode="passive"
-				name="Cluster"
-				rules="required"
-				v-slot="{ errors }"
-			>
-				<AppInputText title="Cluster" :error="errors[0]" :is-last="true">
+							<AppInputText title="Cluster" :error="errors[0]" :is-last="true">
 					<SelectInput
 						v-model="broadcast.cluster"
 						:options="pusherClusters"
@@ -101,7 +81,6 @@
 						:isError="errors[0]"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 	</div>
 </template>

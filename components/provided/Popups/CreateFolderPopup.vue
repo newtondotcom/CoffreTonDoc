@@ -6,9 +6,9 @@
         <!--Content-->
         <PopupContent>
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form">
+            <Form @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form">
                 <!--Set folder name-->
-                <ValidationProvider tag="div" mode="passive" name="Title" rules="required" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
@@ -19,7 +19,7 @@
                             :placeholder="$t('popup_create_folder.placeholder')"
                         />
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <AppInputSwitch
                     :title="$t('emoji_as_an_icon')"
@@ -31,7 +31,7 @@
 
                 <!--Set emoji-->
                 <EmojiPicker v-if="isEmoji" v-model="emoji" :default-emoji="emoji" />
-            </ValidationObserver>
+            </Form>
         </PopupContent>
 
         <!--Actions-->
@@ -68,15 +68,15 @@ export default {
         SwitchInput,
         EmojiPicker,
         AppInputText,
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         ThumbnailItem,
         PopupWrapper,
         PopupActions,
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
     },
     data() {
         return {

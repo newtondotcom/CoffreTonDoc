@@ -9,7 +9,7 @@
             <ThumbnailItem v-if="pickedItem" class="mb-5" :item="pickedItem" />
 
 			<!--Form to set upload request-->
-            <ValidationObserver
+            <Form
 				v-if="!uploadRequest"
 				@submit.prevent="createUploadRequest"
 				ref="createForm"
@@ -17,13 +17,7 @@
 				tag="form"
 			>
 				<!--Set name-->
-                <ValidationProvider
-					tag="div"
-					mode="passive"
-					name="Name"
-					v-slot="{ errors }"
-				>
-                    <AppInputText :title="$t('folder_name_optional')" :description="$t('folder_name_optional_description')" :error="errors[0]">
+                                    <AppInputText :title="$t('folder_name_optional')" :description="$t('folder_name_optional_description')" :error="errors[0]">
                         <input
 							v-model="form.name"
 							:class="{ '!border-rose-600': errors[0] }"
@@ -33,10 +27,10 @@
 							:placeholder="$t('type_name_')"
 						/>
                     </AppInputText>
-                </ValidationProvider>
+                
 
 				<!--Set note-->
-                <ValidationProvider tag="div" mode="passive" name="Note" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('message_optional')" :description="$t('message_optional_description')" :error="errors[0]">
                         <textarea
 							v-model="form.notes"
@@ -48,7 +42,7 @@
 							:placeholder="$t('message_for_recipient')"
 						></textarea>
                     </AppInputText>
-                </ValidationProvider>
+                
 
 				<!--Send Request by Email-->
                 <AppInputSwitch
@@ -60,15 +54,7 @@
                 </AppInputSwitch>
 
 				<!--Set email-->
-                <ValidationProvider
-					v-if="shareViaEmail"
-					tag="div"
-					mode="passive"
-					name="Email"
-					rules="required"
-					v-slot="{ errors }"
-				>
-                    <AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
+                                    <AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
                         <input
 							v-model="form.email"
 							:class="{ '!border-rose-600': errors[0] }"
@@ -78,8 +64,8 @@
 							:placeholder="$t('type_email_')"
 						/>
                     </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
 
 			<!--Copy generated link-->
             <AppInputText v-if="uploadRequest" :title="$t('copy_upload_request_link')" :is-last="true">
@@ -107,9 +93,9 @@
 </template>
 
 <script>
-import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
+//import {ValidationProvider, ValidationObserver} from 'vee-validate/dist/vee-validate.full'
 import AppInputSwitch from '@/components/provided/Forms/Layouts/AppInputSwitch'
-import {required} from 'vee-validate/dist/rules'
+//import {required} from 'vee-validate/dist/rules'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
 import PopupWrapper from '@/components/provided/Popups/Components/PopupWrapper'
@@ -124,8 +110,8 @@ import axios from 'axios'
 export default {
 	name: 'CreateUploadRequestPopup',
 	components: {
-		ValidationProvider,
-		ValidationObserver,
+		//ValidationProvider,
+		//ValidationObserver,
 		AppInputSwitch,
 		ThumbnailItem,
 		AppInputText,
@@ -136,7 +122,7 @@ export default {
 		PopupHeader,
 		ButtonBase,
 		CopyInput,
-		required,
+		//required,
 	},
 	data() {
 		return {

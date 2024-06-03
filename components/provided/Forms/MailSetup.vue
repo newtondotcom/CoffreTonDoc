@@ -4,7 +4,7 @@
 			{{ $te('mail_driver') ? $t('mail_driver') : 'Mail Setup' }}
 		</FormLabel>
 
-		<ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
+		
 			<AppInputText title="Mail Driver" :error="errors[0]" :is-last="mail.driver === undefined || mail.driver === 'log'">
 				<SelectInput
 					v-model="mail.driver"
@@ -14,10 +14,9 @@
 					:isError="errors[0]"
 				/>
 			</AppInputText>
-		</ValidationProvider>
 
 		<div v-if="mail.driver === 'smtp'">
-			<ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Mail Host" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -27,9 +26,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Mail Port" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -39,9 +37,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Mail Username" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -51,9 +48,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required">
+			
 				<AppInputText title="Mail Password" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -63,16 +59,9 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 			< ErrorMessage name = "password" / >
 
-			<ValidationProvider
-				tag="div"
-				mode="passive"
-				name="Mail Encryption"
-				v-slot="{ errors }"
-			>
-				<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="! shouldSetSMTPEmail">
+							<AppInputText title="Mail Encryption" :error="errors[0]" :is-last="! shouldSetSMTPEmail">
 					<SelectInput
 						v-model="mail.smtp.encryption"
 						:default="mail.smtp.encryption"
@@ -81,9 +70,8 @@
 						:isError="errors[0]"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider v-if="shouldSetSMTPEmail" tag="div" mode="passive" name="Mail From" rules="required|email" v-slot="{ errors }">
+			
 				<AppInputText title="Mail From Address" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
@@ -93,11 +81,10 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 
 		<div v-if="mail.driver === 'mailgun'">
-			<ValidationProvider tag="div" mode="passive" name="Domain" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Domain" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -107,9 +94,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -119,9 +105,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Endpoint" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Endpoint" :error="errors[0]">
 					<SelectInput
 						v-model="mail.mailgun.endpoint"
@@ -130,9 +115,8 @@
 						:isError="errors[0]"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+			
 				<AppInputText title="Sender (Email)" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
@@ -142,11 +126,10 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 
 		<div v-if="mail.driver === 'postmark'">
-			<ValidationProvider tag="div" mode="passive" name="Token" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Token" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -156,9 +139,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+			
 				<AppInputText title="Sender Signature (Email)" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
@@ -168,11 +150,10 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 
 		<div v-if="mail.driver === 'ses'">
-			<ValidationProvider tag="div" mode="passive" name="Access Key" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Access Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -182,16 +163,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider
-				tag="div"
-				mode="passive"
-				name="Secret Access Key"
-				rules="required"
-				v-slot="{ errors }"
-			>
-				<AppInputText title="Secret Access Key" :error="errors[0]">
+							<AppInputText title="Secret Access Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
 						v-model="mail.ses.secret_access_key"
@@ -200,9 +173,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Default Region" rules="required" v-slot="{ errors }">
+			
 				<AppInputText title="Region" :error="errors[0]">
 					<SelectInput
 						v-model="mail.ses.default_region"
@@ -211,9 +183,8 @@
 						:isError="errors[0]"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Sender" rules="required|email" v-slot="{ errors }">
+			
 				<AppInputText title="Identity (Email)" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -223,9 +194,8 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Session Token" v-slot="{ errors }">
+			
 				<AppInputText title="Session Token (optional)" :error="errors[0]" :is-last="true">
 					<input
 						class="focus-border-theme input-dark"
@@ -235,7 +205,6 @@
 						:class="{ '!border-rose-600': errors[0] }"
 					/>
 				</AppInputText>
-			</ValidationProvider>
 		</div>
 	</div>
 </template>

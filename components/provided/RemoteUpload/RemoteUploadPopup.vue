@@ -3,8 +3,8 @@
         <PopupHeader :title="$t('upload_files_remotely')" icon="remote-upload" />
 
         <PopupContent>
-			<ValidationObserver @submit.prevent ref="createForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" mode="passive" name="Remote Links" rules="required" v-slot="{ errors }">
+			<Form @submit.prevent ref="createForm" v-slot="{ invalid }" tag="form">
+                
 					<AppInputText
 						:title="$t('remote_links')"
 						:description="$t('remote_links_help')"
@@ -21,8 +21,8 @@
 						>
 						</textarea>
 					</AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
         </PopupContent>
 
         <PopupActions>
@@ -46,14 +46,14 @@ import PopupHeader from '@/components/provided/Popups/Components/PopupHeader'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
 //import { required } from 'vee-validate/dist/rules'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
-import i18n from "@/components/provided/i18n";
+//import i18n from "@/components/provided/i18n";
 
 export default {
     name: 'RemoteUploadPopup',
     components: {
-		ValidationProvider,
-		ValidationObserver,
-		required,
+		// ValidationProvider,
+		// ValidationObserver,
+		//required,
         PopupWrapper,
         PopupContent,
         PopupHeader,
@@ -84,7 +84,8 @@ export default {
 			if (this.$store.getters.config.isDemo && this.$store.getters.user.data.attributes.email === 'ho**@hi5ve.digital') {
 				events.$emit('toaster', {
 					type: 'success',
-					message: i18n.t('remote_download_finished'),
+					//message: i18n.t('remote_download_finished'),
+					message : 'Remote download finished'
 				})
 
 				events.$emit('popup:close')
@@ -128,7 +129,8 @@ export default {
 
 						events.$emit('toaster', {
 							type: 'success',
-							message: i18n.t('remote_download_finished'),
+							// message: i18n.t('remote_download_finished'),
+							message: 'Remote download finished'
 						})
 					}
 

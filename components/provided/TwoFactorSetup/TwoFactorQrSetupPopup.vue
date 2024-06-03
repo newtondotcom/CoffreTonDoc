@@ -11,8 +11,8 @@
                 <p v-html="$t('popup_2fa.help')"></p>
             </InfoBox>
 
-            <ValidationObserver @submit.prevent="confirm2FaSetup" ref="codeForm" v-slot="{ invalid }" tag="form" class="mt-5">
-                <ValidationProvider tag="div" mode="passive" name="Code" rules="required" v-slot="{ errors }">
+            <Form @submit.prevent="confirm2FaSetup" ref="codeForm" v-slot="{ invalid }" tag="form" class="mt-5">
+                
                     <AppInputText :title="$t('confirm')" :error="errors[0]" :is-last="true">
                         <input
 							v-model="code"
@@ -23,8 +23,8 @@
 							:placeholder="$t('paste_code_from_2fa_app')"
 						/>
                     </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
 
         </PopupContent>
 
@@ -52,15 +52,15 @@ import axios from 'axios'
 export default {
     name: 'TwoFactorQrSetupPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         PopupWrapper,
         PopupActions,
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
         InfoBox,
     },
     data() {

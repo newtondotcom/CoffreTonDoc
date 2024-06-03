@@ -9,17 +9,9 @@
             <ThumbnailItem v-if="!isNewFolderTeamCreation" class="mb-5" :item="item" />
 
             <!--Form to set team folder-->
-            <ValidationObserver @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
+            <Form @submit.prevent="createTeamFolder" ref="teamFolderForm" v-slot="{ invalid }" tag="form">
                 <!--Set folder name-->
-                <ValidationProvider
-                    v-if="isNewFolderTeamCreation"
-                    tag="div"
-                    mode="passive"
-                    name="Name"
-                    rules="required"
-                    v-slot="{ errors }"
-                >
-                    <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
+                                    <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"
                             :class="{ '!border-rose-600': errors[0] }"
@@ -29,10 +21,10 @@
                             :placeholder="$t('popup_create_folder.placeholder')"
                         />
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <!--Add Member-->
-                <ValidationProvider tag="div" mode="passive" name="Email" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('add_member')" :error="errors[0]">
                         <div class="relative">
                             <span
@@ -53,10 +45,10 @@
                             />
                         </div>
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
+                
                     <AppInputText :title="$t('your_members')" :error="errors[0]" :is-last="true">
                         <span v-if="errors[0]" class="text-left text-xs text-red-600" style="margin-top: -5px">
                             {{ $t('add_at_least_one_member') }}
@@ -68,12 +60,12 @@
                             {{ $t('add_at_least_one_member_into_team_folder') }}
                         </p>
                     </AppInputText>
-                </ValidationProvider>
+                
 
                 <InfoBox v-if="!isNewFolderTeamCreation" class="mt-2.5 !mb-0">
                     <p v-html="$t('popup.move_into_team_disclaimer')"></p>
                 </InfoBox>
-            </ValidationObserver>
+            </Form>
         </PopupContent>
 
         <!--Actions-->
@@ -112,8 +104,8 @@ import { mapGetters } from 'vuex'
 export default {
     name: 'CreateTeamFolderPopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         TeamList,
         ThumbnailItem,
@@ -122,7 +114,7 @@ export default {
         PopupContent,
         PopupHeader,
         ButtonBase,
-        required,
+        // required,
         InfoBox,
     },
     computed: {

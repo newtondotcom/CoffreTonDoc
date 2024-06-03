@@ -6,15 +6,8 @@
         <!--Content-->
         <PopupContent class="!overflow-initial">
             <!--Form to set sharing-->
-            <ValidationObserver @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider
-                    tag="div"
-                    mode="passive"
-                    name="Language Locale"
-                    rules="required"
-                    v-slot="{ errors }"
-                >
-                    <AppInputText :title="$t('select_locale')" :error="errors[0]">
+            <Form @submit.prevent="createLanguage" ref="createForm" v-slot="{ invalid }" tag="form">
+                                    <AppInputText :title="$t('select_locale')" :error="errors[0]">
                         <SelectInput
                             v-model="form.locale"
                             :options="locales"
@@ -22,8 +15,8 @@
                             :isError="errors[0]"
                         />
                     </AppInputText>
-                </ValidationProvider>
-                <ValidationProvider tag="div" mode="passive" name="Language Name" rules="required" v-slot="{ errors }">
+                
+                
                     <AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="form.name"
@@ -34,8 +27,8 @@
                             :placeholder="$t('type_language_name')"
                         />
                     </AppInputText>
-                </ValidationProvider>
-            </ValidationObserver>
+                
+            </Form>
         </PopupContent>
 
         <!--Actions-->
@@ -72,8 +65,8 @@ import axios from 'axios'
 export default {
     name: 'CreateLanguagePopup',
     components: {
-        ValidationProvider,
-        ValidationObserver,
+       // ValidationProvider,
+       // ValidationObserver,
         AppInputText,
         PopupWrapper,
         PopupActions,
@@ -81,7 +74,7 @@ export default {
         PopupHeader,
         SelectInput,
         ButtonBase,
-        required,
+        // required,
     },
     data() {
         return {

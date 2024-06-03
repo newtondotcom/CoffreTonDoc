@@ -5,7 +5,7 @@
 }
 
 @mixin font-size($size) {
-  font-size:($size/16) + 0em;
+  font-size:(calc($size / 16)) + 0em;
 }
 
 @mixin transition($time: 0.3s) {

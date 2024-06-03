@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import TitlePreview from '@/components/provided/Labels/TitlePreview'
+import TitlePreview from '@/components/provided/UI/Labels/TitlePreview'
 import { mapGetters } from 'vuex'
 
 export default {
