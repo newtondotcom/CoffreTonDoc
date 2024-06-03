@@ -16,7 +16,7 @@
                     tag="div"
                     mode="passive"
                     name="Name"
-                    :rules="isRequired"
+                    rules="required"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
@@ -56,7 +56,7 @@
                 </ValidationProvider>
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" name="Members" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('your_members')" :error="errors[0]" :is-last="true">
                         <span v-if="errors[0]" class="text-left text-xs text-red-600" style="margin-top: -5px">
                             {{ $t('add_at_least_one_member') }}

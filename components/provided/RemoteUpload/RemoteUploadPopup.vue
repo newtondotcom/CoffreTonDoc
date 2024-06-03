@@ -4,7 +4,7 @@
 
         <PopupContent>
 			<ValidationObserver @submit.prevent ref="createForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" mode="passive" name="Remote Links" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Remote Links" rules="required" v-slot="{ errors }">
 					<AppInputText
 						:title="$t('remote_links')"
 						:description="$t('remote_links_help')"

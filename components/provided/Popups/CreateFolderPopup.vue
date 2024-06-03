@@ -8,7 +8,7 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="createFolder" ref="createForm" v-slot="{ invalid }" tag="form">
                 <!--Set folder name-->
-                <ValidationProvider tag="div" mode="passive" name="Title" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Title" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
                         <input
                             v-model="name"

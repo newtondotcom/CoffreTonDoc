@@ -12,7 +12,7 @@
             </InfoBox>
 
             <ValidationObserver @submit.prevent="confirm2FaSetup" ref="codeForm" v-slot="{ invalid }" tag="form" class="mt-5">
-                <ValidationProvider tag="div" mode="passive" name="Code" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Code" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('confirm')" :error="errors[0]" :is-last="true">
                         <input
 							v-model="code"

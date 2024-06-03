@@ -29,10 +29,10 @@
                 <ThumbnailItem class="mb-4" :item="pickedItem" />
 
                 <ValidationObserver @submit.prevent v-slot="{ invalid }" ref="shareEmail" tag="form">
-                    <ValidationProvider tag="div" mode="passive" name="Email" :rules="isRequired" v-slot="{ errors }">
+                    <ValidationProvider tag="div" mode="passive" name="Email" rules="required" v-slot="{ errors }">
                         <AppInputText title="Share with" :error="errors[0]" :is-last="true">
                             <MultiEmailInput
-                                :rules="isRequired"
+                                rules="required"
                                 v-model="emails"
                                 :label="$t('shared_form.label_send_to_recipients')"
 								:is-error="errors[0]"
@@ -76,7 +76,7 @@
                         tag="div"
                         mode="passive"
                         name="Permission"
-                        :rules="isRequired"
+                        rules="required"
                         v-slot="{ errors }"
                     >
                         <AppInputText :title="$t('permission')" :error="errors[0]">
@@ -121,7 +121,7 @@
                             tag="div"
                             mode="passive"
                             name="Password"
-                            :rules="isRequired"
+                            rules="required"
                             v-slot="{ errors }"
                         >
                             <AppInputText :error="errors[0]" class="-mt-2">

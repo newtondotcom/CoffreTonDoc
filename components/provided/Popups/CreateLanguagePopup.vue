@@ -11,7 +11,7 @@
                     tag="div"
                     mode="passive"
                     name="Language Locale"
-                    :rules="isRequired"
+                    rules="required"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('select_locale')" :error="errors[0]">
@@ -23,7 +23,7 @@
                         />
                     </AppInputText>
                 </ValidationProvider>
-                <ValidationProvider tag="div" mode="passive" name="Language Name" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Language Name" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="form.name"

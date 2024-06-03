@@ -4,7 +4,7 @@
 
         <PopupContent>
             <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" mode="passive" name="Password" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
                     <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"

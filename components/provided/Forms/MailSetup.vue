@@ -4,7 +4,7 @@
 			{{ $te('mail_driver') ? $t('mail_driver') : 'Mail Setup' }}
 		</FormLabel>
 
-		<ValidationProvider tag="div" mode="passive" name="Mail Driver" :rules="isRequired" v-slot="{ errors }">
+		<ValidationProvider tag="div" mode="passive" name="Mail Driver" rules="required" v-slot="{ errors }">
 			<AppInputText title="Mail Driver" :error="errors[0]" :is-last="mail.driver === undefined || mail.driver === 'log'">
 				<SelectInput
 					v-model="mail.driver"
@@ -17,7 +17,7 @@
 		</ValidationProvider>
 
 		<div v-if="mail.driver === 'smtp'">
-			<ValidationProvider tag="div" mode="passive" name="Mail Host" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Mail Host" rules="required" v-slot="{ errors }">
 				<AppInputText title="Mail Host" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -29,7 +29,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Port" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Mail Port" rules="required" v-slot="{ errors }">
 				<AppInputText title="Mail Port" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -41,7 +41,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Username" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Mail Username" rules="required" v-slot="{ errors }">
 				<AppInputText title="Mail Username" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -53,7 +53,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Mail Password" :rules="isRequired">
+			<ValidationProvider tag="div" mode="passive" name="Mail Password" rules="required">
 				<AppInputText title="Mail Password" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -97,7 +97,7 @@
 		</div>
 
 		<div v-if="mail.driver === 'mailgun'">
-			<ValidationProvider tag="div" mode="passive" name="Domain" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Domain" rules="required" v-slot="{ errors }">
 				<AppInputText title="Domain" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -109,7 +109,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Secret" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -121,7 +121,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Endpoint" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Endpoint" rules="required" v-slot="{ errors }">
 				<AppInputText title="Endpoint" :error="errors[0]">
 					<SelectInput
 						v-model="mail.mailgun.endpoint"
@@ -146,7 +146,7 @@
 		</div>
 
 		<div v-if="mail.driver === 'postmark'">
-			<ValidationProvider tag="div" mode="passive" name="Token" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Token" rules="required" v-slot="{ errors }">
 				<AppInputText title="Token" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -172,7 +172,7 @@
 		</div>
 
 		<div v-if="mail.driver === 'ses'">
-			<ValidationProvider tag="div" mode="passive" name="Access Key" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Access Key" rules="required" v-slot="{ errors }">
 				<AppInputText title="Access Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -188,7 +188,7 @@
 				tag="div"
 				mode="passive"
 				name="Secret Access Key"
-				:rules="isRequired"
+				rules="required"
 				v-slot="{ errors }"
 			>
 				<AppInputText title="Secret Access Key" :error="errors[0]">
@@ -202,7 +202,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Default Region" :rules="isRequired" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Default Region" rules="required" v-slot="{ errors }">
 				<AppInputText title="Region" :error="errors[0]">
 					<SelectInput
 						v-model="mail.ses.default_region"

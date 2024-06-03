@@ -34,7 +34,7 @@
             tag="form"
             class="mt-6"
         >
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" :rules="isRequired">
+            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
                 <AppInputText
                     :description="
                         $t(
@@ -76,7 +76,7 @@
             tag="form"
             class="mt-6"
         >
-            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" :rules="isRequired">
+            <ValidationProvider tag="div" v-slot="{ errors }" mode="passive" name="Billing Alert" rules="required">
                 <AppInputText
                     :description="
                         $t(

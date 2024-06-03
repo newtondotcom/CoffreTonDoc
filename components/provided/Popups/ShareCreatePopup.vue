@@ -22,7 +22,7 @@
                     tag="div"
                     mode="passive"
                     name="Permission"
-                    :rules="isRequired"
+                    rules="required"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('permission')" :error="errors[0]">
@@ -54,7 +54,7 @@
                         tag="div"
                         mode="passive"
                         name="Password"
-                        :rules="isRequired"
+                        rules="required"
                         v-slot="{ errors }"
                     >
                         <AppInputText :error="errors[0]" class="-mt-2">
@@ -101,13 +101,13 @@
                         tag="div"
                         mode="passive"
                         name="Email"
-                        :rules="isRequired"
+                        rules="required"
                         v-slot="{ errors }"
                         class="-mt-2 mb-1"
                     >
 						<AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
 							<MultiEmailInput
-								:rules="isRequired"
+								rules="required"
 								v-model="shareOptions.emails"
 								:label="$t('recipients')"
 								:is-error="errors[0]"

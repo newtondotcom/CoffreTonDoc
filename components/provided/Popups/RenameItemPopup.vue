@@ -11,7 +11,7 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
                 <!--Update item name-->
-                <ValidationProvider tag="div" mode="passive" name="Name" :rules="isRequired" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
                     <AppInputText
                         :title="$t('popup_rename.label')"
                         :error="errors[0]"
