@@ -77,7 +77,6 @@ import EditTeamFolderPopup from '@/components/provided/Teams/EditTeamFolderPopup
 import Spotlight from '@/components/provided/Spotlight/Spotlight'
 import DragUI from '@/components/provided/UI/Others/DragUI'
 import InfoSidebar from '@/components/provided/Layout/Sidebars/InfoSidebar'
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 import CreateUploadRequestPopup from "@/components/provided/UploadRequest/CreateUploadRequestPopup";
 import NotificationsPopup from "@/components/provided/Notifications/NotificationsPopup";

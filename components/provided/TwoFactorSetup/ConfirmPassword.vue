@@ -4,7 +4,7 @@
 
         <PopupContent>
             <ValidationObserver @submit.prevent="confirmPassword" ref="passwordForm" v-slot="{ invalid }" tag="form">
-                <ValidationProvider tag="div" mode="passive" name="Password" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Password" :rules="isRequired" v-slot="{ errors }">
                     <AppInputText :title="$t('password')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="password"
@@ -37,14 +37,15 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from '@/components/provided/Popups/Components/PopupWrapper'
 import PopupActions from '@/components/provided/Popups/Components/PopupActions'
 import PopupContent from '@/components/provided/Popups/Components/PopupContent'
 import PopupHeader from '@/components/provided/Popups/Components/PopupHeader'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

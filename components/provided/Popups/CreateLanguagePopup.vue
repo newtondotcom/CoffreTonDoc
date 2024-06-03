@@ -11,7 +11,7 @@
                     tag="div"
                     mode="passive"
                     name="Language Locale"
-                    rules="required"
+                    :rules="isRequired"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('select_locale')" :error="errors[0]">
@@ -23,7 +23,7 @@
                         />
                     </AppInputText>
                 </ValidationProvider>
-                <ValidationProvider tag="div" mode="passive" name="Language Name" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Language Name" :rules="isRequired" v-slot="{ errors }">
                     <AppInputText :title="$t('locale_name')" :error="errors[0]" :is-last="true">
                         <input
                             v-model="form.name"
@@ -58,14 +58,15 @@
 
 <script>
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from './Components/PopupWrapper'
 import PopupActions from './Components/PopupActions'
 import PopupContent from './Components/PopupContent'
 import PopupHeader from './Components/PopupHeader'
 import SelectInput from '@/components/provided/Inputs/SelectInput'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 
 export default {

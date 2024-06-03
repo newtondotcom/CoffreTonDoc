@@ -22,7 +22,7 @@
                     tag="div"
                     mode="passive"
                     name="Permission"
-                    rules="required"
+                    :rules="isRequired"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('permission')" :error="errors[0]">
@@ -54,7 +54,7 @@
                         tag="div"
                         mode="passive"
                         name="Password"
-                        rules="required"
+                        :rules="isRequired"
                         v-slot="{ errors }"
                     >
                         <AppInputText :error="errors[0]" class="-mt-2">
@@ -101,13 +101,13 @@
                         tag="div"
                         mode="passive"
                         name="Email"
-                        rules="required"
+                        :rules="isRequired"
                         v-slot="{ errors }"
                         class="-mt-2 mb-1"
                     >
 						<AppInputText :error="errors[0]" class="-mt-2" :is-last="true">
 							<MultiEmailInput
-								rules="required"
+								:rules="isRequired"
 								v-model="shareOptions.emails"
 								:label="$t('recipients')"
 								:is-error="errors[0]"
@@ -144,7 +144,8 @@
 <script>
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
 import AppInputSwitch from '@/components/provided/Forms/Layouts/AppInputSwitch'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import SelectBoxInput from '@/components/provided/Inputs/SelectBoxInput'
 import PopupWrapper from './Components/PopupWrapper'
 import PopupActions from './Components/PopupActions'
@@ -159,7 +160,7 @@ import CopyShareLink from '@/components/provided/Inputs/CopyShareLink'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import InfoBox from '@/components/provided/UI/Others/InfoBox'
 import { LinkIcon, MailIcon } from 'vue-feather-icons'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 

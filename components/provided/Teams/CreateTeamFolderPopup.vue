@@ -16,7 +16,7 @@
                     tag="div"
                     mode="passive"
                     name="Name"
-                    rules="required"
+                    :rules="isRequired"
                     v-slot="{ errors }"
                 >
                     <AppInputText :title="$t('popup_create_folder.label')" :error="errors[0]">
@@ -56,7 +56,7 @@
                 </ValidationProvider>
 
                 <!--Member list-->
-                <ValidationProvider tag="div" mode="passive" name="Members" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Members" :rules="isRequired" v-slot="{ errors }">
                     <AppInputText :title="$t('your_members')" :error="errors[0]" :is-last="true">
                         <span v-if="errors[0]" class="text-left text-xs text-red-600" style="margin-top: -5px">
                             {{ $t('add_at_least_one_member') }}
@@ -95,7 +95,8 @@
 
 <script>
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from '@/components/provided/Popups/Components/PopupWrapper'
 import PopupActions from '@/components/provided/Popups/Components/PopupActions'
 import PopupContent from '@/components/provided/Popups/Components/PopupContent'
@@ -103,7 +104,7 @@ import PopupHeader from '@/components/provided/Popups/Components/PopupHeader'
 import ThumbnailItem from '@/components/provided/UI/Entries/ThumbnailItem'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import TeamList from './Components/TeamList'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import InfoBox from '@/components/provided/UI/Others/InfoBox'
 import axios from 'axios'
 import { mapGetters } from 'vuex'

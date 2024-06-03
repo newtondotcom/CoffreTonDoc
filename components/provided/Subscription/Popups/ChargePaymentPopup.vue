@@ -72,7 +72,6 @@ import { loadScript } from '@paypal/paypal-js'
 import PaymentMethod from '@/components/provided/PaymentMethod'
 import Spinner from '@/components/provided/UI/Others/Spinner'
 import InfoBox from "@/components/provided/UI/Others/InfoBox"
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 import axios from "axios";
 

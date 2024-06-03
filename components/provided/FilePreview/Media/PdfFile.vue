@@ -25,7 +25,6 @@
 
 <script>
 import Spinner from "@/components/provided/UI/Others/Spinner"
-import { events } from '@/components/provided/bus'
 import pdf from 'pdfvuer'
 
 export default {

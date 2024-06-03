@@ -23,9 +23,10 @@
         </div>
 
         <!-- Emojis List -->
+        <!-- @scroll="checkGroupInView"-->
         <div
             v-if="isOpen && isLoaded && emojis"
-            @scroll="checkGroupInView"
+            
             id="group-box"
             class="relative h-96 select-none overflow-y-auto lg:h-60 2xl:h-96"
         >
@@ -132,6 +133,7 @@ export default {
         }, 200),
     },
     methods: {
+        /*
         checkGroupInView: _.debounce(function () {
             this.emojis.groups.forEach((group) => {
                 let element = document.getElementById(`group-${group.name}`).getBoundingClientRect()
@@ -142,7 +144,7 @@ export default {
                     this.groupInView = group.name
                 }
             })
-        }, 300),
+        }, 300), */
         scrollToGroup(name) {
             let groupBar = document.getElementById('group-bar')
             let groupBox = document.getElementById('group-box')

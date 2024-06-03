@@ -113,7 +113,6 @@ import MemberAvatar from '@/components/provided/Others/MemberAvatar'
 import CheckBox from '@/components/provided/Inputs/CheckBox'
 import { debounce } from 'lodash'
 import { mapGetters } from 'vuex'
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'ItemList',

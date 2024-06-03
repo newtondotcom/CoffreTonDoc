@@ -72,7 +72,6 @@
 
 <script>
 import { FolderIcon, ChevronRightIcon, HardDriveIcon, UsersIcon, UserPlusIcon } from 'vue-feather-icons'
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 
 export default {

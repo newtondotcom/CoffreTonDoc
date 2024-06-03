@@ -74,7 +74,8 @@
 
 <script>
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from '@/components/provided/Popups/Components/PopupWrapper'
 import PopupActions from '@/components/provided/Popups/Components/PopupActions'
 import PopupContent from '@/components/provided/Popups/Components/PopupContent'
@@ -82,7 +83,7 @@ import PopupHeader from '@/components/provided/Popups/Components/PopupHeader'
 import ThumbnailItem from '@/components/provided/UI/Entries/ThumbnailItem'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import TeamList from './Components/TeamList'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import InfoBox from '@/components/provided/UI/Others/InfoBox'
 import axios from 'axios'
 import { mapGetters } from 'vuex'

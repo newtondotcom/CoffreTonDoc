@@ -58,7 +58,8 @@
 
 <script>
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from './Components/PopupWrapper'
 import PopupActions from './Components/PopupActions'
 import PopupContent from './Components/PopupContent'
@@ -66,7 +67,7 @@ import PopupHeader from './Components/PopupHeader'
 import CopyInput from '@/components/provided/Inputs/CopyInput'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import InfoBox from '@/components/provided/UI/Others/InfoBox'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import axios from 'axios'
 
 export default {

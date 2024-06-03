@@ -39,7 +39,6 @@ import {
     ShareIcon,
     UsersIcon,
 } from 'vue-feather-icons'
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'PopupHeader',

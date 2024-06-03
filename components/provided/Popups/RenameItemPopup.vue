@@ -11,7 +11,7 @@
             <!--Form to set sharing-->
             <ValidationObserver @submit.prevent="changeName" ref="renameForm" v-slot="{ invalid }" tag="form">
                 <!--Update item name-->
-                <ValidationProvider tag="div" mode="passive" name="Name" rules="required" v-slot="{ errors }">
+                <ValidationProvider tag="div" mode="passive" name="Name" :rules="isRequired" v-slot="{ errors }">
                     <AppInputText
                         :title="$t('popup_rename.label')"
                         :error="errors[0]"
@@ -65,7 +65,8 @@
 </template>
 
 <script>
-import { ValidationProvider, ValidationObserver } from 'vee-validate/dist/vee-validate.full'
+//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 import PopupWrapper from './Components/PopupWrapper'
 import PopupActions from './Components/PopupActions'
 import PopupContent from './Components/PopupContent'
@@ -74,7 +75,7 @@ import ThumbnailItem from '@/components/provided/UI/Entries/ThumbnailItem'
 import ButtonBase from '@/components/provided/UI/Buttons/ButtonBase'
 import AppInputSwitch from '@/components/provided/Forms/Layouts/AppInputSwitch'
 import AppInputText from '@/components/provided/Forms/Layouts/AppInputText'
-import { required } from 'vee-validate/dist/rules'
+//import { required } from 'vee-validate/dist/rules'
 import SwitchInput from '@/components/provided/Inputs/SwitchInput'
 import EmojiPicker from '@/components/provided/Emoji/EmojiPicker'
 import { XIcon } from 'vue-feather-icons'

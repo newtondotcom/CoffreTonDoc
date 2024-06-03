@@ -41,7 +41,6 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { events } from '@/components/provided/bus'
 import { MenuIcon, ChevronLeftIcon, MoreHorizontalIcon } from 'vue-feather-icons'
 
 export default {

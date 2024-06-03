@@ -31,9 +31,10 @@
         </div>
 
         <!--Mobile Preview-->
+        <!--  @scroll="checkGroupInView" -->
         <div
             v-if="($isMobile() && !fastPreview) && (isAudio || isImage || isVideo || isPDF)"
-            @scroll="checkGroupInView"
+           
             id="group-box"
             ref="scrollBox"
             class="flex h-full snap-x snap-mandatory gap-6 overflow-x-auto"
@@ -109,6 +110,7 @@ export default {
 		},
     },
     methods: {
+        /*
         checkGroupInView: _.debounce(function () {
             this.files.forEach((file, index) => {
                 let element = document.getElementById(`group-${file.data.id}`).getBoundingClientRect()
@@ -127,7 +129,7 @@ export default {
                     this.currentIndex = index
                 }
             })
-        }, 50),
+        }, 50), */
         getFilesForView() {
             let requestedFile = this.clipboard[0]
 

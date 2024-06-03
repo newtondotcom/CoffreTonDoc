@@ -44,7 +44,6 @@
 <script>
 import { FolderIcon, ChevronRightIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'TreeMenuNavigator',

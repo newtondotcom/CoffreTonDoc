@@ -33,7 +33,6 @@
 import ProgressBar from './ProgressBar'
 import { RefreshCwIcon, XIcon } from 'vue-feather-icons'
 import { mapGetters } from 'vuex'
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'UploadProgress',

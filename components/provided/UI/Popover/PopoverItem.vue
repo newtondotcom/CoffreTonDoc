@@ -15,7 +15,6 @@
 </template>
 
 <script>
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'PopoverItem',

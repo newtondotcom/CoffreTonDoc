@@ -98,7 +98,6 @@ import ToolbarButton from '@/components/provided/UI/Buttons/ToolbarButton'
 import MemberAvatar from "@/components/provided/UI/Others/MemberAvatar"
 import OptionUpload from '@/components/provided/Menus/Components/OptionUpload'
 import OptionGroup from '@/components/provided/Menus/Components/OptionGroup'
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 import Option from '@/components/provided/Menus/Components/Option'
 

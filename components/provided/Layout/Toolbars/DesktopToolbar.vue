@@ -174,7 +174,6 @@ import ToolbarButton from '@/components/provided/UI/Buttons/ToolbarButton'
 import OptionUpload from '@/components/provided/Menus/Components/OptionUpload'
 import OptionGroup from '@/components/provided/Menus/Components/OptionGroup'
 import SearchBarButton from '@/components/provided/UI/Buttons/SearchBarButton'
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 import Option from '@/components/provided/Menus/Components/Option'
 

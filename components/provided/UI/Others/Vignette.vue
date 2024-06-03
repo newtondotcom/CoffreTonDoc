@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 
 export default {

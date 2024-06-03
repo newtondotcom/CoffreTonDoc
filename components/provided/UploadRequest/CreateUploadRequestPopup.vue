@@ -65,7 +65,7 @@
 					tag="div"
 					mode="passive"
 					name="Email"
-					rules="required"
+					:rules="isRequired"
 					v-slot="{ errors }"
 				>
                     <AppInputText :error="errors[0]" class="-mt-2" :is-last="true">

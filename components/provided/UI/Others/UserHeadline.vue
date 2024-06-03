@@ -18,7 +18,6 @@
 <script>
 import MemberAvatar from './MemberAvatar'
 import NotificationBell from '@/components/provided/Notifications/Components/NotificationBell'
-import { events } from '@/components/provided/bus'
 import { mapGetters } from 'vuex'
 
 export default {

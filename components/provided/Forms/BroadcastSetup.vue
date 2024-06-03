@@ -8,7 +8,7 @@
 			tag="div"
 			mode="passive"
 			name="Broadcast Driver"
-			rules="required"
+			:rules="isRequired"
 			v-slot="{ errors }"
 		>
 			<AppInputText
@@ -26,7 +26,7 @@
 		</ValidationProvider>
 
 		<div v-if="broadcast.driver === 'native'">
-			<ValidationProvider tag="div" mode="passive" name="Host" rules="required" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Host" :rules="isRequired" v-slot="{ errors }">
 				<AppInputText title="Hostname or IP" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -50,7 +50,7 @@
 		</div>
 
 		<div v-if="broadcast.driver === 'pusher'">
-			<ValidationProvider tag="div" mode="passive" name="App ID" rules="required" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="App ID" :rules="isRequired" v-slot="{ errors }">
 				<AppInputText title="App ID" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -62,7 +62,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Key" rules="required" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Key" :rules="isRequired" v-slot="{ errors }">
 				<AppInputText title="Key" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -74,7 +74,7 @@
 				</AppInputText>
 			</ValidationProvider>
 
-			<ValidationProvider tag="div" mode="passive" name="Secret" rules="required" v-slot="{ errors }">
+			<ValidationProvider tag="div" mode="passive" name="Secret" :rules="isRequired" v-slot="{ errors }">
 				<AppInputText title="Secret" :error="errors[0]">
 					<input
 						class="focus-border-theme input-dark"
@@ -90,7 +90,7 @@
 				tag="div"
 				mode="passive"
 				name="Cluster"
-				rules="required"
+				:rules="isRequired"
 				v-slot="{ errors }"
 			>
 				<AppInputText title="Cluster" :error="errors[0]" :is-last="true">
@@ -107,7 +107,8 @@
 </template>
 
 <script>
-	import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+	//import {ValidationObserver, ValidationProvider} from 'vee-validate/dist/vee-validate.full'
+import { Form, Field, ErrorMessage } from 'vee-validate';
 	import SelectInput from '@/components/provided/Inputs/SelectInput'
 	import AppInputText from './Layouts/AppInputText'
 	import FormLabel from '@/components/provided/UI/Labels/FormLabel'

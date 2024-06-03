@@ -11,7 +11,6 @@
 <script>
 import TitlePreview from '@/components/provided/Labels/TitlePreview'
 import { mapGetters } from 'vuex'
-import { events } from '@/components/provided/bus'
 
 export default {
     name: 'DragUI',
