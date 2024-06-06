@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        test
+        <Button>1</Button>
     </div>
 
 </template>
