@@ -3,6 +3,10 @@
   <LayoutFilters />
   <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
     <!-- BREADCRUMBS -->
+    <div class="text-center">
+    <div class="flex flex-row justify-between items-center">
+      <UBreadcrumb :links="links" class="mb-6 ml-6 lg:px-[100px]" />   
+      </div> 
     <ul class="min-w-full">
       <li v-for="(file, index) in filteredFiles" @click="folderSelected = file.isFolder ? file.id : folderSelected" :key="index" class="flex select-none items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
         <div class="relative w-16 shrink-0">
@@ -23,6 +27,7 @@
         </div>
       </li>
     </ul>
+    </div>
   </div>
 </template>
 
@@ -87,6 +92,18 @@ function generateFakeFiles(count: number) {
 
   return fakeFiles;
 }
+const links = [{
+  label: 'Home',
+  icon: 'i-heroicons-home',
+  to: '/'
+}, {
+  label: 'Repositories',
+  icon: 'i-heroicons-square-3-stack-3d',
+  to: '/repos'
+}, {
+  label: name,
+  icon: 'i-heroicons-link'
+}];
 
 // Générer 10 faux fichiers
 files.value = generateFakeFiles(10);
