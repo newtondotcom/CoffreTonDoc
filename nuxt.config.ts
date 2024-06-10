@@ -20,5 +20,6 @@ export default defineNuxtConfig({
       level: 2
     },
     viewer: false,
-  }
+  },
+  ssr : false,
 })

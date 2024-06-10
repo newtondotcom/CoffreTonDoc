@@ -9,7 +9,7 @@
         <button class="mr-2 inline-block rounded-xl bg-light-background py-2 px-3.5 dark:bg-2x-dark-foreground">
             <div class="flex items-center">
                 <Filter />
-                <span class="ml-2 text-sm font-bold">My Files</span>
+                <span class="ml-2 text-sm font-bold">My files</span>
             </div>
         </button>
         <button class="mr-2 inline-block rounded-xl bg-light-background py-2 px-3.5 dark:bg-2x-dark-foreground">

@@ -1,14 +1,21 @@
 <template>
   <LayoutTop />
-  <LayoutFilters />
+  <div class="flex flex-row justify-between">    
+    
+    <div class="flex flex-row justify-between items-center px-4">
+      <UBreadcrumb :links="links" class="mb-6 ml-6 lg:px-[100px]" />      
+    <!-- BREADCRUMBS --> 
+      </div>     
+    <LayoutFilters />
+  </div>
   <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
-    <!-- BREADCRUMBS -->
+    <ButtonSearchBar v-if="isSearching" />
     <div class="text-center">
-    <div class="flex flex-row justify-between items-center">
-      <UBreadcrumb :links="links" class="mb-6 ml-6 lg:px-[100px]" />   
-      </div> 
     <ul class="min-w-full">
       <li v-for="(file, index) in filteredFiles" @click="folderSelected = file.isFolder ? file.id : folderSelected" :key="index" class="flex select-none items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
+        <ContextMenu>
+        <ContextMenuTrigger class="w-full">
+          <div class="flex flex-row">
         <div class="relative w-16 shrink-0">
           <IconsFolder v-if="file.isFolder"/>
           <IconsThumbnail :extension="file.extension" v-else />
@@ -25,6 +32,57 @@
             </small>
           </div>
         </div>
+      </div>
+      </ContextMenuTrigger>
+      <ContextMenuContent class="w-64 bg-white">
+      <ContextMenuItem inset>
+        Back
+        <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuItem inset disabled>
+        Forward
+        <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuItem inset>
+        Reload
+        <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+      </ContextMenuItem>
+      <ContextMenuSub>
+        <ContextMenuSubTrigger inset>
+          More Tools
+        </ContextMenuSubTrigger>
+        <ContextMenuSubContent class="w-48">
+          <ContextMenuItem>
+            Save Page As...
+            <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+          <ContextMenuItem>Name Window...</ContextMenuItem>
+          <ContextMenuSeparator />
+          <ContextMenuItem>Developer Tools</ContextMenuItem>
+        </ContextMenuSubContent>
+      </ContextMenuSub>
+      <ContextMenuSeparator />
+      <ContextMenuCheckboxItem checked>
+        Show Bookmarks Bar
+        <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+      </ContextMenuCheckboxItem>
+      <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+      <ContextMenuSeparator />
+      <ContextMenuRadioGroup model-value="pedro">
+        <ContextMenuLabel inset>
+          People
+        </ContextMenuLabel>
+        <ContextMenuSeparator />
+        <ContextMenuRadioItem value="pedro">
+          Pedro Duarte
+        </ContextMenuRadioItem>
+        <ContextMenuRadioItem value="colm">
+          Colm Tuite
+        </ContextMenuRadioItem>
+      </ContextMenuRadioGroup>
+    </ContextMenuContent>
+  </ContextMenu>
       </li>
     </ul>
     </div>
@@ -37,6 +95,8 @@ import type { File } from '~/types/types';
 
 const files = ref<File[]>([]);
 const folderSelected = ref<number>(-1);
+
+const isSearching = ref(true);
 
 // Filtrer les fichiers en fonction de idParent
 const filteredFiles = computed(() => {
