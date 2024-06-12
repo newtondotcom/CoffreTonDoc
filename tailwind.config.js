@@ -2,69 +2,85 @@ const animate = require("tailwindcss-animate")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    "./components/**/*.{js,vue,ts}",
-    "./layouts/**/*.vue",
-    "./pages/**/*.vue",
-    "./plugins/**/*.{js,ts}",
-    "./app.vue",
-    "./error.vue",
-  ],
-  theme: {		
-  debugScreens: {
-    position: ['bottom', 'right'],
+  darkMode: ["class"],
+  safelist: ["dark"],
+  prefix: "",
+  
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+      },
+      borderRadius: {
+      	xl: "calc(var(--radius) + 4px)",
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
+        "collapsible-down": {
+          from: { height: 0 },
+          to: { height: 'var(--radix-collapsible-content-height)' },
+        },
+        "collapsible-up": {
+          from: { height: 'var(--radix-collapsible-content-height)' },
+          to: { height: 0 },
+        },
+      },
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "collapsible-down": "collapsible-down 0.2s ease-in-out",
+        "collapsible-up": "collapsible-up 0.2s ease-in-out",
+      },
+    },
   },
-  screens: {
-    'xs': '420px',
-    'sm': '640px',
-    'md': '768px',
-    'lg': '1024px',
-    'xl': '1280px',
-    '2xl': '1536px',
-  },
-  /*textColor: {
-    'green': '#0ABB87',
-    'red': '#fd397a',
-    'yellow': '#ffb822',
-    'purple': '#9d66fe',
-    'blue': '#5578eb',
-    'white': '#fff',
-  },*/
-  extend: {
-    scale: {
-      '97': '.97',
-    },
-    borderWidth: {
-      '3': '3px',
-    },
-    borderColor: theme => ({
-      'light': '#F3F3F3',
-      'red': '#fd397a',
-      'dark-background': '#151515',
-      'dark-secondary': '#1e2024',
-    }),
-    fontSize: {
-      tiny: ['11px', '16px'],
-    },
-    color: {
-      'dark-foreground': '#1e2024',
-    },
-    backgroundColor: theme => ({
-      'dark-background': '#151515',
-      'dark-foreground': '#171819',
-      '2x-dark-foreground': '#191b1e',
-      '4x-dark-foreground': '#1e2124',
-      'light-background': '#f4f5f6',
-      'light-300': '#e1e1ef',
-    }),
-    boxShadow: {
-      card: '0 2px 6px 0 rgba(0, 0, 0, 0.04)',
-      card_red: '0 2px 6px 0 rgba(253, 57, 122, 0.04)',
-    },
-    screens: {
-      'print': {'raw': 'print'},
-    },
-  },
-},
   plugins: [animate],
 }

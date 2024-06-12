@@ -32,6 +32,9 @@ importers:
       raw-body:
         specifier: ^2.5.2
         version: 2.5.2
+      shadcn-nuxt:
+        specifier: ^0.10.4
+        version: 0.10.4(rollup@4.18.0)
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.3.0
@@ -704,6 +707,9 @@ packages:
   '@opentelemetry/semantic-conventions@1.24.1':
     resolution: {integrity: sha512-VkliWlS4/+GHLLW7J/rVBA00uXus1SWvwFvcUDxDwmFxYfg/2VI6ekwdXS28cjI8Qz2ky2BzG8OUHo+WeYIWqw==}
     engines: {node: '>=14'}
+
+  '@oxc-parser/wasm@0.1.0':
+    resolution: {integrity: sha512-oA7XhTbg9rRBJhIzxCNhJwYmON/9LFAH4GBQxl7HWmGSS6HTrb2t6Peq82nxY0W7knguH52neh9T7zs27FVvsQ==}
 
   '@parcel/watcher-android-arm64@2.4.1':
     resolution: {integrity: sha512-LOi/WTbbh3aTn2RYddrO8pnapixAziFl6SMxHM69r3tvdSm94JtCenaKgk1GRg5FJ5wpMCpHeW+7yqPlvZv7kg==}
@@ -3463,6 +3469,9 @@ packages:
   setprototypeof@1.2.0:
     resolution: {integrity: sha512-E5LDX7Wrp85Kil5bhZv46j8jOeboKq5JMmYM3gVGdGH8xFpPWXUMsNrlODCrkoxMEeNi/XZIwuRvY4XNwYMJpw==}
 
+  shadcn-nuxt@0.10.4:
+    resolution: {integrity: sha512-WhSGzjaSMi1D2xb9Aflpwl8G8Qvlb0g4OuJLPO4YyRhduQDuscU6Pr1HdF7T4700foLLglgFnz7m8E2DDLLHJA==}
+
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
     engines: {node: '>=8'}
@@ -5102,6 +5111,8 @@ snapshots:
   '@opentelemetry/semantic-conventions@1.23.0': {}
 
   '@opentelemetry/semantic-conventions@1.24.1': {}
+
+  '@oxc-parser/wasm@0.1.0': {}
 
   '@parcel/watcher-android-arm64@2.4.1':
     optional: true
@@ -8221,6 +8232,14 @@ snapshots:
   setprototypeof@1.1.0: {}
 
   setprototypeof@1.2.0: {}
+
+  shadcn-nuxt@0.10.4(rollup@4.18.0):
+    dependencies:
+      '@nuxt/kit': 3.11.2(rollup@4.18.0)
+      '@oxc-parser/wasm': 0.1.0
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
 
   shebang-command@2.0.0:
     dependencies:
