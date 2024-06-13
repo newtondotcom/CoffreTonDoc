@@ -1,24 +1,7 @@
 <template>
   <LayoutTop />
   <div class="flex flex-row justify-between">
-    <div class="flex flex-row justify-between items-center px-4">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink @click="navigateToRoot">
-              Home
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator v-if="breadcrumb.length" />
-          <BreadcrumbItem v-for="(crumb, index) in breadcrumb" :key="index">
-            <BreadcrumbLink @click="navigateToFolder(crumb.id)">
-              {{ crumb.name }}
-            </BreadcrumbLink>
-            <BreadcrumbSeparator v-if="index < breadcrumb.length - 1" />
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-    </div>
+    <LayoutBreadcrumb :navigateToFolder :navigateToRoot :breadcrumb />
     <LayoutFilters />
   </div>
   <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
@@ -72,7 +55,6 @@
     </div>
   </div>
   
-  <!-- Rename Modal -->
   <UModal v-model="isRenameModalOpen" prevent-close>
     <UCard :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800'}">
     <template #header>
@@ -93,19 +75,6 @@
 
 
 <script setup lang="ts">
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { generateFakeFiles } from '~/lib/utils';
 import { ref, computed, watch } from 'vue';
 import type { File } from '~/types/types';
@@ -157,6 +126,7 @@ function updateBreadcrumb(folderId: number) {
   }
 
   breadcrumb.value = newBreadcrumb;
+  console.log(newBreadcrumb)
 }
 
 // Handle item click to navigate folders or select files
