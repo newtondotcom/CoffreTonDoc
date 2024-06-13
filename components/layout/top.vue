@@ -6,8 +6,8 @@
 </div>
 <div class="flex flex-row">
     <!-- SEARCH BAR -->
-    <FolderPlus />
-    <FilePlus />
+    <Button variant="secondary" class="mx-2"><FolderPlus /></Button>
+    <Button variant="secondary" class="mx-2"><FilePlus /></Button>
 </div>
 </div>
 </template>
