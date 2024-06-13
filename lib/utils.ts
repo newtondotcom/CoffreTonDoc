@@ -28,7 +28,7 @@ export function generateFakeFiles(count: number) {
       id: i,
       date: new Date().toISOString(),
       isFolder,
-      extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'pdf',
+      extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'typescript' ,
       idParent: -1 // Initialement pas de parent
     };
 
