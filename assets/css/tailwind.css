@@ -34,6 +34,8 @@
     --ring: 20 14.3% 4.1%;
  
     --radius: 0.5rem;
+
+    --bg-light-background : rgb(244 245 246/var(--tw-bg-opacity));
   }
  
   .dark {
