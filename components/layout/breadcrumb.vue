@@ -3,12 +3,12 @@
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
-            <BreadcrumbLink @click="navigateToRoot">
+            <BreadcrumbLink @click="navigateToRoot" class="cursor-pointer">
               Home
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator v-if="breadcrumb.length" />
-          <BreadcrumbItem v-for="(crumb, index) in breadcrumb" :key="index">
+          <BreadcrumbItem v-for="(crumb, index) in breadcrumb" :key="index" class="cursor-pointer">
             <BreadcrumbLink @click="navigateToFolder(crumb.id)">
               {{ crumb.name }}
             </BreadcrumbLink>
