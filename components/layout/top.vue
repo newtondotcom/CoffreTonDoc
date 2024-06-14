@@ -4,14 +4,10 @@
 <div class="relative flex font-bold select-none items-center text-left min-w-0 lg:pr-6 pr-12">
     Mes fichiers
 </div>
-<div class="flex flex-row">
-    <!-- SEARCH BAR -->
-    <Button variant="secondary" class="mx-2"><FolderPlus /></Button>
-    <Button variant="secondary" class="mx-2"><FilePlus /></Button>
-</div>
+<LayoutFilters />
 </div>
 </template>
+
 <script setup lang="ts">
-import { FolderPlus,FilePlus } from 'lucide-vue-next';
 
 </script>
