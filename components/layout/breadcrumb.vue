@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-row justify-between items-center px-4">
+    <div class="flex flex-row justify-between items-center px-4 border b-1 rounded-xl my-2 py-2">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
