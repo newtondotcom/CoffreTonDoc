@@ -4,23 +4,25 @@
       <div class="sticky top-0 bg-white z-10 flex flex-row justify-between p-2">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
-            <ButtonNews />
+            <ButtonNews :createNewFile :createNewFolder/>
         </div>
       </div>
       <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
         <ButtonCommand v-if="isSearching" />
         <div class="text-center min-w-full">
-          <ul class="justify-center align-middle items-center">
-            <li class="flex flex-row justify-between text-center">
+          <ul class="justify-center align-middle items-center px-4">
+            <li class="flex flex-row justify-between text-center mx-4 px-4">
                     <span>Date</span>
                     <span class="w-[60%]">Nom</span>
                     <span>Taille</span>
                     <span>Accès</span>
             </li>
-            <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="flex select-none items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
-              <LayoutEntity :file="file" :openItem="openItem" :openRenameModal="openRenameModal" :deleteItem="deleteItem" :createNewItem="createNewItem"/>
+            <ScrollArea class="h-[80vh]">
+            <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
+              <Separator class="my-4" />
+              <LayoutEntity :file="file" :openItem :openRenameModal :deleteItem :createNewFile :createNewFolder/>
             </li>
-            <Separator class="my-4" />
+            </ScrollArea>
           </ul>
         </div>
       </div>
@@ -117,18 +119,32 @@
     files.value = files.value.filter(f => f.id !== file.id);
   }
   
-  function createNewItem(file: File) {
-    console.log('Creating new item in folder:', file);
-    const newItem: File = {
+  function createNewFile(name : string, extension: string, idParent: number) {
+    console.log('Creating new file in folder:', file);
+    const newFile: File = {
       id: Date.now(),
-      name: 'New Item',
+      name: name,
       date: new Date().toISOString(),
       isFolder: false,
-      extension: 'txt',
-      idParent: file.id,
-      size: 20000
+      extension: extension,
+      idParent: idParent,
+      size: 0
     };
-    files.value.push(newItem);
+    files.value.push(newFile);
+  }
+
+  function createNewFolder(name: string, idParent: number) {
+    console.log('Creating new folder in folder:', file);
+    const newFolder: File = {
+      id: Date.now(),
+      name: name,
+      date: new Date().toISOString(),
+      isFolder: true,
+      extension: '',
+      idParent: idParent,
+      size: 0
+    };
+    files.value.push(newFolder);
   }
   
   files.value = generateFakeFiles(10);
