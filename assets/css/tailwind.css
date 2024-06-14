@@ -35,7 +35,7 @@
  
     --radius: 0.5rem;
 
-    --bg-light-background : rgb(244 245 246/var(--tw-bg-opacity));
+    --light-background : rgb(244 245 246/var(--tw-bg-opacity));
   }
  
   .dark {
