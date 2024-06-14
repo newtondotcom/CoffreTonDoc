@@ -5,8 +5,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-
-
 // Fonction pour générer un nom de fichier aléatoire
 export function generateFileName() {
   const adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple'];
@@ -30,7 +28,8 @@ export function generateFakeFiles(count: number) {
       isFolder,
       extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'typescript' ,
       idParent: -1, // Initialement pas de parent
-      size : Math.floor(Math.random()*1014)
+      size : Math.floor(Math.random()*100000),
+      statut : Math.random() < 0.5 ? "self" : "work"
     };
 
     fakeFiles.push(newFile);
@@ -50,7 +49,8 @@ export function generateFakeFiles(count: number) {
         isFolder: false,
         extension: 'txt',
         idParent: parentId,
-        size : Math.floor(Math.random()*1014)
+        size : Math.floor(Math.random()*100000),
+        statut : Math.random() < 0.5 ? "self" : "shared"
       };
       fakeFiles.push(childFile);
     }
