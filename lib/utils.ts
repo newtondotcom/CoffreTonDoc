@@ -29,7 +29,8 @@ export function generateFakeFiles(count: number) {
       date: new Date().toISOString(),
       isFolder,
       extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'typescript' ,
-      idParent: -1 // Initialement pas de parent
+      idParent: -1, // Initialement pas de parent
+      size : Math.floor(Math.random()*1014)
     };
 
     fakeFiles.push(newFile);
@@ -43,12 +44,13 @@ export function generateFakeFiles(count: number) {
     const childCount = Math.floor(Math.random() * 5) + 1; // entre 1 et 5 fichiers enfants
     for (let i = 0; i < childCount; i++) {
       const childFile: File = {
-        name: generateFileName(),
         id: fakeFiles.length,
+        name: generateFileName(),
         date: new Date().toISOString(),
         isFolder: false,
         extension: 'txt',
-        idParent: parentId
+        idParent: parentId,
+        size : Math.floor(Math.random()*1014)
       };
       fakeFiles.push(childFile);
     }

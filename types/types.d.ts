@@ -5,4 +5,5 @@ export interface File {
     isFolder: boolean;
     extension: string | null;
     idParent: number;
+    size : number;
 }
