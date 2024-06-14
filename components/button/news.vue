@@ -66,4 +66,8 @@
 
 <script setup lang="ts">
 import { FolderPlus, FilePlus } from 'lucide-vue-next';
+defineProps({
+  createNewFile: Function,
+  createNewFolder : Function
+});
 </script>
