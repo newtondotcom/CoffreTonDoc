@@ -4,8 +4,7 @@
       <div class="sticky top-0 bg-white z-10 flex flex-row justify-between p-2">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
-          <Button variant="secondary" class="mx-2"><FolderPlus /></Button>
-          <Button variant="secondary" class="mx-2"><FilePlus /></Button>
+            <ButtonNews />
         </div>
       </div>
       <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
@@ -26,26 +25,10 @@
         </div>
       </div>
     </div>
-  
-    <UModal v-model="isRenameModalOpen" prevent-close>
-      <UCard :ui="{ ring: '', divide: 'divide-y divide-white dark:divide-gray-800'}">
-        <template #header>
-          Rename File
-        </template>
-        <UInput v-model="newFileName" type="text" placeholder="New file name" required class="px-6" />
-        <template #footer>
-          <div class="flex justify-end">
-            <UButton type="button" @click="isRenameModalOpen = false" class="btn btn-secondary mr-2">Cancel</UButton>
-            <UButton type="submit" @click="renameFile" class="btn btn-primary">Rename</UButton>
-          </div>
-        </template>
-      </UCard>
-    </UModal>
   </template>
   
   <script setup lang="ts">
   import { generateFakeFiles } from '~/lib/utils';
-  import { FolderPlus, FilePlus } from 'lucide-vue-next';
   import { ref, computed, watch } from 'vue';
   import type { File } from '~/types/types';
   
