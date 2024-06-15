@@ -20,7 +20,7 @@
             <ScrollArea class="h-[70vh]">
             <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer">
               <Separator class="my-4" />
-              <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder/>
+              <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder :renameFile/>
             </li>
               <Separator class="my-4" />
             </ScrollArea>
@@ -34,7 +34,10 @@
   import { generateFakeFiles } from '~/lib/utils';
   import { ref, computed, watch } from 'vue';
   import type { File } from '~/types/types';
-import { AccessStatus } from '@prisma/client';
+  import { AccessStatus } from '@prisma/client';
+  import { useToast } from '@/components/ui/toast/use-toast'
+  import { ToastAction } from '@/components/ui/toast'
+  const {toast} = useToast();
   
   const files = ref<File[]>([]);
   const folderSelected = ref<number>(-1);
@@ -53,6 +56,16 @@ import { AccessStatus } from '@prisma/client';
     updateBreadcrumb(newFolder);
   });
   
+  async function getArborescence() {
+    const body = {fileId: folderSelected.value};
+    const data = await $fetch('/api/both/arborescence', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
+    files.value = data;
+    console.log('Arborescence:', data);
+  }
+
   function test() {
     console.log('test');
   }
@@ -106,19 +119,54 @@ import { AccessStatus } from '@prisma/client';
     console.log(file.name);
   }
   
-  function renameFile() {
-    if (fileToRename.value) {
-      fileToRename.value.name = newFileName.value;
-      isRenameModalOpen.value = false;
-      console.log("modal closed");
+  async function renameFile(fileId : string, newName : string) {
+    const body = { fileId, newName };
+    const data : string = await $fetch('/api/both/rename', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
+    console.log('Renamed file:', data);
+    if (data == "ok") {
+    files.value = files.value.map(f => {
+      if (f.id === fileId) {
+        f.name = newName;
+      }
+      return f;
+    });
+    toast({
+      title: 'Success',
+      description: 'File renamed successfully',
+    });
     } else {
-      console.log("fileToRename");
+      toast({
+        title: 'Error',
+        description: 'An error occured while renaming the file',
+        variant: 'destructive'
+      });
     }
   }
   
-  function deleteItem(file: File) {
-    console.log('Deleting file:', file);
-    files.value = files.value.filter(f => f.id !== file.id);
+  async function deleteItem(fileId : string) {
+    console.log('Deleting file:', fileId);
+    const body = { fileId };
+    const data = await $fetch('/api/both/delete', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
+    console.log('Deleted file:', data);
+    if (data == "ok") {
+      files.value = files.value.filter(f => f.id !== fileId);
+      toast({
+        title: 'Success',
+        description: 'File deleted successfully',
+      });
+    } else {
+      toast({
+        title: 'Error',
+        description: 'An error occured while deleting the file',
+        variant: 'destructive'
+      });
+    }
   }
   
   async function createNewFile(name : string, extension: string) {
@@ -166,8 +214,9 @@ import { AccessStatus } from '@prisma/client';
     files.value.push(newFolder);
   }
   
-  files.value = generateFakeFiles(10);
-  
-  updateBreadcrumb(folderSelected.value);
+  onMounted(() => {
+    getArborescence();
+    updateBreadcrumb(folderSelected.value);
+  });
   </script>
   
