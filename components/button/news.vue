@@ -7,7 +7,7 @@
       </DialogTrigger>
       <DialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
         <DialogHeader>
-          <DialogTitle class="text-lg font-semibold">{{ $t('create_foler') }}</DialogTitle>
+          <DialogTitle class="text-lg font-semibold">{{ $t('create_folder') }}</DialogTitle>
           <DialogDescription class="text-sm text-gray-500">
             {{ $t('specify_names') }}
           </DialogDescription>
@@ -17,11 +17,11 @@
             <Label for="folder-name" class="text-right font-medium">
               {{ $t('folder_name') }}
             </Label>
-            <Input id="folder-name" class="col-span-3"/>
+            <Input id="folder-name" class="col-span-3" v-model="folderName"/>
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">{{ $t('create_foler') }}</Button>
+          <Button @click="createNewFolder(folderName)">{{ $t('create_folder') }}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -42,19 +42,17 @@
             <Label for="file-name" class="text-right font-medium">
               {{ $t('file_name') }}
             </Label>
-            <Input id="file-name" class="col-span-3"/>
+            <Input id="file-name" class="col-span-3" v-model="fileName"/>
           </div>
           <div class="grid grid-cols-4 items-center gap-4">
             <Label for="file-extension" class="text-right font-medium">
               {{ $t('Extension') }}
             </Label>
-            <Input id="file-extension" class="col-span-3"/>
+            <Input id="file-extension" class="col-span-3" v-model="fileExtension"/>
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit">
-            {{ $t('create_file') }}
-          </Button>
+          <Button @click="createNewFile">{{ $t('create_file') }}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -67,4 +65,9 @@ defineProps({
   createNewFile: Function,
   createNewFolder : Function
 });
+
+const folderName = ref('');
+const fileName = ref('');
+const fileExtension = ref('');
+
 </script>
