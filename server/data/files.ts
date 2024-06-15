@@ -35,32 +35,17 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
 // Create a new file
 export async function createFile(name: string, extension: string, idParent: number, size: number, statut: string, user_id: string): Promise<File> {
   try {
-    if (idParent == -1) {
         return await prisma.file.create({
             data: {
               name,
               extension,
               size,
               statut,
+                idParent,
               isFolder: false,
               user_id: user_id, // Set user_id
             },
           });
-    }
-    return await prisma.file.create({
-        data: {
-          name,
-          extension,
-          idParent,
-          size,
-          statut,
-          isFolder: false,
-          user_id: user_id, // Set user_id
-        },
-        select: {
-          id : true,
-        },
-      });
   } catch (error) {
     console.error('Error creating file:', error);
     throw new Error('Failed to create file');
@@ -70,16 +55,6 @@ export async function createFile(name: string, extension: string, idParent: numb
 // Create a new folder
 export async function createFolder(name: string, idParent: number, statut: string, user_id: string): Promise<File> {
   try {
-    if (idParent == -1) {
-        return await prisma.file.create({
-          data: {
-            name,
-            size: 0,
-            statut,
-            isFolder: true,
-            user_id: user_id, // Set user_id
-          },
-    });}
     return await prisma.file.create({
       data: {
         name,
@@ -118,8 +93,9 @@ export async function renameFile(fileId: number, newName: string, user_id : stri
 }
 
 // Delete a file or folder
-export async function deleteFile(fileId: number): Promise<File> {
+export async function deleteFile(fileId: number, user_id : string): Promise<File> {
   try {
+    assert(user_id == (await prisma.file.findUnique({where : {id : fileId}})).user_id);
     return await prisma.file.delete({
       where: {
         id: fileId,
