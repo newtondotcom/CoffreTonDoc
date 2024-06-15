@@ -6,6 +6,6 @@ export default defineEventHandler(async (event) => {
     const name =  body.name;
     const idParent = body.idParent;
     const statut = body.statut;
-    await createFolder(name, idParent, statut, user_id);
-    return "ok";
+    const id = await createFolder(name, idParent, statut, user_id);
+    return id.id;
   })

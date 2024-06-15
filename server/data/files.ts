@@ -56,6 +56,9 @@ export async function createFile(name: string, extension: string, idParent: numb
           isFolder: false,
           user_id: user_id, // Set user_id
         },
+        select: {
+          id : true,
+        },
       });
   } catch (error) {
     console.error('Error creating file:', error);
@@ -84,6 +87,9 @@ export async function createFolder(name: string, idParent: number, statut: strin
         statut,
         isFolder: true,
         user_id: user_id, // Set user_id
+      },
+      select: {
+        id : true,
       },
     });
   } catch (error) {

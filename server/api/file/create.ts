@@ -8,6 +8,6 @@ export default defineEventHandler(async (event) => {
     const statut = body.statut;
     const size = body.size;
     const extension = body.extension;
-    await createFile(name, extension, idParent, size, statut, user_id);
-    return "ok";
+    const id = await createFile(name, extension, idParent, size, statut, user_id);
+    return id.id;
   })
