@@ -33,7 +33,6 @@
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from '@/components/ui/dropdown-menu';
-  import { defineProps } from 'vue';
   
   defineProps({
     navigateToFolder: Function,
