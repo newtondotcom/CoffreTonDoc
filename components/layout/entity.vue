@@ -23,10 +23,12 @@
                 <ContextMenuShortcut>Enter</ContextMenuShortcut>
             </ContextMenuItem>
 
-            <ContextMenuItem @click="setState('rename')">
-                {{ $t('rename') }}
-                <ContextMenuShortcut>F2</ContextMenuShortcut>
-            </ContextMenuItem>
+            <DialogTrigger asChild>
+                <ContextMenuItem @click="setState('rename')">
+                    {{ $t('rename') }}
+                    <ContextMenuShortcut>F2</ContextMenuShortcut>
+                </ContextMenuItem>
+            </DialogTrigger>
 
             <DialogTrigger asChild>
                 <ContextMenuItem @click="setState('delete')">
@@ -77,7 +79,7 @@
         </div>
         <DialogFooter>
         <DialogClose as-child>
-            <Button type="submit" @click.prevent="createNewFile(file, 'file', newFileName)">
+            <Button @click="createNewFile(file, 'file', newFileName)">
                 {{ $t('create') }}
             </Button>
           </DialogClose>
@@ -101,7 +103,7 @@
         </div>
         <DialogFooter>
         <DialogClose as-child>
-            <Button type="submit" @click.prevent="createNewFolder(file, 'folder', newFolderName)">
+            <Button @click="createNewFolder(file, 'folder', newFolderName)">
                 {{ $t('create') }}
             </Button>
           </DialogClose>
@@ -109,6 +111,30 @@
     </DialogContent>
 
     <DialogContent v-if="stateDialog === 'rename'" class="sm:max-w-[425px]">
+        <DialogHeader>
+            <DialogTitle>{{ $t('rename_file') }}</DialogTitle>
+            <DialogDescription>
+                {{ $t('enter_new_file_name') }}
+            </DialogDescription>
+        </DialogHeader>
+        <div class="grid gap-4 py-4">
+            <div class="grid grid-cols-4 items-center gap-4">
+                <Label for="newName" class="text-right">
+                    {{ $t('new_name') }}
+                </Label>
+                <Input id="newName" v-model="newName" class="col-span-3" />
+            </div>
+        </div>
+        <DialogFooter>
+            <DialogClose as-child>
+                <Button @click="renameFile(file.id, newName)">
+                    {{ $t('save_changes') }}
+                </Button>
+            </DialogClose>
+        </DialogFooter>
+    </DialogContent>
+
+    <DialogContent v-if="stateDialog === 'access'" class="sm:max-w-[425px]">
         <DialogHeader>
             <DialogTitle>{{ $t('change_access') }}</DialogTitle>
             <DialogDescription>
@@ -125,7 +151,7 @@
         </div>
         <DialogFooter>
         <DialogClose as-child>
-            <Button type="submit" @click.prevent="changeAccess(file, accessLevel)">
+            <Button @click="changeAccess(file, accessLevel)">
                 {{ $t('save_changes') }}
             </Button>
           </DialogClose>
@@ -141,36 +167,13 @@
         </DialogHeader>
         <DialogFooter>
         <DialogClose as-child>
-            <Button type="submit" @click.prevent="deleteItem(file)">
+            <Button @click="deleteItem(file.id)">
                 {{ $t('delete') }}
             </Button>
           </DialogClose>
         </DialogFooter>
     </DialogContent>
 
-    <DialogContent v-if="stateDialog === 'access'" class="sm:max-w-[425px]">
-        <DialogHeader>
-            <DialogTitle>{{ $t('rename_file') }}</DialogTitle>
-            <DialogDescription>
-                {{ $t('enter_new_file_name') }}
-            </DialogDescription>
-        </DialogHeader>
-        <div class="grid gap-4 py-4">
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="newName" class="text-right">
-                    {{ $t('new_name') }}
-                </Label>
-                <Input id="newName" v-model="newName" class="col-span-3" />
-            </div>
-        </div>
-        <DialogFooter>
-        <DialogClose as-child>
-            <Button type="submit" @click.prevent="renameFile(file, newName)">
-                {{ $t('save_changes') }}
-            </Button>
-          </DialogClose>
-        </DialogFooter>
-    </DialogContent>
 </Dialog>
 </template>
 
@@ -189,22 +192,10 @@ const newName = ref('');
 const newFileName = ref('');
 const newFolderName = ref('');
 const accessLevel = ref('');
-const stateDialog = ref('newFile'); // Default state
-const showDialog = ref(true);
+const stateDialog = ref("");
 
 function setState(newState) {
   stateDialog.value = newState;
 }
 
-watch(() => stateDialog, () => {
-  showDialog.value = true;
-});
-
-function preventDefaultEvent(event: Event) {
-  event.preventDefault();
-}
-
-function test() {
-  console.log('test');
-}
 </script>
