@@ -28,4 +28,7 @@ export default defineNuxtConfig({
     viewer: false,
   },
   ssr : false,
+  supabase: {
+    redirect: false,
+  },
 })
