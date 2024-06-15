@@ -18,7 +18,7 @@
         </Button>
         <Button variant="secondary" class="mx-2">
             <FolderKanban />
-            <span class="ml-2 text-sm font-bold">{{ $t('View') }}</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('view') }}</span>
         </Button>
     </div>
 </template>
