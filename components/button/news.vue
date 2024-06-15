@@ -46,7 +46,7 @@
           </div>
           <div class="grid grid-cols-4 items-center gap-4">
             <Label for="file-extension" class="text-right font-medium">
-              {{ $t('Extension') }}
+              {{ $t('extension') }}
             </Label>
             <Input id="file-extension" class="col-span-3" v-model="fileExtension"/>
           </div>
