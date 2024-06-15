@@ -1,7 +1,7 @@
 <template>
 <Dialog>
     <ContextMenu>
-        <ContextMenuTrigger class="w-full flex flex-row justify-between">
+        <ContextMenuTrigger class="w-full flex flex-row justify-between hover:bg-secondary dark:hover:bg-dark-foreground">
             <IconsDate :date="file.date" />
             <div class="flex flex-row w-[60%] items-center">
                 <div class="relative w-16 shrink-0">

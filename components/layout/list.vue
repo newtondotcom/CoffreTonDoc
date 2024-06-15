@@ -18,7 +18,7 @@
                     <span>{{ $t('list_access') }}</span>
             </li>
             <ScrollArea class="h-[70vh]">
-            <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
+            <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer">
               <Separator class="my-4" />
               <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder/>
             </li>
