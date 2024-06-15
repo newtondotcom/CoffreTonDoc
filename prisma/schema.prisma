@@ -8,4 +8,24 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum AccessStatus {
+  USER
+  SHARED
+  COMPANY
+}
 
+model File {
+  id        Int         @id @default(autoincrement())
+  user_id   String
+  name      String
+  date      DateTime    @default(now())
+  isFolder  Boolean
+  extension String?     // Nullable because folders might not have an extension
+  idParent  Int?        // Nullable to allow root-level files/folders
+  size      Int
+  statut    AccessStatus
+
+  // Self-relation for folder contents
+  parent    File?       @relation("FolderContents", fields: [idParent], references: [id])
+  children  File[]      @relation("FolderContents")
+}
