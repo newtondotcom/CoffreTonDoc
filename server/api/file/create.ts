@@ -10,4 +10,4 @@ export default defineEventHandler(async (event) => {
     const extension = body.extension;
     const id = await createFile(name, extension, idParent, size, statut, user_id);
     return id.id;
-  })
+})

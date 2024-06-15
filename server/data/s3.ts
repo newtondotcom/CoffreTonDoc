@@ -3,7 +3,7 @@ import prisma from './prisma';
 import constants from '~/lib/constants';
 import { assert } from '@vueuse/core';
 
-export default function generateUniqueName() {
+export function generateUniqueName() {
     const date = new Date();
     const timestamp = date.getTime();
     const randomString = Math.random().toString(36).substring(2, 8);
