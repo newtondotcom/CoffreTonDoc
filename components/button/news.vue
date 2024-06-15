@@ -21,7 +21,9 @@
           </div>
         </div>
         <DialogFooter>
+            <DialogClose as-child>
           <Button @click="createNewFolder(folderName)">{{ $t('create_folder') }}</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -52,7 +54,9 @@
           </div>
         </div>
         <DialogFooter>
+            <DialogClose as-child>
           <Button @click="createNewFile(fileName,fileExtension)">{{ $t('create_file') }}</Button>
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
