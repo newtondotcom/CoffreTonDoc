@@ -1,3 +1,4 @@
+import { assert } from '@vueuse/core';
 import prisma from './prisma';
 import { File } from '@prisma/client';
 
@@ -99,8 +100,9 @@ export async function createFolder(name: string, idParent: number, statut: strin
 }
 
 // Rename a file or folder
-export async function renameFile(fileId: number, newName: string): Promise<File> {
+export async function renameFile(fileId: number, newName: string, user_id : string): Promise<File> {
   try {
+    assert(user_id == (await prisma.file.findUnique({where : {id : fileId}})).user_id);
     return await prisma.file.update({
       where: {
         id: fileId,
