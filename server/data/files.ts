@@ -34,17 +34,29 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
 // Create a new file
 export async function createFile(name: string, extension: string, idParent: number, size: number, statut: string, user_id: string): Promise<File> {
   try {
+    if (idParent == -1) {
+        return await prisma.file.create({
+            data: {
+              name,
+              extension,
+              size,
+              statut,
+              isFolder: false,
+              user_id: user_id, // Set user_id
+            },
+          });
+    }
     return await prisma.file.create({
-      data: {
-        name,
-        extension,
-        idParent,
-        size,
-        statut,
-        isFolder: false,
-        user_id: user_id, // Set user_id
-      },
-    });
+        data: {
+          name,
+          extension,
+          idParent,
+          size,
+          statut,
+          isFolder: false,
+          user_id: user_id, // Set user_id
+        },
+      });
   } catch (error) {
     console.error('Error creating file:', error);
     throw new Error('Failed to create file');

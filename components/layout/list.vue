@@ -4,7 +4,7 @@
       <div class="sticky top-0 bg-white z-10 flex flex-row justify-between p-2">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
-            <ButtonNews :createNewFile :createNewFolder/>
+            <ButtonNews :createNewFile :createNewFolder :filteredFiles/>
         </div>
       </div>
       <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
@@ -121,8 +121,9 @@ import { AccessStatus } from '@prisma/client';
     files.value = files.value.filter(f => f.id !== file.id);
   }
   
-  async function createNewFile(name : string, extension: string, idParent: number) {
+  async function createNewFile(name : string, extension: string) {
     console.log('Creating new file in folder:');
+    const idParent = folderSelected.value;
     const newFile: File = {
       id: Date.now(),
       name: name,
@@ -134,6 +135,13 @@ import { AccessStatus } from '@prisma/client';
       statut : "you"
     };
     files.value.push(newFile);
+    const size = 1000;
+    const statut = AccessStatus.USER;
+    const body = {name, extension, idParent, size, statut};
+    const data = await $fetch('/api/file/create', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
   }
 
   async function createNewFolder(name: string) {
