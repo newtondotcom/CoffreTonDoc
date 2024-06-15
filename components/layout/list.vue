@@ -12,16 +12,17 @@
         <div class="text-center min-w-full">
           <ul class="justify-center align-middle items-center px-4">
             <li class="flex flex-row justify-between text-center mx-4 px-4">
-                    <span>Date</span>
-                    <span class="w-[60%]">Nom</span>
-                    <span>Taille</span>
-                    <span>Accès</span>
+                    <span>{{ $t('list_date') }}</span>
+                    <span class="w-[60%]">{{ $t('list_name') }}</span>
+                    <span>{{ $t('list_size') }}</span>
+                    <span>{{ $t('list_access') }}</span>
             </li>
-            <ScrollArea class="h-[80vh]">
+            <ScrollArea class="h-[70vh]">
             <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer hover:bg-light-background dark:hover:bg-dark-foreground">
               <Separator class="my-4" />
               <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder/>
             </li>
+              <Separator class="my-4" />
             </ScrollArea>
           </ul>
         </div>

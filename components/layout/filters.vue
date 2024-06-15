@@ -2,23 +2,23 @@
     <div class="flex items-center overflow-x-auto pb-3 pl-4">
         <Button variant="secondary" class="mx-2">
             <Search />
-            <span class="ml-2 text-sm font-bold">Splotlight</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('spotlight') }}</span>
         </Button>
         <Button variant="secondary" class="mx-2">
             <Filter />
-            <span class="ml-2 text-sm font-bold">My files</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('my_files') }}</span>
         </Button>
         <Button variant="secondary" class="mx-2">
             <Upload />
-            <span class="ml-2 text-sm font-bold">Upload / Create</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('upload_create') }}</span>
         </Button>
         <Button variant="secondary" class="mx-2">
             <SquareCheckBig />
-            <span class="ml-2 text-sm font-bold">Select</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('select') }}</span>
         </Button>
         <Button variant="secondary" class="mx-2">
             <FolderKanban />
-            <span class="ml-2 text-sm font-bold">View</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('View') }}</span>
         </Button>
     </div>
 </template>

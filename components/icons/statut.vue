@@ -12,11 +12,11 @@
         <p>
       {{
         statut === "self"
-          ? `Vous`
+          ? $t('access_you')
           : statut === "shared"
-          ? `Partagé`
+          ? $t('access_shared')
           : statut === "work"
-          ? `Entreprise`
+          ? $t('access_company')
           : ''
       }}
       </p>
