@@ -25,3 +25,13 @@ model File {
   size      Int
   statut    AccessStatus
 }
+
+model S3 {
+  endpoint    String    
+  ssl        Boolean
+  port      Int
+  access_key  String
+  secret_key  String
+  bucket      String
+  name        String @id @default(cuid())
+}
