@@ -63,25 +63,28 @@
           </div>
         </div>
         <DialogFooter>
-          <DialogClose as-child>
-            <Button @click="uploadFile">{{ $t('create_file') }}</Button>
+            <Button v-if="!fileCreated" @click="uploadFile">
+            {{ $t('create_file') }}
+            <div v-if="isLoading"> 
+                <div class="ml-1 flex">
+                    <svg class="animate-spin h-4 w-4 m-1" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                </div>
+            </div>
+            </Button>
+          <DialogClose v-else as-child>
+            <Button>
+              Ok
+            </Button>
           </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-
-    <!-- Loading Indicator -->
-    <div v-if="isLoading"> 
-        <div class="ml-1 flex">
-            <svg class="animate-spin h-4 w-4 m-1" xmlns="http://www.w3.org/2000/svg" fill="none"
-                viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                    stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-            </svg>
-        </div>
-    </div>
   </div>
 </template>
 
@@ -96,8 +99,9 @@ const fileExtension = ref('');
 const fileSelected = ref(false);
 const isLoading = ref(false);
 const fileToUpload = ref<File | null>(null);
+const fileCreated = ref(false)
 
-defineProps({
+const props = defineProps({
   createNewFile: Function,
   createNewFolder: Function,
   filteredFiles: Object,
@@ -106,6 +110,7 @@ defineProps({
 
 function handleFileUpload(event) {
   const file = event.target.files[0];
+  console.log('File selected:', props.selectedFolder);
   if (file) {
     const fullName = file.name;
     const lastDot = fullName.lastIndexOf('.');
@@ -131,8 +136,8 @@ async function uploadFile() {
       method: 'POST',
       body: JSON.stringify({
         name: fileName.value,
-        idParent: selectedFolder,
-        statut: AccessStatus.PRIVATE,
+        idParent: props.selectedFolder,
+        statut: AccessStatus.USER,
         size: fileToUpload.value.size,
         extension: fileExtension.value
       }),
@@ -146,9 +151,6 @@ async function uploadFile() {
 
     // Upload the file to S3
     const formData = new FormData();
-    Object.keys(fields).forEach(key => {
-      formData.append(key, fields[key]);
-    });
     formData.append('file', fileToUpload.value);
 
     /*
@@ -157,17 +159,19 @@ async function uploadFile() {
       body: formData
     });
     */
-    await setTimeout(() => {
-      console.log('File uploaded successfully');
-    }, 500);
+    await setTimeout(function(){
+    console.log("THIS IS");
+    }, 2000);
 
     // Create the new file in your system
-    createNewFile(fileName.value, fileExtension.value);
+    props.createNewFile(fileName.value, fileExtension.value);
+
+    isLoading.value = false;
+    fileCreated.value = true;
 
   } catch (error) {
     console.error('Error uploading file:', error);
   } finally {
-    isLoading.value = false;
   }
 }
 </script>
