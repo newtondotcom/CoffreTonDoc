@@ -124,8 +124,15 @@ import { AccessStatus } from '@prisma/client';
   async function createNewFile(name : string, extension: string) {
     console.log('Creating new file in folder:');
     const idParent = folderSelected.value;
+    const size = 1000;
+    const statut = AccessStatus.USER;
+    const body = {name, extension, idParent, size, statut};
+    const data = await $fetch('/api/file/create', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
     const newFile: File = {
-      id: Date.now(),
+      id: data,
       name: name,
       date: new Date().toISOString(),
       isFolder: false,
@@ -135,20 +142,19 @@ import { AccessStatus } from '@prisma/client';
       statut : "you"
     };
     files.value.push(newFile);
-    const size = 1000;
-    const statut = AccessStatus.USER;
-    const body = {name, extension, idParent, size, statut};
-    const data = await $fetch('/api/file/create', {
-      method: 'POST',
-      body: JSON.stringify(body)
-    });
   }
 
   async function createNewFolder(name: string) {
     console.log('Creating new folder in folder:');
     const idParent = folderSelected.value;
+    const statut = AccessStatus.USER;
+    const body = {name, idParent, statut};
+    const data = await $fetch('/api/folder/create', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
     const newFolder: File = {
-      id: Date.now(),
+      id: data,
       name: name,
       date: new Date().toISOString(),
       isFolder: true,
@@ -158,12 +164,6 @@ import { AccessStatus } from '@prisma/client';
       statut : "you"
     };
     files.value.push(newFolder);
-    const statut = AccessStatus.USER;
-    const body = {name, idParent, statut};
-    const data = await $fetch('/api/folder/create', {
-      method: 'POST',
-      body: JSON.stringify(body)
-    });
   }
   
   files.value = generateFakeFiles(10);
