@@ -34,6 +34,7 @@
   import { generateFakeFiles } from '~/lib/utils';
   import { ref, computed, watch } from 'vue';
   import type { File } from '~/types/types';
+import { AccessStatus } from '@prisma/client';
   
   const files = ref<File[]>([]);
   const folderSelected = ref<number>(-1);
@@ -120,8 +121,8 @@
     files.value = files.value.filter(f => f.id !== file.id);
   }
   
-  function createNewFile(name : string, extension: string, idParent: number) {
-    console.log('Creating new file in folder:', file);
+  async function createNewFile(name : string, extension: string, idParent: number) {
+    console.log('Creating new file in folder:');
     const newFile: File = {
       id: Date.now(),
       name: name,
@@ -129,13 +130,15 @@
       isFolder: false,
       extension: extension,
       idParent: idParent,
-      size: 0
+      size: 0,
+      statut : "you"
     };
     files.value.push(newFile);
   }
 
-  function createNewFolder(name: string, idParent: number) {
-    console.log('Creating new folder in folder:', file);
+  async function createNewFolder(name: string) {
+    console.log('Creating new folder in folder:');
+    const idParent = folderSelected.value;
     const newFolder: File = {
       id: Date.now(),
       name: name,
@@ -143,9 +146,16 @@
       isFolder: true,
       extension: '',
       idParent: idParent,
-      size: 0
+      size: 0,
+      statut : "you"
     };
     files.value.push(newFolder);
+    const statut = AccessStatus.USER;
+    const body = {name, idParent, statut};
+    const data = await $fetch('/api/folder/create', {
+      method: 'POST',
+      body: JSON.stringify(body)
+    });
   }
   
   files.value = generateFakeFiles(10);
