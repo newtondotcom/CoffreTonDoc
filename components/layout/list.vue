@@ -41,7 +41,7 @@
   const {toast} = useToast();
   
   const files = ref<File[]>([]);
-  const folderSelected = ref<number>(-1);
+  const selectedFolder = ref<number>(-1);
   const breadcrumb = ref<{ id: number, name: string }[]>([]);
   
   const isSearching = ref(false);
@@ -50,15 +50,15 @@
   const newFileName = ref<string>('');
   
   const filteredFiles = computed(() => {
-    return files.value.filter(file => file.idParent === folderSelected.value);
+    return files.value.filter(file => file.idParent === selectedFolder.value);
   });
   
-  watch(folderSelected, (newFolder) => {
+  watch(selectedFolder, (newFolder) => {
     updateBreadcrumb(newFolder);
   });
   
   async function getArborescence() {
-    const body = {fileId: folderSelected.value};
+    const body = {fileId: selectedFolder.value};
     const data = await $fetch('/api/both/arborescence', {
       method: 'POST',
       body: JSON.stringify(body)
@@ -72,11 +72,11 @@
   }
   
   function navigateToRoot() {
-    folderSelected.value = -1;
+    selectedFolder.value = -1;
   }
   
   function navigateToFolder(folderId: number) {
-    folderSelected.value = folderId;
+    selectedFolder.value = folderId;
   }
   
   function updateBreadcrumb(folderId: number) {
@@ -99,7 +99,7 @@
   
   function handleItemClick(file: File) {
     if (file.isFolder) {
-      folderSelected.value = file.id;
+      selectedFolder.value = file.id;
     } else {
       console.log('File selected:', file);
     }
@@ -107,7 +107,7 @@
   
   function openItem(file: File) {
     if (file.isFolder) {
-      folderSelected.value = file.id;
+      selectedFolder.value = file.id;
     } else {
       console.log('Opening file:', file);
     }
@@ -172,7 +172,7 @@
   
   async function createNewFile(name : string, extension: string) {
     console.log('Creating new file in folder:');
-    const idParent = folderSelected.value;
+    const idParent = selectedFolder.value;
     const size = 1000;
     const statut = AccessStatus.USER;
     const body = {name, extension, idParent, size, statut};
@@ -195,7 +195,7 @@
 
   async function createNewFolder(name: string) {
     console.log('Creating new folder in folder:');
-    const idParent = folderSelected.value;
+    const idParent = selectedFolder.value;
     const statut = AccessStatus.USER;
     const body = {name, idParent, statut};
     const data = await $fetch('/api/folder/create', {
@@ -217,7 +217,7 @@
   
   onMounted(() => {
     getArborescence();
-    updateBreadcrumb(folderSelected.value);
+    updateBreadcrumb(selectedFolder.value);
   });
   </script>
   
