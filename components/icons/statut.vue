@@ -2,7 +2,7 @@
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger as-child>
-    <span class="w-4 h-4 text-center hover:bg-light-background dark:hover:bg-dark-foreground">
+    <span class="w-4 h-4 text-center hover:bg-secondary dark:hover:bg-dark-foreground">
         <User v-if="statut === 'self'"/>
         <Users  v-if="statut === 'shared'"/>
         <Building  v-if="statut =='work'"/>
