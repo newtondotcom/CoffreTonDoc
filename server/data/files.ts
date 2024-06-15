@@ -1,6 +1,6 @@
 import { assert } from '@vueuse/core';
 import prisma from './prisma';
-import { File } from '@prisma/client';
+import { File , AccessStatus } from '@prisma/client';
 
 // Get all files within a folder for a specific user
 export async function getFilesInFolder(folderId: number, user_id: string): Promise<File[]> {
@@ -33,7 +33,7 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
 }
 
 // Create a new file
-export async function createFile(name: string, extension: string, idParent: number, size: number, statut: string, user_id: string): Promise<File> {
+export async function createFile(name: string, extension: string, idParent: number, size: number, statut: AccessStatus, user_id: string): Promise<File> {
   try {
         return await prisma.file.create({
             data: {
