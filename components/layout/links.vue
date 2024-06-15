@@ -42,3 +42,7 @@
           </div>
         </div>
 </template>
+
+<script setup lang="ts">
+import { Home, ShoppingCart, Package, Users, LineChart } from 'lucide-vue-next';
+</script>
