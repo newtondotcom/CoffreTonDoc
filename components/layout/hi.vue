@@ -1,5 +1,5 @@
 <template>
-<div class="grid gap-8 mt-4">
+<div class="grid gap-8 mt-4 mb-4">
     <div class="flex flex-row justify-center items-center gap-4">
         <Avatar class="hidden h-9 w-9 sm:flex">
             <AvatarImage src="/avatars/01.png" alt="Avatar" />
