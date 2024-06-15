@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     const body = await readBody(event);
     const name =  body.name;
     const idParent = body.idParent;
-    let statut = body.statut;
-    const newFolder = await createFolder(name, idParent, statut, user_id);
+    const statut = body.statut;
+    await createFolder(name, idParent, statut, user_id);
     return "ok";
   })
