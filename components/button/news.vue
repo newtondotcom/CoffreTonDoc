@@ -52,7 +52,7 @@
           </div>
         </div>
         <DialogFooter>
-          <Button @click="createNewFile">{{ $t('create_file') }}</Button>
+          <Button @click="createNewFile(fileName,fileExtension)">{{ $t('create_file') }}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -63,8 +63,12 @@
 import { FolderPlus, FilePlus } from 'lucide-vue-next';
 defineProps({
   createNewFile: Function,
-  createNewFolder : Function
+  createNewFolder : Function,
+  filteredFiles : Object
 });
+
+// Filter to see if the name is empty or already in use
+// Manage access
 
 const folderName = ref('');
 const fileName = ref('');
