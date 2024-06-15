@@ -24,8 +24,4 @@ model File {
   idParent  Int?        // Nullable to allow root-level files/folders
   size      Int
   statut    AccessStatus
-
-  // Self-relation for folder contents
-  parent    File?       @relation("FolderContents", fields: [idParent], references: [id])
-  children  File[]      @relation("FolderContents")
 }
