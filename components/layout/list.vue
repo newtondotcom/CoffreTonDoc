@@ -5,6 +5,7 @@
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
             <ButtonNews :createNewFile :createNewFolder :filteredFiles/>
+            <ButtonUploads :createNewFile :createNewFolder :filteredFiles :selectedFolder/>
         </div>
       </div>
       <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
