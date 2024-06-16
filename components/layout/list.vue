@@ -17,7 +17,10 @@
                     <span>{{ $t('list_size') }}</span>
                     <span>{{ $t('list_access') }}</span>
                 </li>
-                <ScrollArea class="h-[70vh]">
+                <li v-if="fileLoading" v-for="i in 10" class="flex flex-row justify-between text-center mx-4 px-4 py-2">
+                    <Skeleton class="h-10 w-[100%]" />
+                </li>
+                <ScrollArea v-else class="h-[70vh]">
                     <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl cursor-pointer">
                         <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder :renameFile />
                         <Separator />
@@ -63,6 +66,7 @@ const breadcrumb = ref < {
     id: number,
     name: string
 } [] > ([]);
+const fileLoading = ref(true);
 
 const isRenameModalOpen = ref(false);
 const fileToRename = ref < File | null > (null);
@@ -74,9 +78,11 @@ const filteredFiles = computed(() => {
 
 watch(selectedFolder, (newFolder) => {
     updateBreadcrumb(newFolder);
+    getArborescence();
 });
 
 async function getArborescence() {
+    fileLoading.value = true;
     const body = {
         fileId: selectedFolder.value
     };
@@ -85,6 +91,7 @@ async function getArborescence() {
         body: JSON.stringify(body)
     });
     files.value = data;
+    fileLoading.value = false;
     console.log('Arborescence:', data);
 }
 
