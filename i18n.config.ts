@@ -44,6 +44,8 @@ export default defineI18nConfig(() => ({
             links_my_files: 'My Files',
             links_my_account: 'My Account',
             links_sign_out: 'Sign Out',
+            breadcrumb_path: 'Path',
+            breadcrumb_home: 'Home',
           },
       fr: {
         welcome: 'Bienvenue'
