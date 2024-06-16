@@ -1,5 +1,5 @@
 <template>
-<div class="grid gap-8 mt-4 mb-4">
+<div class="gap-4 mt-4 mb-4 flex flex-col justify-center items-center">
     <div class="flex flex-row justify-center items-center gap-4">
         <Avatar class="hidden h-9 w-9 sm:flex">
             <AvatarImage src="/avatars/01.png" alt="Avatar" />
@@ -19,5 +19,8 @@
               </div>
                 -->
     </div>
+    <Button class="w-[70%]" variant="destructive">
+        Log out
+    </Button>
 </div>
 </template>
