@@ -39,7 +39,11 @@ export default defineI18nConfig(() => ({
             delete_file: 'Delete File',
             delete_confirmation: 'Are you sure you want to delete this file? This action cannot be undone.',
             rename_file: 'Rename File',
-            new_name: 'New Name'
+            new_name: 'New Name',
+            made_france : 'Made with ❤️ and hosted in France 🥐',
+            links_my_files: 'My Files',
+            links_my_account: 'My Account',
+            links_sign_out: 'Sign Out',
           },
       fr: {
         welcome: 'Bienvenue'
