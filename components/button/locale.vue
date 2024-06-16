@@ -1,6 +1,6 @@
 <template>
 <Select>
-    <SelectTrigger class="w-[80px]">
+    <SelectTrigger class="w-[80px] bg-secondary">
         <SelectValue placeholder="🌎" />
     </SelectTrigger>
     <SelectContent>
