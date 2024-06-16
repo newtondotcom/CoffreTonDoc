@@ -1,10 +1,11 @@
 <template>
-<div class="flex flex-row justify-between items-center px-4 border b-1 rounded-xl my-2 py-2">
-    <Breadcrumb>
+<div class="flex flex-row justify-between items-center px-4 border b-1 rounded-xl my-2 py-2 text-sm">
+{{ $t('breadcrumb_path') }} : 
+    <Breadcrumb class="ml-1">
         <BreadcrumbList>
             <BreadcrumbItem>
                 <BreadcrumbLink @click="navigateToRoot" class="cursor-pointer">
-                    Home
+                    {{ $t('breadcrumb_home') }}
                 </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator v-if="breadcrumb.length" />
