@@ -2,20 +2,20 @@
   <TooltipProvider>
     <Tooltip>
       <TooltipTrigger as-child>
-    <span class="w-4 h-4 text-center hover:bg-secondary dark:hover:bg-dark-foreground">
-        <User v-if="statut === 'self'"/>
-        <Users  v-if="statut === 'shared'"/>
-        <Building  v-if="statut =='work'"/>
+    <span class="w-4 h-4 text-center hover:bg-secondary dark:hover:bg-dark-foreground flex justify-center items-center ">
+        <User v-if="statut === 'USER'"/>
+        <Users  v-if="statut === 'SHARED'"/>
+        <Building  v-if="statut =='COMPANY'"/>
     </span>
       </TooltipTrigger>
       <TooltipContent>
         <p>
       {{
-        statut === "self"
+        statut === "USER"
           ? $t('access_you')
-          : statut === "shared"
+          : statut === "SHARED"
           ? $t('access_shared')
-          : statut === "work"
+          : statut === "COMPANY"
           ? $t('access_company')
           : ''
       }}
