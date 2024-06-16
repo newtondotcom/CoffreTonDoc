@@ -21,7 +21,7 @@
 
   
   
-<script lang="ts">
+<script setup lang="ts">
 import {
     Breadcrumb,
     BreadcrumbItem,

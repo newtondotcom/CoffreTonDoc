@@ -24,18 +24,13 @@
     </Tooltip>
   </TooltipProvider>
   </template>
-  
-  <script lang="ts">
-  export default {
-    props: {
-      statut: {
-        type: String,
-        required: true
-      }
-    }
-  };
-  </script>
 
   <script setup lang="ts">
 import { User, Users, Building } from 'lucide-vue-next';
+defineProps({      
+  statut: {
+        type: String,
+        required: true
+    },
+});
 </script>

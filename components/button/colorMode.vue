@@ -14,7 +14,7 @@
 </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 function toogle() {
     document.documentElement.classList.toggle('dark');
 }

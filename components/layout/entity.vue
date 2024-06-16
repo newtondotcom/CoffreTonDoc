@@ -10,7 +10,8 @@
                 </div>
                 <div class="flex flex-col pl-2 min-w-0">
                     <div class="mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-sm font-bold lg:pr-0 pr-4 hover:underline cursor-text">
-                        {{ file.name }}.{{ file.extension }}
+                        {{ file.name }}
+                        <span v-if="!file.isFolder">.{{ file.extension }}</span>
                     </div>
                 </div>
             </div>
@@ -177,7 +178,7 @@
 </Dialog>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 defineProps({
     file: Object,
     openItem: Function,

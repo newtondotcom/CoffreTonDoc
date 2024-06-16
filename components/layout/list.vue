@@ -32,7 +32,7 @@
 
   
   
-<script lang="ts">
+<script setup lang="ts">
 import {
     generateFakeFiles
 } from '~/lib/utils';

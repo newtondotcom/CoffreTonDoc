@@ -12,14 +12,12 @@
     </span>
   </template>
   
-  <script lang="ts">
-  export default {
-    props: {
-      size: {
-        type: Number,
-        required: true
-      }
-    }
-  };
+  <script setup lang="ts">
+defineProps({
+  size: {
+    type: Number,
+    required: true
+  }
+})
   </script>
   

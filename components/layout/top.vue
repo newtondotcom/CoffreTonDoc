@@ -10,7 +10,7 @@
 <ButtonCommand :toogleSearch :isSearching />
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 const isSearching = ref(false);
 
 function toogleSearch() {

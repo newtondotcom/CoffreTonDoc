@@ -17,7 +17,7 @@
 </Select>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 const {
     locale,
     setLocale
