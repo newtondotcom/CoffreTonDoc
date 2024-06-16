@@ -1,5 +1,5 @@
 <template>
-    <span class="h-auto w-20 text-center">
+    <span class="h-auto w-20 text-center flex justify-center items-center ">
       {{
         size < 1000
           ? `${size} B`

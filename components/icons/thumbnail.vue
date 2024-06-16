@@ -2,18 +2,19 @@
   <div v-if="icon" class="w-14 h-14 flex flex-col justify-center items-center">
     <img :src="`/icons/${icon}`" :alt="extension" class="w-full h-full object-contain" />
   </div>
-  <div v-else class="w-14 h-14 bg-gray-700 flex flex-col justify-center items-center text-3xl text-shadow font-bold text-white">
+  <div v-else class="w-14 h-14 flex justify-center items-center text-2xl font-bold text-white text-shadow">
     {{ extension }}
   </div>
 </template>
 
 <style>
 .text-shadow {
-  text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
-               1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+  text-shadow: 2px 0 rgb(0,0,0), -2px 0 rgb(0,0,0), 0 2px rgb(0,0,0), 0 -2px rgb(0,0,0),
+               1px 1px rgb(0,0,0), -1px -1px rgb(0,0,0), 1px -1px rgb(0,0,0), -1px 1px rgb(0,0,0);
   letter-spacing: 5px;
 }
 </style>
+
 
 <script setup lang="ts">
 const props = defineProps({
