@@ -1,7 +1,7 @@
 <template>
 <div class="w-[85%] flex flex-col">
     <LayoutTop />
-    <div class="bg-white z-1 flex flex-row justify-between p-2">
+    <div class="z-1 flex flex-row justify-between p-2">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
             <ButtonNews :createNewFile :createNewFolder :filteredFiles />
