@@ -1,7 +1,7 @@
 <template>
 <div class="w-[85%] flex flex-col">
     <LayoutTop />
-    <div class="z-1 flex flex-row justify-between p-2">
+    <div class="z-1 flex flex-row justify-between px-2 pl-8">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
             <ButtonNews :createNewFile :createNewFolder :filteredFiles />
@@ -11,7 +11,7 @@
     <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
         <div class="text-center min-w-full">
             <ul class="justify-center align-middle items-center px-4">
-                <li class="flex flex-row justify-between text-center mx-4 px-4">
+                <li class="flex flex-row justify-between text-center mx-4 px-4 py-2">
                     <span>{{ $t('list_date') }}</span>
                     <span class="w-[60%]">{{ $t('list_name') }}</span>
                     <span>{{ $t('list_size') }}</span>
