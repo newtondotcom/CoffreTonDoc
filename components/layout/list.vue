@@ -1,223 +1,264 @@
 <template>
-    <div class="w-[85%] flex flex-col">
-      <LayoutTop />
-      <div class="sticky top-0 bg-white z-10 flex flex-row justify-between p-2">
+<div class="w-[85%] flex flex-col">
+    <LayoutTop />
+    <div class="bg-white z-1 flex flex-row justify-between p-2">
         <LayoutBreadcrumb :navigateToFolder="navigateToFolder" :navigateToRoot="navigateToRoot" :breadcrumb="breadcrumb" />
         <div class="flex flex-row">
-            <ButtonNews :createNewFile :createNewFolder :filteredFiles/>
-            <ButtonUploads :createNewFile :createNewFolder :filteredFiles :selectedFolder/>
+            <ButtonNews :createNewFile :createNewFolder :filteredFiles />
+            <ButtonUploads :createNewFile :createNewFolder :filteredFiles :selectedFolder />
         </div>
-      </div>
-      <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
-        <ButtonCommand v-if="isSearching" />
+    </div>
+    <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
         <div class="text-center min-w-full">
-          <ul class="justify-center align-middle items-center px-4">
-            <li class="flex flex-row justify-between text-center mx-4 px-4">
+            <ul class="justify-center align-middle items-center px-4">
+                <li class="flex flex-row justify-between text-center mx-4 px-4">
                     <span>{{ $t('list_date') }}</span>
                     <span class="w-[60%]">{{ $t('list_name') }}</span>
                     <span>{{ $t('list_size') }}</span>
                     <span>{{ $t('list_access') }}</span>
-            </li>
-            <ScrollArea class="h-[70vh]">
-            <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer">
-              <Separator class="my-4" />
-              <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder :renameFile/>
-            </li>
-              <Separator class="my-4" />
-            </ScrollArea>
-          </ul>
+                </li>
+                <ScrollArea class="h-[70vh]">
+                    <li v-for="(file, index) in filteredFiles" :key="index" @click="handleItemClick(file)" class="mx-4 flex flex-col select-none align-middle items-center rounded-xl border-2 border-dashed border-transparent px-2.5 py-2 cursor-pointer">
+                        <Separator class="my-4" />
+                        <LayoutEntity :file :openItem :deleteItem :createNewFile :createNewFolder :renameFile />
+                    </li>
+                    <Separator class="my-4" />
+                </ScrollArea>
+            </ul>
         </div>
-      </div>
     </div>
-  </template>
+</div>
+</template>
+
   
-  <script setup lang="ts">
-  import { generateFakeFiles } from '~/lib/utils';
-  import { ref, computed, watch } from 'vue';
-  import type { File } from '~/types/types';
-  import { AccessStatus } from '@prisma/client';
-  import { useToast } from '@/components/ui/toast/use-toast'
-  import { ToastAction } from '@/components/ui/toast'
-  const {toast} = useToast();
   
-  const files = ref<File[]>([]);
-  const selectedFolder = ref<number>(-1);
-  const breadcrumb = ref<{ id: number, name: string }[]>([]);
-  
-  const isSearching = ref(false);
-  const isRenameModalOpen = ref(false);
-  const fileToRename = ref<File | null>(null);
-  const newFileName = ref<string>('');
-  
-  const filteredFiles = computed(() => {
+<script lang="ts">
+import {
+    generateFakeFiles
+} from '~/lib/utils';
+import {
+    ref,
+    computed,
+    watch
+} from 'vue';
+import type {
+    File
+} from '~/types/types';
+import {
+    AccessStatus
+} from '@prisma/client';
+import {
+    useToast
+} from '@/components/ui/toast/use-toast'
+import {
+    ToastAction
+} from '@/components/ui/toast'
+const {
+    toast
+} = useToast();
+
+const files = ref < File[] > ([]);
+const selectedFolder = ref < number > (-1);
+const breadcrumb = ref < {
+    id: number,
+    name: string
+} [] > ([]);
+
+const isRenameModalOpen = ref(false);
+const fileToRename = ref < File | null > (null);
+const newFileName = ref < string > ('');
+
+const filteredFiles = computed(() => {
     return files.value.filter(file => file.idParent === selectedFolder.value);
-  });
-  
-  watch(selectedFolder, (newFolder) => {
+});
+
+watch(selectedFolder, (newFolder) => {
     updateBreadcrumb(newFolder);
-  });
-  
-  async function getArborescence() {
-    const body = {fileId: selectedFolder.value};
+});
+
+async function getArborescence() {
+    const body = {
+        fileId: selectedFolder.value
+    };
     const data = await $fetch('/api/both/arborescence', {
-      method: 'POST',
-      body: JSON.stringify(body)
+        method: 'POST',
+        body: JSON.stringify(body)
     });
     files.value = data;
     console.log('Arborescence:', data);
-  }
+}
 
-  function test() {
+function test() {
     console.log('test');
-  }
-  
-  function navigateToRoot() {
+}
+
+function navigateToRoot() {
     selectedFolder.value = -1;
-  }
-  
-  function navigateToFolder(folderId: number) {
+}
+
+function navigateToFolder(folderId: number) {
     selectedFolder.value = folderId;
-  }
-  
-  function updateBreadcrumb(folderId: number) {
-    const newBreadcrumb: { id: number, name: string }[] = [];
+}
+
+function updateBreadcrumb(folderId: number) {
+    const newBreadcrumb: {
+        id: number,
+        name: string
+    } [] = [];
     let currentFolder = folderId;
-  
+
     while (currentFolder !== -1) {
-      const folder = files.value.find(file => file.id === currentFolder);
-      if (folder) {
-        newBreadcrumb.unshift({ id: folder.id, name: folder.name });
-        currentFolder = folder.idParent;
-      } else {
-        currentFolder = -1;
-      }
+        const folder = files.value.find(file => file.id === currentFolder);
+        if (folder) {
+            newBreadcrumb.unshift({
+                id: folder.id,
+                name: folder.name
+            });
+            currentFolder = folder.idParent;
+        } else {
+            currentFolder = -1;
+        }
     }
-  
+
     breadcrumb.value = newBreadcrumb;
     console.log(newBreadcrumb);
-  }
-  
-  function handleItemClick(file: File) {
+}
+
+function handleItemClick(file: File) {
     if (file.isFolder) {
-      selectedFolder.value = file.id;
+        selectedFolder.value = file.id;
     } else {
-      console.log('File selected:', file);
+        console.log('File selected:', file);
     }
-  }
-  
-  function openItem(file: File) {
+}
+
+function openItem(file: File) {
     if (file.isFolder) {
-      selectedFolder.value = file.id;
+        selectedFolder.value = file.id;
     } else {
-      console.log('Opening file:', file);
+        console.log('Opening file:', file);
     }
-  }
-  
-  function openRenameModal(file: File) {
+}
+
+function openRenameModal(file: File) {
     fileToRename.value = file;
     newFileName.value = file.name;
     isRenameModalOpen.value = true;
     console.log(file.name);
-  }
-  
-  async function renameFile(fileId : string, newName : string) {
-    const body = { fileId, newName };
-    const data : string = await $fetch('/api/both/rename', {
-      method: 'POST',
-      body: JSON.stringify(body)
+}
+
+async function renameFile(fileId: string, newName: string) {
+    const body = {
+        fileId,
+        newName
+    };
+    const data: string = await $fetch('/api/both/rename', {
+        method: 'POST',
+        body: JSON.stringify(body)
     });
     console.log('Renamed file:', data);
     if (data == "ok") {
-    files.value = files.value.map(f => {
-      if (f.id === fileId) {
-        f.name = newName;
-      }
-      return f;
-    });
-    toast({
-      title: 'Success',
-      description: 'File renamed successfully',
-    });
+        files.value = files.value.map(f => {
+            if (f.id === fileId) {
+                f.name = newName;
+            }
+            return f;
+        });
+        toast({
+            title: 'Success',
+            description: 'File renamed successfully',
+        });
     } else {
-      toast({
-        title: 'Error',
-        description: 'An error occured while renaming the file',
-        variant: 'destructive'
-      });
+        toast({
+            title: 'Error',
+            description: 'An error occured while renaming the file',
+            variant: 'destructive'
+        });
     }
-  }
-  
-  async function deleteItem(fileId : string) {
+}
+
+async function deleteItem(fileId: string) {
     console.log('Deleting file:', fileId);
-    const body = { fileId };
+    const body = {
+        fileId
+    };
     const data = await $fetch('/api/both/delete', {
-      method: 'POST',
-      body: JSON.stringify(body)
+        method: 'POST',
+        body: JSON.stringify(body)
     });
     console.log('Deleted file:', data);
     if (data == "ok") {
-      files.value = files.value.filter(f => f.id !== fileId);
-      toast({
-        title: 'Success',
-        description: 'File deleted successfully',
-      });
+        files.value = files.value.filter(f => f.id !== fileId);
+        toast({
+            title: 'Success',
+            description: 'File deleted successfully',
+        });
     } else {
-      toast({
-        title: 'Error',
-        description: 'An error occured while deleting the file',
-        variant: 'destructive'
-      });
+        toast({
+            title: 'Error',
+            description: 'An error occured while deleting the file',
+            variant: 'destructive'
+        });
     }
-  }
-  
-  async function createNewFile(name : string, extension: string) {
+}
+
+async function createNewFile(name: string, extension: string) {
     console.log('Creating new file in folder:');
     const idParent = selectedFolder.value;
     const size = 1000;
     const statut = AccessStatus.USER;
-    const body = {name, extension, idParent, size, statut};
+    const body = {
+        name,
+        extension,
+        idParent,
+        size,
+        statut
+    };
     const data = await $fetch('/api/file/create', {
-      method: 'POST',
-      body: JSON.stringify(body)
+        method: 'POST',
+        body: JSON.stringify(body)
     });
     const newFile: File = {
-      id: data,
-      name: name,
-      date: new Date().toISOString(),
-      isFolder: false,
-      extension: extension,
-      idParent: idParent,
-      size: 0,
-      statut : "you"
+        id: data,
+        name: name,
+        date: new Date().toISOString(),
+        isFolder: false,
+        extension: extension,
+        idParent: idParent,
+        size: 0,
+        statut: "you"
     };
     files.value.push(newFile);
-  }
+}
 
-  async function createNewFolder(name: string) {
+async function createNewFolder(name: string) {
     console.log('Creating new folder in folder:');
     const idParent = selectedFolder.value;
     const statut = AccessStatus.USER;
-    const body = {name, idParent, statut};
+    const body = {
+        name,
+        idParent,
+        statut
+    };
     const data = await $fetch('/api/folder/create', {
-      method: 'POST',
-      body: JSON.stringify(body)
+        method: 'POST',
+        body: JSON.stringify(body)
     });
     const newFolder: File = {
-      id: data,
-      name: name,
-      date: new Date().toISOString(),
-      isFolder: true,
-      extension: '',
-      idParent: idParent,
-      size: 0,
-      statut : "you"
+        id: data,
+        name: name,
+        date: new Date().toISOString(),
+        isFolder: true,
+        extension: '',
+        idParent: idParent,
+        size: 0,
+        statut: "you"
     };
     files.value.push(newFolder);
-  }
-  
-  onMounted(() => {
+}
+
+onMounted(() => {
     getArborescence();
     updateBreadcrumb(selectedFolder.value);
-  });
-  </script>
-  
+});
+</script>

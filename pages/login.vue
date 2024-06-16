@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts">
 definePageMeta({
     layout: false,
 })
@@ -89,8 +89,8 @@ const signInWithGithub = async () => {
                 </Button>
             </div>
             <div class="mt-4 text-center text-sm">
-                By signing in, you agree to our <NuxtLink class="text-gray-500 underline" to="https://yogocap.com/tos">Terms of Service</NuxtLink> 
-                and <NuxtLink to="https://yogocap.com/privacy" class="text-gray-500 underline">Privacy Policy</NuxtLink> <br/>
+                By signing in, you agree to our <NuxtLink class="text-gray-500 underline" to="https://yogocap.com/tos">Terms of Service</NuxtLink>
+                and <NuxtLink to="https://yogocap.com/privacy" class="text-gray-500 underline">Privacy Policy</NuxtLink> <br />
 
                 <span class="text-xs">
                     we won't collect any of your data or send you promotional email, don't worry ! You can check, this is open source 😊

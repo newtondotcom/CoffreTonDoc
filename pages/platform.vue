@@ -2,8 +2,8 @@
 </script>
 
 <template>
-  <div class="flex flex-row">
-  <LayoutMenu />
-  <LayoutList />
+<div class="flex flex-row">
+    <LayoutMenu />
+    <LayoutList />
 </div>
 </template>

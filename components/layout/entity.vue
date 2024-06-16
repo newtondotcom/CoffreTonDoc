@@ -78,11 +78,11 @@
             </div>
         </div>
         <DialogFooter>
-        <DialogClose as-child>
-            <Button @click="createNewFile(file, 'file', newFileName)">
-                {{ $t('create') }}
-            </Button>
-          </DialogClose>
+            <DialogClose as-child>
+                <Button @click="createNewFile(file, 'file', newFileName)">
+                    {{ $t('create') }}
+                </Button>
+            </DialogClose>
         </DialogFooter>
     </DialogContent>
 
@@ -102,11 +102,11 @@
             </div>
         </div>
         <DialogFooter>
-        <DialogClose as-child>
-            <Button @click="createNewFolder(file, 'folder', newFolderName)">
-                {{ $t('create') }}
-            </Button>
-          </DialogClose>
+            <DialogClose as-child>
+                <Button @click="createNewFolder(file, 'folder', newFolderName)">
+                    {{ $t('create') }}
+                </Button>
+            </DialogClose>
         </DialogFooter>
     </DialogContent>
 
@@ -150,11 +150,11 @@
             </div>
         </div>
         <DialogFooter>
-        <DialogClose as-child>
-            <Button @click="changeAccess(file, accessLevel)">
-                {{ $t('save_changes') }}
-            </Button>
-          </DialogClose>
+            <DialogClose as-child>
+                <Button @click="changeAccess(file, accessLevel)">
+                    {{ $t('save_changes') }}
+                </Button>
+            </DialogClose>
         </DialogFooter>
     </DialogContent>
 
@@ -166,26 +166,26 @@
             </DialogDescription>
         </DialogHeader>
         <DialogFooter>
-        <DialogClose as-child>
-            <Button @click="deleteItem(file.id)">
-                {{ $t('delete') }}
-            </Button>
-          </DialogClose>
+            <DialogClose as-child>
+                <Button @click="deleteItem(file.id)">
+                    {{ $t('delete') }}
+                </Button>
+            </DialogClose>
         </DialogFooter>
     </DialogContent>
 
 </Dialog>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 defineProps({
-  file: Object,
-  openItem: Function,
-  renameFile: Function,
-  deleteItem: Function,
-  createNewFile: Function,
-  createNewFolder: Function,
-  changeAccess: Function,
+    file: Object,
+    openItem: Function,
+    renameFile: Function,
+    deleteItem: Function,
+    createNewFile: Function,
+    createNewFolder: Function,
+    changeAccess: Function,
 });
 
 const newName = ref('');
@@ -195,7 +195,6 @@ const accessLevel = ref('');
 const stateDialog = ref("");
 
 function setState(newState) {
-  stateDialog.value = newState;
+    stateDialog.value = newState;
 }
-
 </script>

@@ -1,22 +1,25 @@
 <template>
-    <Select>
+<Select>
     <SelectTrigger class="w-[80px]">
-      <SelectValue placeholder="🌎" />
+        <SelectValue placeholder="🌎" />
     </SelectTrigger>
     <SelectContent>
         <SelectItem @click="setLocale('en')" value="🇺🇸">
-          🇺🇸
+            🇺🇸
         </SelectItem>
         <SelectItem @click="setLocale('fr')" value="🇲🇫">
-          🇲🇫
+            🇲🇫
         </SelectItem>
         <SelectItem @click="setLocale('es')" value="🇪🇦">
-          🇪🇦
+            🇪🇦
         </SelectItem>
     </SelectContent>
-  </Select>
+</Select>
 </template>
 
-<script setup lang="ts">
-const { locale, setLocale } = useI18n()
+<script lang="ts">
+const {
+    locale,
+    setLocale
+} = useI18n()
 </script>

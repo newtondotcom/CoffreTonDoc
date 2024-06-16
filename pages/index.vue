@@ -1,7 +1,5 @@
 <template>
-
-    <div>
-        <Button>1</Button>
-    </div>
-
+<div>
+    <Button>1</Button>
+</div>
 </template>

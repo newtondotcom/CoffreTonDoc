@@ -1,5 +1,4 @@
 <template>
-
 <div class="flex flex-col justify-center ml-3">
     <label @click="toogle" class="relative cursor-pointer p-2" for="light-switch">
         <svg class="dark:hidden" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
@@ -15,7 +14,7 @@
 </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 function toogle() {
     document.documentElement.classList.toggle('dark');
 }
