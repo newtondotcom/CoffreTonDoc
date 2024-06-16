@@ -20,6 +20,12 @@ importers:
       '@prisma/client':
         specifier: 5.15.0
         version: 5.15.0(prisma@5.15.0)
+      '@vue-office/docx':
+        specifier: ^1.6.2
+        version: 1.6.2(vue-demi@0.14.8(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))
+      '@vue-office/excel':
+        specifier: ^1.7.8
+        version: 1.7.8(vue-demi@0.14.8(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))
       '@vueuse/core':
         specifier: ^10.11.0
         version: 10.11.0(vue@3.4.27(typescript@5.4.5))
@@ -32,9 +38,15 @@ importers:
       datatransfer-files-promise:
         specifier: ^2.0.0
         version: 2.0.0
+      dompurify:
+        specifier: ^3.1.5
+        version: 3.1.5
       lucide-vue-next:
         specifier: ^0.383.0
         version: 0.383.0(vue@3.4.27(typescript@5.4.5))
+      marked:
+        specifier: ^13.0.0
+        version: 13.0.0
       minio:
         specifier: ^8.0.0
         version: 8.0.0
@@ -68,6 +80,9 @@ importers:
       vue:
         specifier: ^3.4.27
         version: 3.4.27(typescript@5.4.5)
+      vue-demi:
+        specifier: ^0.14.8
+        version: 0.14.8(vue@3.4.27(typescript@5.4.5))
       vue-feather-icons:
         specifier: ^5.1.0
         version: 5.1.0
@@ -1321,6 +1336,26 @@ packages:
       vue:
         optional: true
 
+  '@vue-office/docx@1.6.2':
+    resolution: {integrity: sha512-OHAoUHeY8nHjhWvwDhlPx+/rmRkxmqLpvPgtfCEOZ4H1c1LCdJ6eDbdV3152ww8dcdZ7fgGQu3fmSSaI7JwdpQ==}
+    peerDependencies:
+      '@vue/composition-api': ^1.7.1
+      vue: ^2.0.0 || >=3.0.0
+      vue-demi: ^0.14.6
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
+  '@vue-office/excel@1.7.8':
+    resolution: {integrity: sha512-pQxogMRDECFElpDcZhQBDtM9GpL8d1/w+fjAXiqJRTIjzbrW/JiOURExgE5LoUkfc+cDhUfSGtfvCvwSx30yQw==}
+    peerDependencies:
+      '@vue/composition-api': ^1.7.1
+      vue: ^2.0.0 || >=3.0.0
+      vue-demi: ^0.14.6
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+
   '@vue/babel-helper-vue-transform-on@1.2.2':
     resolution: {integrity: sha512-nOttamHUR3YzdEqdM/XXDyCSdxMA9VizUKoroLX6yTyRtggzQMHXcmwh8a7ZErcJttIBIc9s68a1B8GZ+Dmvsw==}
 
@@ -2074,6 +2109,9 @@ packages:
   domhandler@5.0.3:
     resolution: {integrity: sha512-cgwlv/1iFQiFnU96XXgROh8xTeetsnJiDsTc7TYCLFd9+/WNkIqPTxiM/8pSd8VIrhXGTf1Ny1q1hquVqDJB5w==}
     engines: {node: '>= 4'}
+
+  dompurify@3.1.5:
+    resolution: {integrity: sha512-lwG+n5h8QNpxtyrJW/gJWckL+1/DQiYMX8f7t8Z2AZTPw1esVrqjI63i7Zc2Gz0aKzLVMYC1V1PL/ky+aY/NgA==}
 
   domutils@3.1.0:
     resolution: {integrity: sha512-H78uMmQtI2AhgDJjWeQmHwJJ2bLPD3GMmO7Zja/ZZh84wkm+4ut+IUnUdRa8uCGX88DiVx1j6FRe1XfxEgjEZA==}
@@ -2877,6 +2915,11 @@ packages:
   make-fetch-happen@13.0.1:
     resolution: {integrity: sha512-cKTUFc/rbKUd/9meOvgrpJ2WrNzymt6jfRDdwg5UCnVzv9dTpEj9JS5m3wtziXVCjluIXyL8pcaukYqezIzZQA==}
     engines: {node: ^16.14.0 || >=18.0.0}
+
+  marked@13.0.0:
+    resolution: {integrity: sha512-VTeDCd9txf4KLLljUZ0nljE/Incb9SrWuueE44QVuU0pkOdh4sfCeW1Z6lPcxyDRSVY6rm8db/0OPaN75RNUmw==}
+    engines: {node: '>= 18'}
+    hasBin: true
 
   mdn-data@2.0.28:
     resolution: {integrity: sha512-aylIc7Z9y4yzHYAJNuESG3hfhC+0Ibp/MAMiaOZgNv4pmEdFyfZhhhny4MNiAfWdBQ1RQ2mfDWmM1x8SvGyp8g==}
@@ -6148,6 +6191,16 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
+  '@vue-office/docx@1.6.2(vue-demi@0.14.8(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))':
+    dependencies:
+      vue: 3.4.27(typescript@5.4.5)
+      vue-demi: 0.14.8(vue@3.4.27(typescript@5.4.5))
+
+  '@vue-office/excel@1.7.8(vue-demi@0.14.8(vue@3.4.27(typescript@5.4.5)))(vue@3.4.27(typescript@5.4.5))':
+    dependencies:
+      vue: 3.4.27(typescript@5.4.5)
+      vue-demi: 0.14.8(vue@3.4.27(typescript@5.4.5))
+
   '@vue/babel-helper-vue-transform-on@1.2.2': {}
 
   '@vue/babel-plugin-jsx@1.2.2(@babel/core@7.24.6)':
@@ -6969,6 +7022,8 @@ snapshots:
   domhandler@5.0.3:
     dependencies:
       domelementtype: 2.3.0
+
+  dompurify@3.1.5: {}
 
   domutils@3.1.0:
     dependencies:
@@ -7836,6 +7891,8 @@ snapshots:
       ssri: 10.0.6
     transitivePeerDependencies:
       - supports-color
+
+  marked@13.0.0: {}
 
   mdn-data@2.0.28: {}
 
