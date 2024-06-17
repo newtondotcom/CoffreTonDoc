@@ -1,6 +1,8 @@
 <template>
 <div>
   <Progress v-model="progress" class="w-3/5" />
+
+  <MfaUnenrollment />
 </div>
 </template>
 

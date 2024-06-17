@@ -2,17 +2,10 @@
 definePageMeta({
     layout: false,
 })
-
-const config = useRuntimeConfig();
 const supabase = useSupabaseClient();
-
-let email = ref('');
-let password = ref('');
-let success = ref < boolean | undefined > (undefined);
-let loading = ref(false);
 let redirect = "/invalidonpurpose";
 if (window.location.hostname === 'localhost') {
-    redirect = "http://localhost:3000";
+    redirect = "http://localhost:3000/mfa";
 }
 const signInWithGithub = async () => {
     console.log('signing in with github');
