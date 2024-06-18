@@ -1,26 +1,27 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient();
 
 onMounted(async () => {
   try {
-    const { data, error } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel()
+    const { data, error } =
+      await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (error) {
-      throw error
+      throw error;
     }
 
-    console.log(data)
+    console.log(data);
 
-    if (data.nextLevel === 'aal2' && data.nextLevel !== data.currentLevel) {
-      <MfaEnrollment />
+    if (data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel) {
+      <MfaEnrollment />;
     } else {
-      navigateTo("/platform")
+      navigateTo("/platform");
     }
   } finally {
-    readyToShow.value = true
+    readyToShow.value = true;
   }
-})
+});
 </script>
 
 <template>
-    <MfaAuth />
+  <MfaAuth />
 </template>

@@ -1,14 +1,14 @@
-import { type ClassValue, clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { type ClassValue, clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 // Fonction pour générer un nom de fichier aléatoire
 export function generateFileName() {
-  const adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple'];
-  const nouns = ['Dog', 'Cat', 'Bird', 'Fish', 'Elephant'];
+  const adjectives = ["Red", "Blue", "Green", "Yellow", "Purple"];
+  const nouns = ["Dog", "Cat", "Bird", "Fish", "Elephant"];
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const noun = nouns[Math.floor(Math.random() * nouns.length)];
   return `${adjective}_${noun}`;
@@ -18,7 +18,7 @@ export function generateFileName() {
 export function generateFakeFiles(count: number) {
   const fakeFiles: File[] = [];
   const rootFolders: number[] = [];
-  
+
   for (let i = 0; i < count; i++) {
     const isFolder = Math.random() < 0.5;
     const newFile: File = {
@@ -26,10 +26,10 @@ export function generateFakeFiles(count: number) {
       id: i,
       date: new Date().toISOString(),
       isFolder,
-      extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'typescript' ,
+      extension: !isFolder && Math.random() < 0.8 ? "vue" : "typescript",
       idParent: -1, // Initialement pas de parent
-      size : Math.floor(Math.random()*100000),
-      statut : Math.random() < 0.5 ? "self" : "work"
+      size: Math.floor(Math.random() * 100000),
+      statut: Math.random() < 0.5 ? "self" : "work",
     };
 
     fakeFiles.push(newFile);
@@ -39,7 +39,7 @@ export function generateFakeFiles(count: number) {
   }
 
   // Créer des fichiers enfants pour chaque dossier racine
-  rootFolders.forEach(parentId => {
+  rootFolders.forEach((parentId) => {
     const childCount = Math.floor(Math.random() * 5) + 1; // entre 1 et 5 fichiers enfants
     for (let i = 0; i < childCount; i++) {
       const childFile: File = {
@@ -47,10 +47,10 @@ export function generateFakeFiles(count: number) {
         name: generateFileName(),
         date: new Date().toISOString(),
         isFolder: false,
-        extension: 'txt',
+        extension: "txt",
         idParent: parentId,
-        size : Math.floor(Math.random()*100000),
-        statut : Math.random() < 0.5 ? "self" : "shared"
+        size: Math.floor(Math.random() * 100000),
+        statut: Math.random() < 0.5 ? "self" : "shared",
       };
       fakeFiles.push(childFile);
     }

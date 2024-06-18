@@ -1,4 +1,3 @@
 <template>
-<PreviewTxt />
-
+  <PreviewTxt />
 </template>

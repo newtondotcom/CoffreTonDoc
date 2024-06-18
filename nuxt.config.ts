@@ -6,29 +6,29 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/i18n",
-    "@nuxtjs/supabase"
+    "@nuxtjs/supabase",
   ],
   shadcn: {
     /**
      * Prefix for all the imported component
      */
-    prefix: '',
+    prefix: "",
     /**
      * Directory that the component lives in.
      * @default "./components/ui"
      */
-    componentDir: './components/ui'
+    componentDir: "./components/ui",
   },
-  tailwindcss : {
-    cssPath: ['~/assets/css/tailwind.css', { injectPosition: "first" }],
-    configPath: 'tailwind.config',
+  tailwindcss: {
+    cssPath: ["~/assets/css/tailwind.css", { injectPosition: "first" }],
+    configPath: "tailwind.config",
     exposeConfig: {
-      level: 2
+      level: 2,
     },
     viewer: false,
   },
-  ssr : false,
+  ssr: false,
   supabase: {
     redirect: false,
   },
-})
+});

@@ -1,11 +1,11 @@
 <template>
-<div>
-  <Progress v-model="progress" class="w-3/5" />
+  <div>
+    <Progress v-model="progress" class="w-3/5" />
 
-  <MfaUnenrollment />
-</div>
+    <MfaUnenrollment />
+  </div>
 </template>
 
 <script setup lang="ts">
-const progress = ref(13)
+const progress = ref(13);
 </script>

@@ -1,33 +1,35 @@
 <script setup lang="ts">
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient();
 
-const factors = ref([])
-const error = ref('')
+const factors = ref([]);
+const error = ref("");
 const factorId = ref(-1);
 
 onMounted(async () => {
   try {
-    const { data, error } = await supabase.auth.mfa.listFactors()
+    const { data, error } = await supabase.auth.mfa.listFactors();
     if (error) {
-      throw error
+      throw error;
     }
 
-    factors.value = data.totp
+    factors.value = data.totp;
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-})
+});
 
 async function unenroll() {
   try {
-    const { error } = await supabase.auth.mfa.unenroll({ factorId: factorId.value })
+    const { error } = await supabase.auth.mfa.unenroll({
+      factorId: factorId.value,
+    });
     if (error) {
-      throw error
+      throw error;
     }
 
     // You might want to add some success handling here
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 }
 </script>
@@ -44,7 +46,11 @@ async function unenroll() {
         </tr>
         <Dialog>
           <DialogTrigger as-child>
-            <tr v-for="factor in factors" :key="factor.id" @click="factorId = factor.id">
+            <tr
+              v-for="factor in factors"
+              :key="factor.id"
+              @click="factorId = factor.id"
+            >
               <td>{{ factor.id }}</td>
               <td>{{ factor.friendly_name }}</td>
               <td>{{ factor.factor_type }}</td>
@@ -64,21 +70,16 @@ async function unenroll() {
             <div class="grid gap-4 py-4">
             </div>
             -->
-            
+
             <DialogFooter>
               <DialogClose as-child>
-                <Button>
-                  Close
-                </Button>
+                <Button> Close </Button>
               </DialogClose>
-              <Button @click="unenroll">
-                Save changes
-              </Button>
+              <Button @click="unenroll"> Save changes </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </tbody>
     </table>
-
   </div>
 </template>

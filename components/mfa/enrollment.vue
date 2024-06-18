@@ -2,63 +2,66 @@
 const props = defineProps({
   onEnrolled: {
     type: Function,
-    required: true
+    required: true,
   },
   onCancelled: {
     type: Function,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
-const supabase = useSupabaseClient()
+const supabase = useSupabaseClient();
 
-const factorId = ref('')
-const qr = ref('')
-const verifyCode = ref('')
-const error = ref('')
+const factorId = ref("");
+const qr = ref("");
+const verifyCode = ref("");
+const error = ref("");
 
 async function onEnableClicked() {
-  error.value = ''
+  error.value = "";
   try {
-    const { data, error } = await supabase.auth.mfa.challenge({ factorId: factorId.value })
-    if (error) {
-      error.value = error.message
-      throw error
-    }
-
-    const challengeId = data.id
-
-    const { data: verifyData, error: verifyError } = await supabase.auth.mfa.verify({
+    const { data, error } = await supabase.auth.mfa.challenge({
       factorId: factorId.value,
-      challengeId,
-      code: verifyCode.value,
-    })
-    if (verifyError) {
-      error.value = verifyError.message
-      throw verifyError
+    });
+    if (error) {
+      error.value = error.message;
+      throw error;
     }
 
-    props.onEnrolled()
+    const challengeId = data.id;
+
+    const { data: verifyData, error: verifyError } =
+      await supabase.auth.mfa.verify({
+        factorId: factorId.value,
+        challengeId,
+        code: verifyCode.value,
+      });
+    if (verifyError) {
+      error.value = verifyError.message;
+      throw verifyError;
+    }
+
+    props.onEnrolled();
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
 }
 
 onMounted(async () => {
   try {
     const { data, error } = await supabase.auth.mfa.enroll({
-      factorType: 'totp',
-    })
+      factorType: "totp",
+    });
     if (error) {
-      throw error
+      throw error;
     }
 
-    factorId.value = data.id
-    qr.value = data.totp.qr_code
+    factorId.value = data.id;
+    qr.value = data.totp.qr_code;
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-})
+});
 </script>
 
 <template>
