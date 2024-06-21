@@ -1,14 +1,6 @@
 <script setup lang="ts">
-const props = defineProps({
-  onEnrolled: {
-    type: Function,
-    required: true,
-  },
-  onCancelled: {
-    type: Function,
-    required: true,
-  },
-});
+import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+const randomName = uniqueNamesGenerator({ dictionaries: [animals] });
 
 const supabase = useSupabaseClient();
 
@@ -41,16 +33,21 @@ async function onEnableClicked() {
       throw verifyError;
     }
 
-    props.onEnrolled();
+    navigateTo("/platform");
   } catch (err) {
     console.error(err);
   }
+}
+
+async function cancel() {
+  navigateTo("/");
 }
 
 onMounted(async () => {
   try {
     const { data, error } = await supabase.auth.mfa.enroll({
       factorType: "totp",
+      friendlyName: randomName
     });
     if (error) {
       throw error;
@@ -58,6 +55,7 @@ onMounted(async () => {
 
     factorId.value = data.id;
     qr.value = data.totp.qr_code;
+    
   } catch (err) {
     console.error(err);
   }
@@ -69,7 +67,7 @@ onMounted(async () => {
     <div v-if="error" class="error">{{ error }}</div>
     <img class="" :src="qr" />
     <Input type="text" v-model="verifyCode" />
-    <Input type="button" value="Enable" @click="onEnableClicked" />
-    <Input type="button" value="Cancel" @click="props.onCancelled" />
-  </div>
+    <Button @click="onEnableClicked">{{$t('submit')}}</Button>
+    <Button @click="cancel">{{$t('cancel')}}</Button>
+    </div>
 </template>
