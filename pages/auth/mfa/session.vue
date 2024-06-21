@@ -10,10 +10,11 @@ onMounted(async () => {
     console.log(data.nextLevel);
     console.log(data.currentLevel);
     if (!(data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel)) {
-      authMFA.value = true;
+      //authMFA.value = true;
       enrolled.value = true;
       //navigateTo("/platform");
     }
+    loading.value = false;
 
   } catch (error) {
     console.error("Error fetching data:", error.message);
@@ -22,9 +23,8 @@ onMounted(async () => {
 </script>
 
 <template>
-<template>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-4"
   >
       <div v-if="loading">
         <div class="ml-1 flex">
@@ -49,12 +49,12 @@ onMounted(async () => {
             ></path>
           </svg>
       </div>
-      <div>
-      <MfaEnrollment v-if="enrolled && !authMFA"/>
-      <MfaChallenge v-else />
+      </div>
+      <div v-else>
+        <MfaChallenge  v-if="enrolled && !authMFA" />
+        <MfaEnrollment v-else/>
       </div>
 
 
   </div>
-</template>
 </template>
