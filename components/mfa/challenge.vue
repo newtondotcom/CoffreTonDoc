@@ -41,6 +41,7 @@ async function onSubmitClicked() {
       error.value = verifyError.message;
       throw verifyError;
     }
+    navigateTo("/platform");
   } catch (err) {
     console.error(err);
   }
@@ -49,9 +50,11 @@ async function onSubmitClicked() {
 
 <template>
   <div>
-    <div>Please enter the code from your authenticator app.</div>
+    <div> {{$t('enter_mfa_code')}}</div>
     <div v-if="error" class="error">{{ error }}</div>
-    <input type="text" v-model="verifyCode" />
-    <input type="button" value="Submit" @click="onSubmitClicked" />
+    <div class="w-[50%]">
+      <Input type="text" v-model="verifyCode" />
+      <Button type="button" @click="onSubmitClicked">{{$t('sumbit')}}</Button>
+    </div>
   </div>
 </template>
