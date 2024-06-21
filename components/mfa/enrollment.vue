@@ -64,7 +64,7 @@ onMounted(async () => {
 
 <template>
 
-<!-- MAKE COOL ERRORS LOGS + LOADING -->
+<!-- MAKE COOL ERRORS LOGS + LOADING + CENTER VERTICALLY AND HORIZONTALLY -->
     <Card>
     <CardHeader>
       <CardTitle>{{$t('mfa_enrollment')}}</CardTitle>

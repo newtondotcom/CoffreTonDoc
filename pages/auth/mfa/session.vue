@@ -10,10 +10,15 @@ onMounted(async () => {
     console.log(data.nextLevel);
     console.log(data.currentLevel);
     if (!(data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel)) {
-      //authMFA.value = true;
-      //enrolled.value = true;
-      //navigateTo("/platform");
+        const { data, error } = await supabase.auth.mfa.listFactors();
+        if (error) {
+          throw error;
+        } else {
+          enrolled.value = true;
+        }
     }
+      //authMFA.value = true;
+      //navigateTo("/platform");
     loading.value = false;
 
   } catch (error) {
@@ -24,7 +29,7 @@ onMounted(async () => {
 
 <template>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm px-4"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-secondary bg-opacity-50 backdrop-blur-sm px-4"
   >
       <div v-if="loading">
         <div class="ml-1 flex">
