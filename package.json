@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "prettier" : "pnpm exec prettier . --write"
+    "prettier": "pnpm exec prettier . --write"
   },
   "dependencies": {
     "@nuxt/ui": "^2.16.0",
@@ -30,6 +30,7 @@
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",
     "twemoji": "^14.0.2",
+    "unique-names-generator": "^4.7.1",
     "vee-validate": "^4.13.0",
     "vue": "^3.4.27",
     "vue-demi": "^0.14.8",
