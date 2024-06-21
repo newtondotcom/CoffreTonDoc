@@ -11,7 +11,7 @@ onMounted(async () => {
     console.log(data.currentLevel);
     if (!(data.nextLevel === "aal2" && data.nextLevel !== data.currentLevel)) {
       //authMFA.value = true;
-      enrolled.value = true;
+      //enrolled.value = true;
       //navigateTo("/platform");
     }
     loading.value = false;
