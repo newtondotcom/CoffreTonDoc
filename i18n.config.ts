@@ -53,6 +53,10 @@ export default defineI18nConfig(() => ({
       enter_mfa_code : "Please enter the code from your authenticator app. 🔑",
       submit : "Submit 🔑",
       cancel : "Cancel 🚫",
+      mfa_list: "A list of your MFA enrolled codes.",
+      unenroll_device: "Unenroll the device",
+      unenroll_confirmation: "Do you really want to unenroll this device?",
+      close: "Close",
     },
     fr: {
       welcome: "Bienvenue 👋",

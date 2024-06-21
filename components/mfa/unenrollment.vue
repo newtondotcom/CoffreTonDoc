@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {Trash2} from 'lucide-vue-next';
 const supabase = useSupabaseClient();
 
 const factors = ref([]);
@@ -37,49 +38,51 @@ async function unenroll() {
 <template>
   <div>
     <div v-if="error" class="error">{{ error }}</div>
-    <table>
-      <tbody>
-        <tr>
-          <td>Factor ID</td>
-          <td>Friendly Name</td>
-          <td>Factor Status</td>
-        </tr>
-        <Dialog>
-          <DialogTrigger as-child>
-            <tr
-              v-for="factor in factors"
-              :key="factor.id"
-              @click="factorId = factor.id"
-            >
-              <td>{{ factor.id }}</td>
-              <td>{{ factor.friendly_name }}</td>
-              <td>{{ factor.factor_type }}</td>
-              <td>{{ factor.status }}</td>
-            </tr>
-          </DialogTrigger>
+    <Dialog>
+      <Table>
+        <TableCaption>{{ $t('mfa_list') }}</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead class="w-[100px]">{{ $t('list_name') }}</TableHead>
+            <TableHead>ID</TableHead>
+            <TableHead>Type</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead class="text-right"></TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          <TableRow v-for="factor in factors" :key="factor.id">
+            <TableCell class="font-medium">
+              {{ factor.friendly_name }}
+            </TableCell>
+            <TableCell>{{ factor.id }}</TableCell>
+            <TableCell>{{ factor.factor_type }}</TableCell>
+            <TableCell class="text-right">
+              {{ factor.status }}
+            </TableCell>
+            <DialogTrigger as-child>
+              <TableCell class="text-right">
+                <Trash2 />
+              </TableCell>
+            </DialogTrigger>
+          </TableRow>
+        </TableBody>
+      </Table>
 
-          <DialogContent class="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Unenroll the device</DialogTitle>
-              <DialogDescription>
-                Do you really want to unenroll this device ?
-              </DialogDescription>
-            </DialogHeader>
-
-            <!--
-            <div class="grid gap-4 py-4">
-            </div>
-            -->
-
-            <DialogFooter>
-              <DialogClose as-child>
-                <Button> Close </Button>
-              </DialogClose>
-              <Button @click="unenroll"> Save changes </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </tbody>
-    </table>
+      <DialogContent class="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>{{ $t('unenroll_device') }}</DialogTitle>
+          <DialogDescription>
+            {{ $t('unenroll_confirmation') }}
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose as-child>
+            <Button>{{ $t('close') }}</Button>
+          </DialogClose>
+          <Button @click="unenroll">{{ $t('save_changes') }}</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   </div>
 </template>
