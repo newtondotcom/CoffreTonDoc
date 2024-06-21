@@ -49,6 +49,10 @@ export default defineI18nConfig(() => ({
       links_sign_out: "Sign Out 🔑",
       breadcrumb_path: "Path 🚶‍♂️",
       breadcrumb_home: "Home 🏠",
+      storage_quota : "Storage Quota 📦",
+      enter_mfa_code : "Please enter the code from your authenticator app. 🔑",
+      submit : "Submit 🔑",
+      cancel : "Cancel 🚫",
     },
     fr: {
       welcome: "Bienvenue 👋",
