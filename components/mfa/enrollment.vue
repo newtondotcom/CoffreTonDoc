@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
 const randomName = uniqueNamesGenerator({ dictionaries: [animals] });
 
 const supabase = useSupabaseClient();
@@ -47,7 +52,7 @@ onMounted(async () => {
   try {
     const { data, error } = await supabase.auth.mfa.enroll({
       factorType: "totp",
-      friendlyName: randomName
+      friendlyName: randomName,
     });
     if (error) {
       throw error;
@@ -55,7 +60,6 @@ onMounted(async () => {
 
     factorId.value = data.id;
     qr.value = data.totp.qr_code;
-    
   } catch (err) {
     console.error(err);
   }
@@ -63,21 +67,24 @@ onMounted(async () => {
 </script>
 
 <template>
-
-<!-- MAKE COOL ERRORS LOGS + LOADING + CENTER VERTICALLY AND HORIZONTALLY -->
-    <Card>
+  <!-- MAKE COOL ERRORS LOGS + LOADING + CENTER VERTICALLY AND HORIZONTALLY -->
+  <Card>
     <CardHeader>
-      <CardTitle>{{$t('mfa_enrollment')}}</CardTitle>
-      <CardDescription>{{$t('mfa_enrollment_description')}}</CardDescription>
+      <CardTitle>{{ $t("mfa_enrollment") }}</CardTitle>
+      <CardDescription>{{ $t("mfa_enrollment_description") }}</CardDescription>
     </CardHeader>
     <CardContent>
-    <div v-if="error" class="error">{{ error }}</div>
-    <img class="" :src="qr" />
-    <Input type="text" placeholder="Please enter the code" v-model="verifyCode" />
+      <div v-if="error" class="error">{{ error }}</div>
+      <img class="" :src="qr" />
+      <Input
+        type="text"
+        placeholder="Please enter the code"
+        v-model="verifyCode"
+      />
     </CardContent>
     <CardFooter>
-    <Button @click="onEnableClicked">{{$t('submit')}}</Button>
-    <Button @click="cancel">{{$t('cancel')}}</Button>
+      <Button @click="onEnableClicked">{{ $t("submit") }}</Button>
+      <Button @click="cancel">{{ $t("cancel") }}</Button>
     </CardFooter>
   </Card>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {Trash2} from 'lucide-vue-next';
+import { Trash2 } from "lucide-vue-next";
 const supabase = useSupabaseClient();
 
 const factors = ref([]);
@@ -40,10 +40,10 @@ async function unenroll() {
     <div v-if="error" class="error">{{ error }}</div>
     <Dialog>
       <Table>
-        <TableCaption>{{ $t('mfa_list') }}</TableCaption>
+        <TableCaption>{{ $t("mfa_list") }}</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead class="w-[100px]">{{ $t('list_name') }}</TableHead>
+            <TableHead class="w-[100px]">{{ $t("list_name") }}</TableHead>
             <TableHead>ID</TableHead>
             <TableHead>Type</TableHead>
             <TableHead>Status</TableHead>
@@ -71,16 +71,16 @@ async function unenroll() {
 
       <DialogContent class="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{{ $t('unenroll_device') }}</DialogTitle>
+          <DialogTitle>{{ $t("unenroll_device") }}</DialogTitle>
           <DialogDescription>
-            {{ $t('unenroll_confirmation') }}
+            {{ $t("unenroll_confirmation") }}
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <DialogClose as-child>
-            <Button>{{ $t('close') }}</Button>
+            <Button>{{ $t("close") }}</Button>
           </DialogClose>
-          <Button @click="unenroll">{{ $t('save_changes') }}</Button>
+          <Button @click="unenroll">{{ $t("save_changes") }}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
