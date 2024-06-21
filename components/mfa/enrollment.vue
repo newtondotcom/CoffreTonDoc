@@ -63,11 +63,21 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+
+<!-- MAKE COOL ERRORS LOGS + LOADING -->
+    <Card>
+    <CardHeader>
+      <CardTitle>{{$t('mfa_enrollment')}}</CardTitle>
+      <CardDescription>{{$t('mfa_enrollment_description')}}</CardDescription>
+    </CardHeader>
+    <CardContent>
     <div v-if="error" class="error">{{ error }}</div>
     <img class="" :src="qr" />
-    <Input type="text" v-model="verifyCode" />
+    <Input type="text" placeholder="Please enter the code" v-model="verifyCode" />
+    </CardContent>
+    <CardFooter>
     <Button @click="onEnableClicked">{{$t('submit')}}</Button>
     <Button @click="cancel">{{$t('cancel')}}</Button>
-    </div>
+    </CardFooter>
+  </Card>
 </template>
