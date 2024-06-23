@@ -217,8 +217,8 @@
 
       <DialogFooter>
         <DialogClose as-child>
-          <Button @click="deleteItem(file.id)">
-            <div v-if="uploadloading">{{ $t("submit") }}</div>
+          <Button @click="replace(file.id)">
+            <div :disabled="fileValid" v-if="!uploadloading">{{ $t("submit") }}</div>
             <div v-else class="ml-1 flex">
                 <svg
                   class="animate-spin h-4 w-4 m-1"
@@ -249,7 +249,7 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
+const props = defineProps({
   file: Object,
   openItem: Function,
   renameFile: Function,
@@ -260,6 +260,11 @@ defineProps({
   replaceFile : Function
 });
 
+import { assert } from "@vueuse/core";
+import { useToast } from "@/components/ui/toast/use-toast";
+import { ToastAction } from "@/components/ui/toast";
+const { toast } = useToast();
+
 const newName = ref("");
 const newFileName = ref("");
 const newFileExtension = ref("");
@@ -267,7 +272,8 @@ const newFolderName = ref("");
 const accessLevel = ref("");
 const stateDialog = ref("");
 const uploadloading = ref(false);
-const file = ref(null);
+const fileLocal = ref(null);
+const fileValid = ref(false);
 
 function setState(newState) {
   stateDialog.value = newState;
@@ -280,13 +286,21 @@ async function replace(file) {
 }
 
 function handleFileUpload(event) {
-  file.value = event.target.files[0];
-  if (file) {
-    const fullName = file.name;
+  fileLocal.value = event.target.files[0];
+  if (fileLocal.value) {
+    const fullName = fileLocal.value.name;
     const lastDot = fullName.lastIndexOf(".");
     newName.value = fullName.substring(0, lastDot);
     newFileExtension.value = fullName.substring(lastDot + 1);
-    assert(newFileExtension.value == file.extension);
+    if (!assert(newFileExtension.value == props.file.extension)) {
+    toast({
+      title: "Error",
+      description: "File extension is not the same as the original file",
+      variant: "destructive",
+    });
+    } else {
+    fileValid.value = true; 
+    }
   }
 }
 </script>
