@@ -73,7 +73,7 @@ onMounted(async () => {
       <CardTitle>{{ $t("mfa_enrollment") }}</CardTitle>
       <CardDescription>{{ $t("mfa_enrollment_description") }}</CardDescription>
     </CardHeader>
-    <CardContent>
+    <CardContent class="flex flex-col justify-center align-middle">
       <div v-if="error" class="error">{{ error }}</div>
       <img class="" :src="qr" />
       <Input
@@ -82,7 +82,7 @@ onMounted(async () => {
         v-model="verifyCode"
       />
     </CardContent>
-    <CardFooter>
+    <CardFooter class="justify-end">
       <Button @click="onEnableClicked">{{ $t("submit") }}</Button>
       <Button @click="cancel">{{ $t("cancel") }}</Button>
     </CardFooter>

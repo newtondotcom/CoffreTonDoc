@@ -61,13 +61,11 @@ async function onSubmitClicked() {
       <CardTitle>{{ $t("mfa_code") }}</CardTitle>
       <CardDescription>{{ $t("enter_mfa_code") }}</CardDescription>
     </CardHeader>
-    <CardContent>
+    <CardContent class="w-[100%] flex flex-col justify-center align-middle">
       <div v-if="error" class="error">{{ error }}</div>
-      <div class="w-[90%]">
-        <Input type="text" v-model="verifyCode" />
-      </div>
+      <Input type="text" v-model="verifyCode" />
     </CardContent>
-    <CardFooter>
+    <CardFooter class="justify-end">
       <Button type="button" @click="onSubmitClicked">
         <div v-if="loading" class="ml-1 flex">
           <svg
