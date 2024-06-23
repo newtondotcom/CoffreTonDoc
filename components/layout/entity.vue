@@ -83,15 +83,25 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="newFileName" class="text-right">
-            {{ $t("file_name") }}
-          </Label>
-          <Input id="newFileName" v-model="newFileName" class="col-span-3" />
+            <Label for="file-name" class="text-right font-medium">
+              {{ $t("file_name") }}
+            </Label>
+            <Input id="file-name" class="col-span-3" v-model="newFileName" />
+          </div>
+          <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="file-extension" class="text-right font-medium">
+              {{ $t("extension") }}
+            </Label>
+            <Input
+              id="file-extension"
+              class="col-span-3"
+              v-model="newFileExtension"
+            />
         </div>
       </div>
       <DialogFooter>
         <DialogClose as-child>
-          <Button @click="createNewFile(file, 'file', newFileName)">
+          <Button @click="createNewFile(newFileName , newFileExtension)">
             {{ $t("create") }}
           </Button>
         </DialogClose>
@@ -189,6 +199,52 @@
         </DialogClose>
       </DialogFooter>
     </DialogContent>
+
+    <DialogContent v-if="stateDialog === 'replace'" class="sm:max-w-[425px]">
+      <DialogHeader>
+        <DialogTitle>{{ $t("replace") }}</DialogTitle>
+        <DialogDescription>
+          {{ $t("replace_confirmation") }}
+        </DialogDescription>
+      </DialogHeader>
+
+        <div class="grid grid-cols-4 items-center gap-4">
+            <Label for="file-name" class="text-right font-medium">
+              {{ $t("file_name") }}
+            </Label>
+            <Input id="file-picture" type="file" @change="handleFileUpload" />
+        </div>
+
+      <DialogFooter>
+        <DialogClose as-child>
+          <Button @click="deleteItem(file.id)">
+            <div v-if="uploadloading">{{ $t("submit") }}</div>
+            <div v-else class="ml-1 flex">
+                <svg
+                  class="animate-spin h-4 w-4 m-1"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                  ></path>
+                </svg>
+            </div>
+          </Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
   </Dialog>
 </template>
 
@@ -201,15 +257,36 @@ defineProps({
   createNewFile: Function,
   createNewFolder: Function,
   changeAccess: Function,
+  replaceFile : Function
 });
 
 const newName = ref("");
 const newFileName = ref("");
+const newFileExtension = ref("");
 const newFolderName = ref("");
 const accessLevel = ref("");
 const stateDialog = ref("");
+const uploadloading = ref(false);
+const file = ref(null);
 
 function setState(newState) {
   stateDialog.value = newState;
+}
+
+async function replace(file) {
+  uploadloading.value = true;
+  const url = await replaceFile(file);
+  uploadloading.value = false;
+}
+
+function handleFileUpload(event) {
+  file.value = event.target.files[0];
+  if (file) {
+    const fullName = file.name;
+    const lastDot = fullName.lastIndexOf(".");
+    newName.value = fullName.substring(0, lastDot);
+    newFileExtension.value = fullName.substring(lastDot + 1);
+    assert(newFileExtension.value == file.extension);
+  }
 }
 </script>
