@@ -1,6 +1,6 @@
 <template>
-  <div class="flex-1 mx-2 my-4">
-    <div class="grid items-start px-2 text-sm font-medium lg:px-1">
+  <div class="flex-1 mx-2 my-4  bg-secondary rounded-3xl px-4 py-3">
+    <div class="grid items-start text-sm font-medium py-2">
       <NuxtLink
         to="/platform"
         class="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
