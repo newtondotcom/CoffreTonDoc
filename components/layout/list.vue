@@ -273,6 +273,16 @@ async function createNewFolder(name: string) {
   files.value.push(newFolder);
 }
 
+async function replaceFile(fileId : string) {
+  console.log("Creating new file in folder:");
+  const body = {fileId};
+  const url = await $fetch("/api/file/replace", {
+    method: "POST",
+    body: JSON.stringify(body),
+  });
+  return url;
+}
+
 onMounted(() => {
   getArborescence();
   updateBreadcrumb(selectedFolder.value);
