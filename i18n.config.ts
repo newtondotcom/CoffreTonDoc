@@ -28,7 +28,7 @@ export default defineI18nConfig(() => ({
       delete: "Delete 🗑️",
       access: "Access 🔒",
       replace: "Replace 🔄",
-      replace_confirmation : "Choose a file to replace the current one. 🔄",
+      replace_confirmation: "Choose a file to replace the current one. 🔄",
       new_file_inside: "New File Inside 📄",
       new_folder_inside: "New Folder Inside 📁",
       enter_new_folder_name: "Enter the name for the new folder. 📂",

@@ -158,11 +158,15 @@ export async function changeAccess(
   }
 }
 
-
-export async function replaceFile(user_id : string, fileId : number, uname : string){
+export async function replaceFile(
+  user_id: string,
+  fileId: number,
+  uname: string,
+) {
   try {
     assert(
-      user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id,
+      user_id ==
+        (await prisma.file.findUnique({ where: { id: fileId } })).user_id,
     );
     return await prisma.file.update({
       where: {

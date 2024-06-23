@@ -29,7 +29,9 @@
       class="pl-10"
       @focus="toogleSearch"
     />
-    <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+    <span
+      class="absolute start-0 inset-y-0 flex items-center justify-center px-2"
+    >
       <MagnifyingGlassIcon class="size-6 text-muted-foreground" />
     </span>
   </div>
@@ -43,7 +45,7 @@ import {
   SquareCheckBig,
   FolderKanban,
 } from "lucide-vue-next";
-import { MagnifyingGlassIcon } from '@radix-icons/vue'
+import { MagnifyingGlassIcon } from "@radix-icons/vue";
 defineProps({
   toogleSearch: Function,
   isSearching: Boolean,

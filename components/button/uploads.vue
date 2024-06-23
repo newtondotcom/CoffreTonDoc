@@ -5,7 +5,9 @@
       <AlertDialogTrigger as-child>
         <Button variant="secondary" class="mx-2" disabled> <FolderUp /></Button>
       </AlertDialogTrigger>
-      <AlertDialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
+      <AlertDialogContent
+        class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white"
+      >
         <AlertDialogHeader>
           <AlertDialogTitle class="text-lg font-semibold">{{
             $t("create_folder")
@@ -33,7 +35,6 @@
           </div>
         </div>
         <AlertDialogFooter>
-
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction>
             <Button @click="createNewFolder(folderName)">{{
@@ -49,7 +50,9 @@
       <AlertDialogTrigger as-child>
         <Button variant="secondary" class="mx-2"> <FileUp /></Button>
       </AlertDialogTrigger>
-      <AlertDialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
+      <AlertDialogContent
+        class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white"
+      >
         <AlertDialogHeader>
           <AlertDialogTitle class="text-lg font-semibold">{{
             $t("create_file")
@@ -59,7 +62,10 @@
           }}</AlertDialogDescription>
         </AlertDialogHeader>
         <div class="grid gap-4 py-4">
-          <div v-if="!fileSelected" class="grid w-full max-w-sm items-center gap-1.5">
+          <div
+            v-if="!fileSelected"
+            class="grid w-full max-w-sm items-center gap-1.5"
+          >
             <Label for="file-picture">File</Label>
             <Input id="file-picture" type="file" @change="handleFileUpload" />
           </div>
@@ -87,32 +93,35 @@
         <AlertDialogFooter>
           <Button v-if="!fileCreated" @click="uploadFile">
             {{ $t("create_file") }}
-              <div v-if="isLoading" class="ml-1 flex">
-                <svg
-                  class="animate-spin h-4 w-4 m-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  ></path>
-                </svg>
+            <div v-if="isLoading" class="ml-1 flex">
+              <svg
+                class="animate-spin h-4 w-4 m-1"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
             </div>
           </Button>
-          <Button v-else class="bg-transparent hover:bg-transparent" @click="console.log('test')">
-          <AlertDialogAction >ok
-          </AlertDialogAction>
+          <Button
+            v-else
+            class="bg-transparent hover:bg-transparent"
+            @click="console.log('test')"
+          >
+            <AlertDialogAction>ok </AlertDialogAction>
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import {assert} from "@vueuse/core";
+import { assert } from "@vueuse/core";
 const user = useSupabaseUser();
 const name = ref(user.value.user_metadata.name);
 const email = ref(user.value.email);
@@ -31,7 +31,11 @@ const initials_cookie = useCookie("initials");
 if (!initials_cookie.value) {
   initials_cookie.value = "NI";
 } else {
-  assert(name.value.includes(initials_cookie.value[1]) &&  name.value.includes(initials_cookie.value[0]), "Initials in cookie do not match user name");
+  assert(
+    name.value.includes(initials_cookie.value[1]) &&
+      name.value.includes(initials_cookie.value[0]),
+    "Initials in cookie do not match user name",
+  );
 }
 const initials = ref(initials_cookie.value);
 </script>

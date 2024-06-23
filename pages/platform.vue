@@ -17,7 +17,9 @@
         />
       </div>
     </div>
-    <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0  border-2 border-dashed border-secondary rounded-xl mx-2">
+    <div
+      class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0 border-2 border-dashed border-secondary rounded-xl mx-2"
+    >
       <div class="text-center min-w-full">
         <ul class="justify-center align-middle items-center px-4">
           <li class="flex flex-row justify-between text-center mx-4 px-4 py-2">
@@ -269,9 +271,9 @@ async function createNewFolder(name: string) {
   files.value.push(newFolder);
 }
 
-async function replaceFile(fileId : string) {
+async function replaceFile(fileId: string) {
   console.log("Creating new file in folder:");
-  const body = {fileId};
+  const body = { fileId };
   const url = await $fetch("/api/file/replace", {
     method: "POST",
     body: JSON.stringify(body),

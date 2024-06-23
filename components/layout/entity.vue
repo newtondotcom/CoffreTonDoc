@@ -83,25 +83,25 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-name" class="text-right font-medium">
-              {{ $t("file_name") }}
-            </Label>
-            <Input id="file-name" class="col-span-3" v-model="newFileName" />
-          </div>
-          <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-extension" class="text-right font-medium">
-              {{ $t("extension") }}
-            </Label>
-            <Input
-              id="file-extension"
-              class="col-span-3"
-              v-model="newFileExtension"
-            />
+          <Label for="file-name" class="text-right font-medium">
+            {{ $t("file_name") }}
+          </Label>
+          <Input id="file-name" class="col-span-3" v-model="newFileName" />
+        </div>
+        <div class="grid grid-cols-4 items-center gap-4">
+          <Label for="file-extension" class="text-right font-medium">
+            {{ $t("extension") }}
+          </Label>
+          <Input
+            id="file-extension"
+            class="col-span-3"
+            v-model="newFileExtension"
+          />
         </div>
       </div>
       <DialogFooter>
         <DialogClose as-child>
-          <Button @click="createNewFile(newFileName , newFileExtension)">
+          <Button @click="createNewFile(newFileName, newFileExtension)">
             {{ $t("create") }}
           </Button>
         </DialogClose>
@@ -208,38 +208,40 @@
         </DialogDescription>
       </DialogHeader>
 
-        <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-name" class="text-right font-medium">
-              {{ $t("file_name") }}
-            </Label>
-            <Input id="file-picture" type="file" @change="handleFileUpload" />
-        </div>
+      <div class="grid grid-cols-4 items-center gap-4">
+        <Label for="file-name" class="text-right font-medium">
+          {{ $t("file_name") }}
+        </Label>
+        <Input id="file-picture" type="file" @change="handleFileUpload" />
+      </div>
 
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="replace(file.id)">
-            <div :disabled="fileValid" v-if="!uploadloading">{{ $t("submit") }}</div>
+            <div :disabled="fileValid" v-if="!uploadloading">
+              {{ $t("submit") }}
+            </div>
             <div v-else class="ml-1 flex">
-                <svg
-                  class="animate-spin h-4 w-4 m-1"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    class="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    stroke-width="4"
-                  ></circle>
-                  <path
-                    class="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  ></path>
-                </svg>
+              <svg
+                class="animate-spin h-4 w-4 m-1"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  class="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  class="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
             </div>
           </Button>
         </DialogClose>
@@ -257,7 +259,7 @@ const props = defineProps({
   createNewFile: Function,
   createNewFolder: Function,
   changeAccess: Function,
-  replaceFile : Function
+  replaceFile: Function,
 });
 
 import { assert } from "@vueuse/core";
@@ -293,13 +295,13 @@ function handleFileUpload(event) {
     newName.value = fullName.substring(0, lastDot);
     newFileExtension.value = fullName.substring(lastDot + 1);
     if (!assert(newFileExtension.value == props.file.extension)) {
-    toast({
-      title: "Error",
-      description: "File extension is not the same as the original file",
-      variant: "destructive",
-    });
+      toast({
+        title: "Error",
+        description: "File extension is not the same as the original file",
+        variant: "destructive",
+      });
     } else {
-    fileValid.value = true; 
+      fileValid.value = true;
     }
   }
 }

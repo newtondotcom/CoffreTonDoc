@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-1 mx-2 my-4  bg-secondary rounded-3xl px-4 py-3">
+  <div class="flex-1 mx-2 my-4 bg-secondary rounded-3xl px-4 py-3">
     <div class="grid items-start text-sm font-medium py-2">
       <NuxtLink
         to="/platform"
