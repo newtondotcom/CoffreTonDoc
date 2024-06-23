@@ -22,6 +22,8 @@
 </template>
 
 <script setup lang="ts">
+const user = useSupabaseUser();
+const name = ref(user.value.user_metadata.name);
 const email_cookie = useCookie("email");
 if (!email_cookie.value) {
   email_cookie.value = "asphalt9fr@gmail.com";
@@ -30,9 +32,8 @@ const email = ref(email_cookie.value);
 
 const name_cookie = useCookie("name");
 if (!name_cookie.value) {
-  name_cookie.value = "Newton IsOp";
+  name_cookie.value = name;
 }
-const name = ref(name_cookie.value);
 
 const initials_cookie = useCookie("initials");
 if (!initials_cookie.value) {
