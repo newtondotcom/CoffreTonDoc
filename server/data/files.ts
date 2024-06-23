@@ -157,3 +157,23 @@ export async function changeAccess(
     throw new Error("Failed to change access level");
   }
 }
+
+
+export async function replaceFile(user_id : string, fileId : number, uname : string){
+  try {
+    assert(
+      user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id,
+    );
+    return await prisma.file.update({
+      where: {
+        id: fileId,
+      },
+      data: {
+        file_name_on_s3: uname,
+      },
+    });
+  } catch (error) {
+    console.error("Error creating file:", error);
+    throw new Error("Failed to create file");
+  }
+}
