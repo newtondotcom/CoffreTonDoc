@@ -1,8 +1,9 @@
 <template>
-  <div>
-    <Toaster />
+  <Toaster />
+  <NuxtLoadingIndicator />
+  <NuxtLayout>
     <NuxtPage />
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
