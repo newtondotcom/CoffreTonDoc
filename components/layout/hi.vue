@@ -31,7 +31,7 @@ if (!email_cookie.value) {
 const email = ref(email_cookie.value);
 
 const name_cookie = useCookie("name");
-if (!name_cookie.value) {
+if (!name_cookie.value || name_cookie.value !== user.value.user_metadata.name) {
   name_cookie.value = name;
 }
 
