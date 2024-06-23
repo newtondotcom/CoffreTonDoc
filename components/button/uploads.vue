@@ -1,19 +1,19 @@
 <template>
   <div class="p-4">
-    <!-- Dialog for Creating Folder -->
-    <Dialog>
-      <DialogTrigger as-child>
+    <!-- AlertDialog for Creating Folder -->
+    <AlertDialog>
+      <AlertDialogTrigger as-child>
         <Button variant="secondary" class="mx-2" disabled> <FolderUp /></Button>
-      </DialogTrigger>
-      <DialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
-        <DialogHeader>
-          <DialogTitle class="text-lg font-semibold">{{
+      </AlertDialogTrigger>
+      <AlertDialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
+        <AlertDialogHeader>
+          <AlertDialogTitle class="text-lg font-semibold">{{
             $t("create_folder")
-          }}</DialogTitle>
-          <DialogDescription class="text-sm text-gray-500">
+          }}</AlertDialogTitle>
+          <AlertDialogDescription class="text-sm text-gray-500">
             {{ $t("specify_names") }}
-          </DialogDescription>
-        </DialogHeader>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <div class="grid gap-4 py-4">
           <div class="grid grid-cols-4 items-center gap-4">
             <Label for="folder-name" class="text-right font-medium">
@@ -32,32 +32,34 @@
             </div>
           </div>
         </div>
-        <DialogFooter>
-          <DialogClose as-child>
+        <AlertDialogFooter>
+
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>
             <Button @click="createNewFolder(folderName)">{{
               $t("create_folder")
             }}</Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
 
-    <!-- Dialog for Creating File -->
-    <Dialog>
-      <DialogTrigger as-child>
+    <!-- AlertDialog for Creating File -->
+    <AlertDialog>
+      <AlertDialogTrigger as-child>
         <Button variant="secondary" class="mx-2"> <FileUp /></Button>
-      </DialogTrigger>
-      <DialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
-        <DialogHeader>
-          <DialogTitle class="text-lg font-semibold">{{
+      </AlertDialogTrigger>
+      <AlertDialogContent class="sm:max-w-[425px] p-6 rounded-lg shadow-lg bg-white">
+        <AlertDialogHeader>
+          <AlertDialogTitle class="text-lg font-semibold">{{
             $t("create_file")
-          }}</DialogTitle>
-          <DialogDescription class="text-sm text-gray-500">{{
+          }}</AlertDialogTitle>
+          <AlertDialogDescription class="text-sm text-gray-500">{{
             $t("specify_file_name")
-          }}</DialogDescription>
-        </DialogHeader>
+          }}</AlertDialogDescription>
+        </AlertDialogHeader>
         <div class="grid gap-4 py-4">
-          <div class="grid w-full max-w-sm items-center gap-1.5">
+          <div v-if="!fileSelected" class="grid w-full max-w-sm items-center gap-1.5">
             <Label for="file-picture">File</Label>
             <Input id="file-picture" type="file" @change="handleFileUpload" />
           </div>
@@ -82,11 +84,10 @@
             />
           </div>
         </div>
-        <DialogFooter>
+        <AlertDialogFooter>
           <Button v-if="!fileCreated" @click="uploadFile">
             {{ $t("create_file") }}
-            <div v-if="isLoading">
-              <div class="ml-1 flex">
+              <div v-if="isLoading" class="ml-1 flex">
                 <svg
                   class="animate-spin h-4 w-4 m-1"
                   xmlns="http://www.w3.org/2000/svg"
@@ -107,15 +108,15 @@
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                   ></path>
                 </svg>
-              </div>
             </div>
           </Button>
-          <DialogClose v-else as-child>
-            <Button> Ok </Button>
-          </DialogClose>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          <Button v-else class="bg-transparent hover:bg-transparent" @click="console.log('test')">
+          <AlertDialogAction >ok
+          </AlertDialogAction>
+          </Button>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   </div>
 </template>
 
@@ -177,6 +178,9 @@ async function uploadFile() {
       },
     });
 
+    // Create the new file in your system
+    props.createNewFile(fileName.value, fileExtension.value);
+
     const { id, url, fields } = await response.json();
     console.log("Presigned URL:", url);
 
@@ -193,9 +197,6 @@ async function uploadFile() {
     await setTimeout(function () {
       console.log("THIS IS");
     }, 2000);
-
-    // Create the new file in your system
-    props.createNewFile(fileName.value, fileExtension.value);
 
     isLoading.value = false;
     fileCreated.value = true;
