@@ -17,7 +17,7 @@
         />
       </div>
     </div>
-    <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0">
+    <div class="w-full flex space-x-3 lg:overflow-hidden grow relative min-w-0  border-2 border-dashed border-secondary rounded-xl mx-2">
       <div class="text-center min-w-full">
         <ul class="justify-center align-middle items-center px-4">
           <li class="flex flex-row justify-between text-center mx-4 px-4 py-2">
