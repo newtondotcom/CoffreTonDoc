@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center overflow-x-auto pb-3 pl-4">
+  <div class="flex items-center overflow-x-auto pb-3 pl-4 lg:hidden">
     <Button variant="secondary" class="mx-2" @click="toogleSearch">
       <Search />
       <span class="ml-2 text-sm font-bold">{{ $t("spotlight") }}</span>
@@ -21,6 +21,18 @@
       <span class="ml-2 text-sm font-bold">{{ $t("view") }}</span>
     </Button>
   </div>
+  <div class="relative w-full max-w-sm items-center hidden lg:block">
+    <Input
+      id="search"
+      type="text"
+      placeholder="Search..."
+      class="pl-10"
+      @focus="toogleSearch"
+    />
+    <span class="absolute start-0 inset-y-0 flex items-center justify-center px-2">
+      <MagnifyingGlassIcon class="size-6 text-muted-foreground" />
+    </span>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -31,6 +43,7 @@ import {
   SquareCheckBig,
   FolderKanban,
 } from "lucide-vue-next";
+import { MagnifyingGlassIcon } from '@radix-icons/vue'
 defineProps({
   toogleSearch: Function,
   isSearching: Boolean,
