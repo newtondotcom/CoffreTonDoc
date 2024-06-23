@@ -1,12 +1,13 @@
 <template>
   <div
-    class="w-[15%] h-full flex flex-col justify-between bg-secondary"
+    class="w-[15%] h-full flex flex-col justify-between"
     style="height: 100vh"
   >
     <div class="text-2xl font-extrabold px-6 py-4 text-primary">
-      VautDoc
-      <div class="text-xs text-gray-500 dark:text-white">
-        {{ $t("made_france") }}
+      CoffreTonDoc
+      <div class="text-xs text-gray-500 dark:text-white flex flex-col">
+        <div class="flex">{{ $t("made_in") }}</div>
+        <div class="flex">{{ $t("hosted_in") }}</div>
       </div>
     </div>
     <LayoutLinks />
@@ -17,3 +18,6 @@
     <LayoutHi />
   </div>
 </template>
+
+<script setup lang="ts">
+</script>
