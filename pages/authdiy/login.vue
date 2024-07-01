@@ -1,10 +1,11 @@
 <script setup>
 
 const { signIn } = useAuth()
-const showToast = inject('showToast')
+import { useToast } from "@/components/ui/toast/use-toast";
+const { toast } = useToast();
 
 definePageMeta({
-  layout: "auth",
+    layout : false,
   auth: {
     unauthenticatedOnly: true,
     navigateAuthenticatedTo: '/',
@@ -14,17 +15,21 @@ definePageMeta({
 const username = ref('')
 const password = ref('')
 
-const form = ref(false)
+const form = ref(true)
 const rules = ref({
   required: value => !!value || 'Field is required',
 })
 
-const totp = 0;
+const totpCode = 0;
 const login = async (username, password) => {
   const response = await signIn('credentials', { redirect: false, username, password, totpCode })
 
   if (response.error) {
-    showToast(response.error, "error")
+    toast({
+      title: "Error",
+      description: "An error occured while log in",
+      variant: "destructive",
+    });
     return
   }
 
@@ -34,18 +39,18 @@ const login = async (username, password) => {
 
 <template>
   <div class="d-flex align-center justify-center" style="height: 100vh">
-    <v-hover v-slot="{ isHovering, props }">
-      <v-card title="Sign in" theme="customDark" v-bind="props" :elevation="isHovering ? 24 : 6" rounded="xl" width="400"
+    <div>
+      <div title="Sign in" theme="customDark" v-bind="props" :elevation="isHovering ? 24 : 6" rounded="xl" width="400"
         class="mx-auto pa-10">
-        <v-form v-model="form" @submit.prevent="login(username, password)">
-          <v-text-field v-model="username" label="Username" :rules="[rules.required]"></v-text-field>
+        <form @submit.prevent="login(username, password)">
+          <Input v-model="username" label="Username" :rules="[rules.required]"></Input>
 
-          <v-text-field type="password" v-model="password" label="Password" :rules="[rules.required]"></v-text-field>
+          <Input type="password" v-model="password" label="Password" :rules="[rules.required]"></Input>
 
-          <v-btn :disabled="!form" type="submit" color="primary" block class="mt-2">Sign In</v-btn>
-        </v-form>
-        <v-btn color="primary" block class="mt-2" to="/auth/register" nuxt>Create new account</v-btn>
-      </v-card>
-    </v-hover>
+          <Button :disabled="!form" type="submit" color="primary" block class="mt-2">Sign In</Button>
+        </form>
+        <Button color="primary" block class="mt-2" to="/auth/register" nuxt>Create new account</Button>
+      </div>
+    </div>
   </div>
 </template>

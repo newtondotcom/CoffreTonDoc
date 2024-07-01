@@ -264,8 +264,8 @@ const props = defineProps({
 
 import { assert } from "@vueuse/core";
 import { useToast } from "@/components/ui/toast/use-toast";
-import { ToastAction } from "@/components/ui/toast";
 const { toast } = useToast();
+import { ToastAction } from "@/components/ui/toast";
 
 const newName = ref("");
 const newFileName = ref("");
