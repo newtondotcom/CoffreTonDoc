@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: [
@@ -6,17 +5,15 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/i18n",
-    "@nuxtjs/supabase",
+    "@sidebase/nuxt-auth"
   ],
+  auth: {        
+    provider: {            
+      type: 'authjs'        
+    }    
+  },
   shadcn: {
-    /**
-     * Prefix for all the imported component
-     */
     prefix: "",
-    /**
-     * Directory that the component lives in.
-     * @default "./components/ui"
-     */
     componentDir: "./components/ui",
   },
   tailwindcss: {
@@ -28,7 +25,8 @@ export default defineNuxtConfig({
     viewer: false,
   },
   ssr: false,
-  supabase: {
-    redirect: false,
+  runtimeConfig: {
+    AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_ORIGIN : process.env.AUTH_ORIGIN,
   },
 });
