@@ -1,8 +1,8 @@
 import { authenticator } from "otplib";
 import qrcode from "qrcode";
-import prisma from "../../../data/prisma";
-import errorCodes from "../../../../utils/codes";
-import { symmetricEncrypt } from "../../../../utils/crypto";
+import prisma from "~/server/data/prisma";
+import errorCodes from "~/utils/codes";
+import { symmetricEncrypt } from "~/utils/crypto";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -16,6 +16,7 @@ export default defineEventHandler(async (event) => {
 
   if (!session) {
     event.res.statusCode = 401;
+    console.log("No session found")
     return { message: "Not authenticated" };
   }
 
@@ -25,7 +26,7 @@ export default defineEventHandler(async (event) => {
     return { error: errorCodes.InternalServerError };
   }
 
-  const user = await prisma.User.findOne({ email: session.user.email });
+  const user = await prisma.user.findOne({ email: session.user.email });
 
   if (!user) {
     console.error(`Session references user that no longer exists.`);
