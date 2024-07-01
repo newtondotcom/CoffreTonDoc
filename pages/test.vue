@@ -6,10 +6,22 @@ definePageMeta({
     navigateAuthenticatedTo: "/",
   },
 });
-const { status, data, signIn, signOut, refresh } = useAuth();
+const {
+  status,
+  data,
+  lastRefreshedAt,
+  getCsrfToken,
+  getProviders,
+  getSession,
+  signIn,
+  signOut,
+} = useAuth();
 </script>
 
 <template>
   {{ status }}
   {{ data }}
+  {{ lastRefreshedAt }}
+
+<MfaMain />
 </template>
