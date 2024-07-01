@@ -1,9 +1,16 @@
-import { serverSupabaseUser } from "#supabase/server";
+import { getServerSession } from '#auth'
 
-export default defineEventHandler(async (event) => {
-  const endpoint = event.path.split("/").pop();
-  const user = await serverSupabaseUser(event);
-  if (user) {
-    event.context.user_id = user.id;
+export default eventHandler(async (event) => {
+
+  // Protect all API endpoints inside protected
+  if (!event.node.req.url?.startsWith('/api/protected')) {
+    return
   }
-});
+
+  const session = await getServerSession(event)
+  console.log(session);
+  event.context.session = session;
+  if (!session) {
+    throw ({ statusMessage: 'Unauthenticated', statusCode: 403 })
+  }
+})
