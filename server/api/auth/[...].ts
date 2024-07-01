@@ -1,6 +1,6 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NuxtAuthHandler } from '#auth'
-import { compare } from "bcrypt"
+import bcrypt from 'bcryptjs';
 import prisma from '../../data/prisma'
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 
@@ -28,9 +28,8 @@ export default NuxtAuthHandler({
         },
      
       async authorize (credentials: any) {
-
-        const user = await prisma.users.findUnique({
-          where: { name: credentials?.username },
+        const user = await prisma.user.findUnique({
+          where: { email: credentials?.username},
         })
 
         if(!user) {
@@ -41,16 +40,14 @@ export default NuxtAuthHandler({
 
         }
 
-        const isPasswordValid = await compare(credentials?.password, user.password)
+        const isPasswordValid = await bcrypt.compare(credentials?.password, user.password)
 
         if (!isPasswordValid) {
           throw ({
             statusCode: 403,
             statusMessage: "Credentials not working",
           })
-
         }
-
         return user
       }
     })
