@@ -1,0 +1,39 @@
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  directUrl         = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AccessStatus {
+  USER
+  SHARED
+  COMPANY
+}
+
+model File {
+  id        Int         @id @default(autoincrement())
+  user_id   String
+  name      String
+  date      DateTime    @default(now())
+  isFolder  Boolean
+  extension String?     // Nullable because folders might not have an extension
+  idParent  Int?        // Nullable to allow root-level files/folders
+  size      Int
+  statut    AccessStatus
+  file_name_on_s3 String?
+  s3_server_name String?
+}
+
+model S3 {
+  endpoint    String    
+  ssl        Boolean
+  port      Int
+  access_key  String
+  secret_key  String
+  bucket      String
+  name        String @id @default(cuid())
+}
