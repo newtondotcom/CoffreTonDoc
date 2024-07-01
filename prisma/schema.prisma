@@ -1,11 +1,17 @@
-datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  directUrl         = env("DIRECT_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model users {
+  id                Int                 @id @default(autoincrement())
+  name              String              @unique(map: "name") 
+  password          String              
+  email             String              @unique(map: "email")
 }
 
 enum AccessStatus {
