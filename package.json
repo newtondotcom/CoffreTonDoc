@@ -8,7 +8,9 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "pnpm exec prettier . --write"
+    "format": "pnpm exec prettier . --write",
+    "format-staged": "pnpm exec prettier . --write",
+    "push" : "pnpm format-staged && git push"
   },
   "dependencies": {
     "@nuxt/ui": "^2.16.0",
