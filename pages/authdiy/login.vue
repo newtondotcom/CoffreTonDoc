@@ -58,14 +58,21 @@ const login = async (username, password) => {
             v-model="username"
             label="Username"
             :rules="[rules.required]"
-          ></Input>
+          />
 
           <Input
             type="password"
             v-model="password"
             label="Password"
             :rules="[rules.required]"
-          ></Input>
+          />
+
+          <Input
+            type="password"
+            v-model="password"
+            label="Code 2FA"
+            :rules="[rules.required]"
+          />
 
           <Button
             :disabled="!form"
