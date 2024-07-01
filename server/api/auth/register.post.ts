@@ -1,9 +1,10 @@
-import { hash } from "bcrypt"
+import bcrypt from 'bcryptjs';
+import prisma from "../../data/prisma"
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
 
-    const userExists = await prisma.users.findFirst({
+    const userExists = await prisma.user.findFirst({
         where: { 
             OR: [
                 { email: body.email },
@@ -13,21 +14,19 @@ export default defineEventHandler(async (event) => {
     })
 
     if(userExists) {
-        throw createError({
+        throw ({
             statusCode: 403,
             statusMessage: "User already exists",
         })
     }
 
-    await prisma.users.create({
+    await prisma.user.create({
         data: {
             email: body.email,
             name: body.name,
-            password: await hash(body.password, 12)
+            password: await bcrypt.hash(body.password, 12)
         },
     })
-
-    setResponseStatus(event, 201)
     
     return { message: "User created" }
 })
