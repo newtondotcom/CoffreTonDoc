@@ -1,71 +1,80 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { authenticator } from 'otplib';
-import qrcode from 'qrcode';
-import { symmetricEncrypt } from '../../../../../utils/crypto';
-import { getSession, signOut, useSession } from 'next-auth/react';
-import User, { IUser } from '../../../../../models/User';
-import { isPasswordValid } from '../../../../../utils/hash';
-import errorCodes from '../../../../utils/codes';
+import { authenticator } from "otplib";
+import qrcode from "qrcode";
+import prisma from "../../../data/prisma";
+import errorCodes from "../../../../utils/codes";
+import { symmetricEncrypt } from "../../../../utils/crypto";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const session = event.context.session;
+  const config = useRuntimeConfig();
 
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+  if (event.req.method !== "POST") {
+    event.res.statusCode = 405;
+    return { message: "Method not allowed" };
   }
 
-  const session = await getSession({ req });
   if (!session) {
-    return res.status(401).json({ message: 'Not authenticated' });
+    event.res.statusCode = 401;
+    return { message: "Not authenticated" };
   }
 
   if (!session.user?.email) {
-    console.error('Session is missing a user email.');
-    return res.status(500).json({ error: errorCodes.InternalServerError });
+    console.error("Session is missing a user email.");
+    event.res.statusCode = 500;
+    return { error: errorCodes.InternalServerError };
   }
 
-  const user = await User.findOne<IUser>({ email: session.user?.email });
+  const user = await prisma.User.findOne({ email: session.user.email });
 
   if (!user) {
     console.error(`Session references user that no longer exists.`);
-    return res.status(401).json({ message: 'Not authenticated' });
+    event.res.statusCode = 401;
+    return { message: "Not authenticated" };
   }
 
   if (!user.password) {
-    return res.status(400).json({ error: ErrorCode.UserMissingPassword });
+    event.res.statusCode = 400;
+    return { error: errorCodes.UserMissingPassword };
   }
 
   if (user.twoFactorEnabled) {
-    return res.status(400).json({ error: ErrorCode.TwoFactorAlreadyEnabled });
+    event.res.statusCode = 400;
+    return { error: errorCodes.TwoFactorAlreadyEnabled };
   }
 
-  if (!process.env.ENCRYPTION_KEY) {
-    console.error('Missing encryption key; cannot proceed with two factor setup.');
-    return res.status(500).json({ error: ErrorCode.InternalServerError });
+  if (!config.ENCRYPTION_KEY) {
+    console.error(
+      "Missing encryption key; cannot proceed with two-factor setup.",
+    );
+    event.res.statusCode = 500;
+    return { error: errorCodes.InternalServerError };
   }
 
-  const isCorrectPassword = await isPasswordValid(req.body.password, user.password);
+  const isCorrectPassword = await isPasswordValid(body.password, user.password);
 
   if (!isCorrectPassword) {
-    return res.status(400).json({ error: ErrorCode.IncorrectPassword });
+    event.res.statusCode = 400;
+    return { error: errorCodes.IncorrectPassword };
   }
 
-  // This generates a secret 32 characters in length. Do not modify the number of
-  // bytes without updating the sanity checks in the enable and login endpoints.
-  const secret = authenticator.generateSecret(20);
+  const secret = authenticator.generateSecret(32);
+  const encryptedSecret = symmetricEncrypt(secret, config.ENCRYPTION_KEY);
 
-  await User.updateOne(
-    { email: session.user?.email },
+  await prisma.User.updateOne(
+    { email: session.user.email },
     {
       twoFactorEnabled: false,
-      twoFactorSecret: symmetricEncrypt(secret, process.env.ENCRYPTION_KEY),
-    }
+      twoFactorSecret: encryptedSecret,
+    },
   );
 
-  const name = user.email;
-  const keyUri = authenticator.keyuri(name, 'MyApp', secret);
+  const keyUri = authenticator.keyuri(session.user.email, "MyApp", secret);
   const dataUri = await qrcode.toDataURL(keyUri);
 
-  return res.json({ secret, keyUri, dataUri });
+  event.res.statusCode = 200;
+  return { secret, keyUri, dataUri };
+});
+function isPasswordValid(password: any, password1: any) {
+  throw new Error("Function not implemented.");
 }

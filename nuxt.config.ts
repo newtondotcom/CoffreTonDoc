@@ -5,12 +5,12 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxtjs/i18n",
-    "@sidebase/nuxt-auth"
+    "@sidebase/nuxt-auth",
   ],
-  auth: {        
-    provider: {            
-      type: 'authjs'        
-    }    
+  auth: {
+    provider: {
+      type: "authjs",
+    },
   },
   shadcn: {
     prefix: "",
@@ -27,6 +27,6 @@ export default defineNuxtConfig({
   ssr: false,
   runtimeConfig: {
     AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_ORIGIN : process.env.AUTH_ORIGIN,
+    AUTH_ORIGIN: process.env.AUTH_ORIGIN,
   },
 });
