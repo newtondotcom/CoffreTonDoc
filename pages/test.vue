@@ -23,5 +23,5 @@ const {
   {{ data }}
   {{ lastRefreshedAt }}
 
-<MfaMain />
+  <MfaMain />
 </template>

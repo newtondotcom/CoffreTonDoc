@@ -8,10 +8,10 @@ const config = useRuntimeConfig();
 export default NuxtAuthHandler({
   adaptater: PrismaAdapter(prisma),
   secret: config.AUTH_SECRET,
-  session: {    
-  //strategy: "database", // Store sessions in the database and store a sessionToken in the cookie for lookups
-  jwt: true,
-  maxAge: 30 * 24 * 60 * 60, // 30 Days
+  session: {
+    //strategy: "database", // Store sessions in the database and store a sessionToken in the cookie for lookups
+    jwt: true,
+    maxAge: 30 * 24 * 60 * 60, // 30 Days
   },
   pages: {
     signIn: "/auth/login",

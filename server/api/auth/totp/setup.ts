@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
 
   if (!session) {
     event.res.statusCode = 401;
-    console.log("No session found")
+    console.log("No session found");
     return { message: "Not authenticated" };
   }
 
