@@ -1,4 +1,4 @@
-import { renameFile } from "../../data/files";
+import { renameFile } from "~/server/data/files";
 
 export default defineEventHandler(async (event) => {
   const user_id = event.context.user_id;

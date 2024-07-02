@@ -1,7 +1,7 @@
 import { authenticator } from "otplib";
-import prisma from "../../../data/prisma";
-import errorCodes from "../../../../utils/codes";
-import { symmetricDecrypt } from "../../../../utils/crypto"; // Import the decryption utility
+import prisma from "~/server/data/prisma";
+import errorCodes from "~/utils/codes";
+import { symmetricDecrypt } from "~/utils/crypto"; 
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
