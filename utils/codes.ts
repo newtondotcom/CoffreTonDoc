@@ -15,7 +15,8 @@ const error_codes = {
   incorrect_two_factor_code: "INCORRECT_TWO_FACTOR_CODE",
   internal_server_error: "INTERNAL_SERVER_ERROR",
   new_password_matches_old: "NEW_PASSWORD_MATCHES_OLD",
-  third_party_identity_provider_enabled: "THIRD_PARTY_IDENTITY_PROVIDER_ENABLED",
+  third_party_identity_provider_enabled:
+    "THIRD_PARTY_IDENTITY_PROVIDER_ENABLED",
   no_2fa_code: "NO_2FA_CODE",
 };
 

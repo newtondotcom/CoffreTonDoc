@@ -2,3 +2,4 @@
 build
 coverage
 /components/ui
+pnpm-lock.yaml

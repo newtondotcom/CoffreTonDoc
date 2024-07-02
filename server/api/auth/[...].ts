@@ -1,7 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import { NuxtAuthHandler } from "#auth";
 import { authenticator } from "otplib";
-import { symmetricDecrypt } from "~/utils/crypto"; 
+import { symmetricDecrypt } from "~/utils/crypto";
 import bcrypt from "bcryptjs";
 import prisma from "~/server/data/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -74,14 +74,14 @@ export default NuxtAuthHandler({
             body: { error: errorCodes.two_factor_already_enabled },
           };
         }
-      
+
         if (!user.twoFactorSecret) {
           return {
             statusCode: 400,
             body: { error: errorCodes.two_factor_setup_required },
           };
         }
-      
+
         if (!config.ENCRYPTION_KEY) {
           console.error(
             "Missing encryption key; cannot proceed with two factor setup.",
@@ -91,8 +91,11 @@ export default NuxtAuthHandler({
             body: { error: errorCodes.internal_server_error },
           };
         }
-      
-        const secret = symmetricDecrypt(user.twoFactorSecret, config.ENCRYPTION_KEY);
+
+        const secret = symmetricDecrypt(
+          user.twoFactorSecret,
+          config.ENCRYPTION_KEY,
+        );
         if (secret.length !== 32) {
           console.error(
             `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`,
@@ -102,7 +105,7 @@ export default NuxtAuthHandler({
             body: { error: errorCodes.internal_server_error },
           };
         }
-      
+
         const isValidToken = authenticator.check(credentials.totpCode, secret);
         if (!isValidToken) {
           return {
@@ -110,7 +113,7 @@ export default NuxtAuthHandler({
             body: { error: errorCodes.incorrect_two_factor_code },
           };
         }
-        
+
         return user;
       },
     }),
