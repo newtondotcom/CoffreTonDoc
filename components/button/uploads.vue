@@ -173,7 +173,7 @@ async function uploadFile() {
 
   try {
     // Query for the presigned URL
-    const response = await fetch("/api/file/upload", {
+    const response = await $fetch("/api/file/upload", {
       method: "POST",
       body: JSON.stringify({
         name: fileName.value,

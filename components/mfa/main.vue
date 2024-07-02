@@ -158,7 +158,7 @@ const handleSetup = async () => {
   isSubmitting.value = true;
 
   try {
-    const response = await fetch(`/api/auth/totp/setup`, {
+    const response = await $fetch(`/api/auth/totp/setup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -201,7 +201,7 @@ const handleEnable = async () => {
   isSubmitting.value = true;
 
   try {
-    const response = await fetch(`/api/auth/two-factor/totp/enable`, {
+    const response = await $fetch(`/api/auth/totp/enable`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -248,7 +248,7 @@ const handleDisable = async () => {
   isSubmitting.value = true;
 
   try {
-    const response = await fetch(`/api/auth/two-factor/totp/disable`, {
+    const response = await $fetch(`/api/auth/totp/disable`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
