@@ -6,8 +6,8 @@ export default defineEventHandler(async (event) => {
 
   const userExists = await prisma.user.findFirst({
     where: {
-      OR: [{ email: body.email }, { name: body.name }],
-    },
+      { email: body.email }
+    }
   });
 
   if (userExists) {

@@ -115,7 +115,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
 const isOpenSetupModal = ref(false);
@@ -172,7 +172,7 @@ const handleSetup = async () => {
     if (response.status === 200) {
       dataUri.value = body.dataUri;
       step.value = SetupStep.DisplayQrCode;
-    } else if (body.error === ErrorCode.IncorrectPassword) {
+    } else if (body.error === errorCodes.incorrect_password) {
       toast({
         title: "Incorrect Password",
         status: "error",
@@ -212,7 +212,7 @@ const handleEnable = async () => {
     });
     const body = await response.json();
 
-    if (body.error === ErrorCode.IncorrectTwoFactorCode) {
+    if (body.error === errorCodes.incorrect_two_factor_code) {
       toast({
         title: "Incorrect code. Please try again",
         status: "error",
@@ -259,7 +259,7 @@ const handleDisable = async () => {
     });
     const body = await response.json();
 
-    if (body.error === ErrorCode.IncorrectTwoFactorCode) {
+    if (body.error === errorCodes.incorrect_two_factor_code) {
       toast({
         title: "Incorrect code. Please try again",
         status: "error",

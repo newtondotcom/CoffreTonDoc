@@ -3,7 +3,7 @@ const error_codes = {
   no_mail: "NO_MAIL",
   missing_id: "MISSING_ID",
   not_authenticated: "NOT_AUTHENTICATED",
-  incorrect_username_password: "INCORRECT_USERNAME_PASSWORD",
+  incorrect_username: "INCORRECT_USERNAME",
   user_not_found: "USER_NOT_FOUND",
   incorrect_password: "INCORRECT_PASSWORD",
   user_missing_password: "USER_MISSING_PASSWORD",

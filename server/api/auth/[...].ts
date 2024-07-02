@@ -5,7 +5,7 @@ import { symmetricDecrypt } from "~/utils/crypto";
 import bcrypt from "bcryptjs";
 import prisma from "~/server/data/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import errorCodes from "../../../utils/codes";
+import errorCodes from "~/utils/codes";
 
 const config = useRuntimeConfig();
 export default NuxtAuthHandler({
@@ -52,7 +52,7 @@ export default NuxtAuthHandler({
         if (!user) {
           throw {
             statusCode: 403,
-            statusMessage: errorCodes.IncorrectUsernamePassword,
+            statusMessage: errorCodes.incorrect_username,
           };
         }
 
@@ -116,7 +116,6 @@ export default NuxtAuthHandler({
     }),
   ],
   callbacks: {
-    // Specify here the payload of your token and session
     async jwt({ token, user }: { token: any; user: any }) {
       if (user) {
         token.id = user.id;
@@ -126,8 +125,6 @@ export default NuxtAuthHandler({
       return token;
     },
     async session({ session, token }: { session: any; token: any }) {
-      // console.log("session", session);
-      // console.log("token", token);
       session.user.id = token.id;
       session.user.name = token.name;
       session.user.email = token.email;
