@@ -42,7 +42,7 @@ const login = async () => {
     totpCode : totpCode.value,
   });
   loading.value = false;
-  if (response == errorCodes.IncorrectUsernamePassword || response == errorCodes.IncorrectPassword) {
+  if (response == errorCodes.IncorrectUsernamePassword || response == errorCodes.incorrect_password) {
     toast({
       title: $t("error"),
       description: $t("wrong_credentials"),
@@ -50,7 +50,7 @@ const login = async () => {
     });
     return;
   }
-  if (response == errorCodes.IncorrectTwoFactorCode) {
+  if (response == errorCodes.incorrect_two_factor_code) {
     toast({
     title: $t("error"),
       description: $t("wrong_totp"),
