@@ -23,9 +23,9 @@
 
 <script setup lang="ts">
 import { assert } from "@vueuse/core";
-const user = useSupabaseUser();
-const name = ref(user.value.user_metadata.name);
-const email = ref(user.value.email);
+const { data} = useAuth();
+const name = ref(data.name);
+const email = ref(data.email);
 
 const initials_cookie = useCookie("initials");
 if (!initials_cookie.value) {
