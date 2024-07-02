@@ -3,6 +3,7 @@ import { NuxtAuthHandler } from "#auth";
 import bcrypt from "bcryptjs";
 import prisma from "~/server/data/prisma";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import errorCodes from "../../../utils/codes";
 
 const config = useRuntimeConfig();
 export default NuxtAuthHandler({
@@ -49,7 +50,7 @@ export default NuxtAuthHandler({
         if (!user) {
           throw {
             statusCode: 403,
-            statusMessage: "Credentials not working",
+            statusMessage: errorCodes.IncorrectUsernamePassword,
           };
         }
 
@@ -61,7 +62,7 @@ export default NuxtAuthHandler({
         if (!isPasswordValid) {
           throw {
             statusCode: 403,
-            statusMessage: "Credentials not working",
+            statusMessage: errorCodes.IncorrectPassword,
           };
         }
         return user;
