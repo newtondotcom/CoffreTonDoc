@@ -42,7 +42,7 @@ const login = async () => {
     totpCode : totpCode.value,
   });
   loading.value = false;
-  if (response == errorCodes.IncorrectUsernamePassword || response == errorCodes.incorrect_password) {
+  if (response == errorCodes.incorrect_username || response == errorCodes.incorrect_password) {
     toast({
       title: $t("error"),
       description: $t("wrong_credentials"),
@@ -67,20 +67,20 @@ const login = async () => {
   <div class="flex items-center justify-center h-screen">
     <Card class="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle class="text-2xl"> Connect with us </CardTitle>
+        <CardTitle class="text-2xl"> {{$t("connect_us")}} </CardTitle>
         <CardDescription>
-          Use one of the following methods to log in or register
+          {{$t("login_description")}}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div class="grid gap-4">
                     <div class="grid gap-2">
-                        <Label for="email">Email</Label>
+                        <Label for="email">{{$t("email")}}</Label>
                         <Input id="email" type="email" placeholder="m@example.com" required v-model="email" />
                     </div>
                     <div class="grid gap-2">
                         <div class="flex items-center">
-                            <Label for="password">Password</Label>
+                            <Label for="password">{{$t("password")}}</Label>
                             <NuxtLink to="/auth/reset" class="ml-auto inline-block text-sm underline">
                                 Forgot your password?
                             </NuxtLink>
@@ -88,7 +88,7 @@ const login = async () => {
                         <Input id="password" type="password" required v-model="password" />
                     </div>
                     <div class="grid gap-2">
-                        <Label for="email">2FA Code</Label>    
+                        <Label for="email">{{$t("twofa_code")}}</Label>    
                         <PinInput
                           id="pin-input"
                           v-model="value"
