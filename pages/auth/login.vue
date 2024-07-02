@@ -14,10 +14,10 @@ definePageMeta({
 
 const username = ref("");
 const password = ref("");
-const totpCode = ref(0);
 const loading = ref(false);
 
-const value = ref<String[]>([])
+const value = ref<String[]>([]);
+const totpCode = ref(0);
 const handleComplete = (e: String[]) =>  {
   totpCode.value = e.join('');
   login();
