@@ -64,21 +64,21 @@ export default NuxtAuthHandler({
         if (!isPasswordValid) {
           throw {
             statusCode: 403,
-            statusMessage: errorCodes.IncorrectPassword,
+            statusMessage: errorCodes.incorrect_password,
           };
         }
 
         if (user.twoFactorEnabled) {
           return {
             statusCode: 400,
-            body: { error: errorCodes.TwoFactorAlreadyEnabled },
+            body: { error: errorCodes.two_factor_already_enabled },
           };
         }
       
         if (!user.twoFactorSecret) {
           return {
             statusCode: 400,
-            body: { error: errorCodes.TwoFactorSetupRequired },
+            body: { error: errorCodes.two_factor_setup_required },
           };
         }
       
@@ -88,7 +88,7 @@ export default NuxtAuthHandler({
           );
           return {
             statusCode: 500,
-            body: { error: errorCodes.InternalServerError },
+            body: { error: errorCodes.internal_server_error },
           };
         }
       
@@ -99,7 +99,7 @@ export default NuxtAuthHandler({
           );
           return {
             statusCode: 500,
-            body: { error: errorCodes.InternalServerError },
+            body: { error: errorCodes.internal_server_error },
           };
         }
       
@@ -107,7 +107,7 @@ export default NuxtAuthHandler({
         if (!isValidToken) {
           return {
             statusCode: 400,
-            body: { error: errorCodes.IncorrectTwoFactorCode },
+            body: { error: errorCodes.incorrect_two_factor_code },
           };
         }
         

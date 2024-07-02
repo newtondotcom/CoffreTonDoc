@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
   if (!session.user?.email) {
     console.error("Session is missing a user email.");
     event.res.statusCode = 500;
-    return { error: errorCodes.InternalServerError };
+    return { error: errorCodes.internal_server_error };
   }
 
   const user = await prisma.user.findOne({ email: session.user.email });
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
 
   if (user.twoFactorEnabled) {
     event.res.statusCode = 400;
-    return { error: errorCodes.TwoFactorAlreadyEnabled };
+    return { error: errorCodes.two_factor_already_enabled };
   }
 
   if (!config.ENCRYPTION_KEY) {
@@ -49,14 +49,14 @@ export default defineEventHandler(async (event) => {
       "Missing encryption key; cannot proceed with two-factor setup.",
     );
     event.res.statusCode = 500;
-    return { error: errorCodes.InternalServerError };
+    return { error: errorCodes.internal_server_error };
   }
 
   const isCorrectPassword = await isPasswordValid(body.password, user.password);
 
   if (!isCorrectPassword) {
     event.res.statusCode = 400;
-    return { error: errorCodes.IncorrectPassword };
+    return { error: errorCodes.incorrect_password };
   }
 
   const secret = authenticator.generateSecret(32);

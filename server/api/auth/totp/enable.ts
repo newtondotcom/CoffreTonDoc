@@ -1,7 +1,7 @@
 import { authenticator } from "otplib";
-import prisma from "../../../data/prisma";
+import prisma from "~/server/data/prisma";
 import errorCodes from "../../../../utils/codes";
-import { symmetricDecrypt } from "../../../../utils/crypto"; // Make sure to import your decryption utility
+import { symmetricDecrypt } from "~/utils/crypto"; 
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
     console.error("Session is missing a user email.");
     return {
       statusCode: 500,
-      body: { error: errorCodes.InternalServerError },
+      body: { error: errorCodes.internal_server_error },
     };
   }
 
@@ -47,14 +47,14 @@ export default defineEventHandler(async (event) => {
   if (user.twoFactorEnabled) {
     return {
       statusCode: 400,
-      body: { error: errorCodes.TwoFactorAlreadyEnabled },
+      body: { error: errorCodes.two_factor_already_enabled },
     };
   }
 
   if (!user.twoFactorSecret) {
     return {
       statusCode: 400,
-      body: { error: errorCodes.TwoFactorSetupRequired },
+      body: { error: errorCodes.two_factor_setup_required },
     };
   }
 
@@ -64,7 +64,7 @@ export default defineEventHandler(async (event) => {
     );
     return {
       statusCode: 500,
-      body: { error: errorCodes.InternalServerError },
+      body: { error: errorCodes.internal_server_error },
     };
   }
 
@@ -75,7 +75,7 @@ export default defineEventHandler(async (event) => {
     );
     return {
       statusCode: 500,
-      body: { error: errorCodes.InternalServerError },
+      body: { error: errorCodes.internal_server_error },
     };
   }
 
@@ -83,7 +83,7 @@ export default defineEventHandler(async (event) => {
   if (!isValidToken) {
     return {
       statusCode: 400,
-      body: { error: errorCodes.IncorrectTwoFactorCode },
+      body: { error: errorCodes.incorrect_two_factor_code },
     };
   }
 
@@ -96,6 +96,6 @@ export default defineEventHandler(async (event) => {
 
   return {
     statusCode: 200,
-    body: { message: "Two-factor enabled" },
+    body: { message: errorCodes.two_factor_enabled },
   };
 });

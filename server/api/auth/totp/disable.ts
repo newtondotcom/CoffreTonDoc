@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
       `Two factor is enabled for user ${user.email} but they have no secret`,
     );
     event.node.res.statusCode = 500;
-    return { error: errorCodes.InternalServerError };
+    return { error: errorCodes.internal_server_error };
   }
 
   if (!config.ENCRYPTION_KEY) {
@@ -59,7 +59,7 @@ export default defineEventHandler(async (event) => {
       "Missing encryption key; cannot proceed with two factor login.",
     );
     event.node.res.statusCode = 500;
-    return { error: errorCodes.InternalServerError };
+    return { error: errorCodes.internal_server_error };
   }
 
   const secret = symmetricDecrypt(user.twoFactorSecret, config.ENCRYPTION_KEY);
@@ -68,13 +68,13 @@ export default defineEventHandler(async (event) => {
       `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`,
     );
     event.node.res.statusCode = 500;
-    return { error: errorCodes.InternalServerError };
+    return { error: errorCodes.internal_server_error };
   }
 
   const isValidToken = authenticator.check(body.totpCode, secret);
   if (!isValidToken) {
     event.node.res.statusCode = 400;
-    return { error: errorCodes.IncorrectTwoFactorCode };
+    return { error: errorCodes.incorrect_two_factor_code };
   }
 
   await prisma.user.update({
