@@ -17,15 +17,21 @@
               </div>
                 -->
     </div>
-    <Button class="w-[70%]" variant="destructive"> Log out </Button>
+    <Button class="w-[70%]" variant="destructive" @click="logout"> Log out </Button>
   </div>
 </template>
 
 <script setup lang="ts">
+const {signOut} = useAuth()
 import { assert } from "@vueuse/core";
-const { data} = useAuth();
-const name = ref(data.name);
-const email = ref(data.email);
+const { status, data } = useAuth();
+const name = ref("JM");
+const email = ref("TEST");
+
+const logout = async () => {
+  await signOut();
+  navigateTo("/auth/login");
+};
 
 const initials_cookie = useCookie("initials");
 if (!initials_cookie.value) {
