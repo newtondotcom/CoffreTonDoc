@@ -1,25 +1,29 @@
 <script setup lang="ts">
+const { locale, setLocale } = useI18n()
+const { t } = useI18n()
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
+import errorCodes from "~/utils/codes";
+const { signIn } = useAuth();
 
 definePageMeta({
   layout: false,
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: "/",
+    navigateAuthenticatedTo: "/platform",
   },
 });
 
-const username = ref("");
-const email = ref("");
-const password = ref("");
-const password_confirmation = ref("");
+const username = ref("Roebbs  Boomer");
+const email = ref("test@gmail.com");
+const password = ref("test");
+const password_confirmation = ref("test");
 
 const value = ref<String[]>([]);
 const totpCode = ref(0);
 const handleComplete = (e: String[]) => {
   totpCode.value = e.join("");
-  handleSetupToptp();
+  validateTotpCode();
 };
 const twoFATurn = ref(false);
 const loading = ref(false);
@@ -34,13 +38,13 @@ const register = async () => {
     password.value != password_confirmation.value
   ) {
     toast({
-      title: $t("error"),
-      description: $t("all_fields"),
+      title: t("error"),
+      description: t("all_fields"),
       variant: "destructive",
     });
     return;
   }
-  const { data, error } = await $fetch(`/api/auth/register`, {
+  const data = await $fetch(`/api/auth/register`, {
     method: "POST",
     body: {
       email: email.value,
@@ -49,20 +53,33 @@ const register = async () => {
     },
   });
   loading.value = true;
-  if (error.value) {
+  if (data.message == errorCodes.user_already_exists) {
     toast({
-      title: $t("error"),
-      description: $t("wrong_credentials"),
+      title: t("error"),
+      description: t("missing_2fa_account"),
+      variant: "destructive",
+    });
+    twoFATurn.value = true;
+    await handleSetupToptp();
+    return;
+  }
+  if (data.message == errorCodes.success_user_created) {
+    toast({
+      title: t("success"),
+      description: t("account_created"),
+    });
+    twoFATurn.value = true;
+    await handleSetupToptp();
+    return;
+  }
+  else {
+    toast({
+      title: t("error"),
+      description: t("wrong_credentials"),
       variant: "destructive",
     });
     return;
   }
-  toast({
-    title: $t("success"),
-    description: $t("account_created"),
-  });
-  twoFATurn.value = true;
-  await navigateTo("/auth/login");
 };
 
 const handleSetupToptp = async () => {
@@ -76,28 +93,79 @@ const handleSetupToptp = async () => {
       },
       body: JSON.stringify({
         password: password.value,
-      }),
+        email: email.value,
+      })
     });
-    const body = await response.json();
-
-    if (response.status === 200) {
-      dataUriQrCode.value = body.dataUri;
-    } else if (body.error === errorCodes.incorrect_password) {
-      toast({
-        title: "Incorrect Password",
-        status: "error",
-      });
+    if (response.dataUri) {
+      dataUriQrCode.value = response.dataUri;
+    } else if (response.message === errorCodes.two_factor_already_enabled) {
+      navigateTo("/auth/login");
     } else {
       toast({
-        title: "Sorry something went wrong",
-        status: "error",
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
       });
     }
   } catch (e) {
+    console.error(e);
     toast({
-      title: "Sorry something went wrong",
-      status: "error",
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
     });
+  } finally {
+    loading.value = false;
+  }
+};
+
+const validateTotpCode = async () => {
+  loading.value = true;
+
+  try {
+    const body = await $fetch(`/api/auth/totp/enable`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        totpCode: totpCode.value,
+        email: email.value,
+      }),
+    });
+    console.log(body);
+    if (body.status === 200) {
+      toast({
+        title: t("success"),
+        description: t("twofa_enabled")
+      });  
+      const response = await signIn("credentials", {
+        redirect: false,
+        username: username.value.trim(),
+        password: password.value.trim(),
+        totpCode: totpCode.value,
+      });
+      navigateTo("/platform");
+    } else if (body.error === errorCodes.incorrect_password) {
+      toast({
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
+      });
+    } else {
+      toast({
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
+      });
+    }
+  } catch (e) {
+    console.error(e);
+      toast({
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
+      });
   } finally {
     loading.value = false;
   }
@@ -115,6 +183,16 @@ const handleSetupToptp = async () => {
       </CardHeader>
       <CardContent v-if="!twoFATurn">
         <div class="grid gap-4">
+          <div class="grid gap-2">
+            <Label for="username">{{ $t("username") }}</Label>
+            <Input
+              id="username"
+              type="text"
+              placeholder="Robebs Boomer"
+              required
+              v-model="username"
+            />
+          </div>
           <div class="grid gap-2">
             <Label for="email">{{ $t("email") }}</Label>
             <Input
@@ -200,14 +278,14 @@ const handleSetupToptp = async () => {
           >
             <PinInputGroup>
               <PinInputInput
-                v-for="(id, index) in 5"
+                v-for="(id, index) in 6"
                 :key="id"
                 :index="index"
               />
             </PinInputGroup>
           </PinInput>
         </div>
-        <Button type="submit" class="w-full" @click="handleSetupToptp">
+        <Button type="submit" class="w-full" @click="validateTotpCode">
           <div
             v-if="loading"
             aria-label="Loading..."
