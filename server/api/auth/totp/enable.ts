@@ -5,7 +5,6 @@ import { symmetricDecrypt } from "~/utils/crypto";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const session = event.context.session;
   const config = useRuntimeConfig();
 
   if (event.req.method !== "POST") {
@@ -15,14 +14,7 @@ export default defineEventHandler(async (event) => {
     };
   }
 
-  if (!session) {
-    return {
-      statusCode: 401,
-      body: { message: "Not authenticated" },
-    };
-  }
-
-  if (!session.user?.email) {
+  if (!body.email) {
     console.error("Session is missing a user email.");
     return {
       statusCode: 500,
@@ -32,7 +24,7 @@ export default defineEventHandler(async (event) => {
 
   const user = await prisma.user.findFirst({
     where: {
-      email: session.user.email,
+      email: body.email,
     },
   });
 
@@ -69,7 +61,9 @@ export default defineEventHandler(async (event) => {
   }
 
   const secret = symmetricDecrypt(user.twoFactorSecret, config.ENCRYPTION_KEY);
+  /*
   if (secret.length !== 32) {
+    console.log(secret);
     console.error(
       `Two factor secret decryption failed. Expected key with length 32 but got ${secret.length}`,
     );
@@ -78,6 +72,7 @@ export default defineEventHandler(async (event) => {
       body: { error: errorCodes.internal_server_error },
     };
   }
+  */
 
   const isValidToken = authenticator.check(body.totpCode, secret);
   if (!isValidToken) {
@@ -88,7 +83,7 @@ export default defineEventHandler(async (event) => {
   }
 
   await prisma.user.update({
-    where: { email: session.user.email },
+    where: { email: body.email },
     data: {
       twoFactorEnabled: true,
     },

@@ -3,10 +3,10 @@ import qrcode from "qrcode";
 import prisma from "~/server/data/prisma";
 import errorCodes from "~/utils/codes";
 import { symmetricEncrypt } from "~/utils/crypto";
+import {isPasswordValid} from "~/utils/hash";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
-  const session = event.context.session;
   const config = useRuntimeConfig();
 
   if (event.req.method !== "POST") {
@@ -14,19 +14,7 @@ export default defineEventHandler(async (event) => {
     return { message: "Method not allowed" };
   }
 
-  if (!session) {
-    event.res.statusCode = 401;
-    console.log("No session found");
-    return { message: "Not authenticated" };
-  }
-
-  if (!session.user?.email) {
-    console.error("Session is missing a user email.");
-    event.res.statusCode = 500;
-    return { error: errorCodes.internal_server_error };
-  }
-
-  const user = await prisma.user.findOne({ email: session.user.email });
+  const user = await prisma.User.findUnique({ where: { email: body.email } });
 
   if (!user) {
     console.error(`Session references user that no longer exists.`);
@@ -36,12 +24,11 @@ export default defineEventHandler(async (event) => {
 
   if (!user.password) {
     event.res.statusCode = 400;
-    return { error: errorCodes.UserMissingPassword };
+    return { message: errorCodes.user_missing_password };
   }
 
   if (user.twoFactorEnabled) {
-    event.res.statusCode = 400;
-    return { error: errorCodes.two_factor_already_enabled };
+    return { message: errorCodes.two_factor_already_enabled };
   }
 
   if (!config.ENCRYPTION_KEY) {
@@ -62,20 +49,18 @@ export default defineEventHandler(async (event) => {
   const secret = authenticator.generateSecret(32);
   const encryptedSecret = symmetricEncrypt(secret, config.ENCRYPTION_KEY);
 
-  await prisma.User.updateOne(
-    { email: session.user.email },
-    {
+  await prisma.User.update({
+    where : { email: body.email },
+    data : {
       twoFactorEnabled: false,
       twoFactorSecret: encryptedSecret,
     },
+  }
   );
 
-  const keyUri = authenticator.keyuri(session.user.email, "MyApp", secret);
+  const keyUri = authenticator.keyuri(body.email, config.APP_NAME, secret);
   const dataUri = await qrcode.toDataURL(keyUri);
 
   event.res.statusCode = 200;
   return { secret, keyUri, dataUri };
 });
-function isPasswordValid(password: any, password1: any) {
-  throw new Error("Function not implemented.");
-}

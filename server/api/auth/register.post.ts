@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import prisma from "~/server/data/prisma";
+import errorCodes from "~/utils/codes";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -9,10 +10,7 @@ export default defineEventHandler(async (event) => {
   });
 
   if (userExists) {
-    throw {
-      statusCode: 403,
-      statusMessage: "User already exists",
-    };
+    return { message: errorCodes.user_already_exists };
   }
 
   await prisma.user.create({
@@ -23,5 +21,5 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  return { message: "User created" };
+  return { message: errorCodes.success_user_created };
 });
