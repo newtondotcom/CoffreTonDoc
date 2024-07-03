@@ -1,5 +1,7 @@
 <script setup lang="ts">
 const { signIn } = useAuth();
+const { locale, setLocale } = useI18n()
+const { t } = useI18n()
 import { useToast } from "@/components/ui/toast/use-toast";
 import errorCodes from "~/utils/codes";
 const { toast } = useToast();
@@ -8,7 +10,7 @@ definePageMeta({
   layout: false,
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: "/",
+    navigateAuthenticatedTo: "/platform",
   },
 });
 
@@ -27,8 +29,8 @@ const login = async () => {
   loading.value = true;
   if (username.value == "" || password.value == "" || totpCode.value == 0) {
     toast({
-      title: $t("error"),
-      description: $t("all_fields"),
+      title: t("error"),
+      description: t("all_fields"),
       variant: "destructive",
     });
     loading.value = false;
@@ -40,27 +42,28 @@ const login = async () => {
     password: password.value.trim(),
     totpCode: totpCode.value,
   });
-  loading.value = false;
   if (
     response == errorCodes.incorrect_username ||
     response == errorCodes.incorrect_password
   ) {
     toast({
-      title: $t("error"),
-      description: $t("wrong_credentials"),
+      title: t("error"),
+      description: t("wrong_credentials"),
       variant: "destructive",
     });
+  loading.value = false;
     return;
   }
   if (response == errorCodes.incorrect_two_factor_code) {
     toast({
-      title: $t("error"),
-      description: $t("wrong_totp"),
+      title: t("error"),
+      description: t("wrong_totp"),
       variant: "destructive",
     });
+  loading.value = false;
     return;
   }
-  await navigateTo("/");
+  navigateTo("/platform");
 };
 </script>
 
@@ -82,7 +85,7 @@ const login = async () => {
               type="email"
               placeholder="m@example.com"
               required
-              v-model="email"
+              v-model="username"
             />
           </div>
           <div class="grid gap-2">
@@ -107,7 +110,7 @@ const login = async () => {
             >
               <PinInputGroup>
                 <PinInputInput
-                  v-for="(id, index) in 5"
+                  v-for="(id, index) in 6"
                   :key="id"
                   :index="index"
                 />
