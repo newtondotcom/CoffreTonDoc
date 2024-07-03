@@ -35,6 +35,14 @@
           >
             <Skeleton class="h-10 w-[100%]" />
           </li>
+          <li
+            v-if="!fileLoading && filteredFiles.length === 0"
+          >
+              <Separator />
+          <div class="flex flex-row justify-between text-center mx-4 px-4 py-2">
+            <span>{{ $t("no_files") }}</span>
+          </div>
+          </li>
           <ScrollArea v-else class="h-[70vh]">
             <li
               v-for="(file, index) in filteredFiles"
@@ -64,7 +72,6 @@
 import { generateFakeFiles } from "~/lib/utils";
 import { ref, computed, watch } from "vue";
 import type { File } from "~/types/types";
-import { AccessStatus } from "@prisma/client";
 import { useToast } from "@/components/ui/toast/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 const { toast } = useToast();
