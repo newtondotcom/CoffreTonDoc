@@ -1,6 +1,7 @@
 # VaultDoc 🔐
 
 ## TODO LIST
+
 - Encrypt files before uploading to s3
 - Add screenshots in the readme
 - Optimize the arboresence loading
