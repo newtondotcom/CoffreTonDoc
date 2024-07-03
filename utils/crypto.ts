@@ -13,37 +13,34 @@ const IV_LENGTH = 16; // AES blocksize
  * @returns Encrypted value using key
  */
 export const symmetricEncrypt = function (text: string, key: string) {
-  const _key = Buffer.from(key, "latin1");
-  const iv = crypto.randomBytes(IV_LENGTH);
-
-  const cipher = crypto.createCipheriv(ALGORITHM, _key, iv);
-  let ciphered = cipher.update(text, INPUT_ENCODING, OUTPUT_ENCODING);
-  ciphered += cipher.final(OUTPUT_ENCODING);
-  const ciphertext = iv.toString(OUTPUT_ENCODING) + ":" + ciphered;
-
-  return ciphertext;
+  const keyBuffer = Buffer.from(key, 'hex');
+  const iv = crypto.randomBytes(16);
+  const cipher = crypto.createCipheriv('aes-256-cbc', keyBuffer, iv);
+  let encrypted = cipher.update(text, 'utf8', 'base64');
+  encrypted += cipher.final('base64');
+  return iv.toString('hex') + ':' + encrypted;
 };
 
 /**
  *
  * @param text Value to decrypt
  * @param key Key used to decrypt value must be 32 bytes for AES256 encryption algorithm
+ * 
+ * @returns Decrypted value using key
  */
 export const symmetricDecrypt = function (text: string, key: string) {
-  const _key = Buffer.from(key, "latin1");
+  try {
+    const keyBuffer = Buffer.from(key, 'hex');
+    const parts = text.split(':');
+    const iv = Buffer.from(parts[0], 'hex');
+    const encrypted = parts[1];
+    const decipher = crypto.createDecipheriv('aes-256-cbc', keyBuffer, iv);
+    let decrypted = decipher.update(encrypted, 'base64', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
 
-  const components = text.split(":");
-  const iv_from_ciphertext = Buffer.from(
-    components.shift() || "",
-    OUTPUT_ENCODING,
-  );
-  const decipher = crypto.createDecipheriv(ALGORITHM, _key, iv_from_ciphertext);
-  let deciphered = decipher.update(
-    components.join(":"),
-    OUTPUT_ENCODING,
-    INPUT_ENCODING,
-  );
-  deciphered += decipher.final(INPUT_ENCODING);
-
-  return deciphered;
+  } catch (error) {
+    console.error("Error decrypting value", error);
+    return "";
+  }
 };
