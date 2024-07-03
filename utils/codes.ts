@@ -15,9 +15,11 @@ const error_codes = {
   incorrect_two_factor_code: "INCORRECT_TWO_FACTOR_CODE",
   internal_server_error: "INTERNAL_SERVER_ERROR",
   new_password_matches_old: "NEW_PASSWORD_MATCHES_OLD",
+  user_already_exists: "USER_ALREADY_EXISTS",
   third_party_identity_provider_enabled:
     "THIRD_PARTY_IDENTITY_PROVIDER_ENABLED",
   no_2fa_code: "NO_2FA_CODE",
+  success_user_created: "SUCCESS_USER_CREATED",
 };
 
 export default Object.freeze(error_codes);
