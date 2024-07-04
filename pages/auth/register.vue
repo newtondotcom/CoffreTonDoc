@@ -4,6 +4,7 @@ const { t } = useI18n()
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
 import errorCodes from "~/utils/codes";
+import { generateSeedPhrase } from "~/utils/crypto";
 const { signIn } = useAuth();
 
 definePageMeta({
@@ -145,7 +146,7 @@ const validateTotpCode = async () => {
         password: password.value.trim(),
         totpCode: totpCode.value,
       });
-      navigateTo("/platform");
+      seedTurn.value = false;
     } else if (body.error === errorCodes.incorrect_password) {
       toast({
       title: t("error"),
@@ -170,6 +171,38 @@ const validateTotpCode = async () => {
     loading.value = false;
   }
 };
+
+
+const seedTurn = ref(false);
+const seed = ref<String[]>();
+const userWantToSaveSeed = ref(false);
+const userSaveSeedDuration = ref(0);
+const seedSaved = ref(false);
+
+const generateSeed = () => {
+  const plainSeed = generateSeedPhrase();
+  seed.value = plainSeed.split(" ")
+}
+
+const storeSeed = async () => {
+  // userSaveSeedDuration.value
+  const seedCookie = useCookie('key',{
+    maxAge: 60 * 60 * 24 * 7, // One week
+    path: '/',
+    secure: true, // Only send cookie over HTTPS
+    httpOnly: false, // Allow JavaScript access to cookie
+    sameSite: 'strict', // Prevent CSRF attacks
+    signed: true, // Sign cookie to verify integrity
+  })
+}
+
+const proceedFinal = async () => {
+  if (userWantToSaveSeed.value){
+    storeSeed();
+  }
+  navigateTo("/platform");
+}
+
 </script>
 
 <template>
