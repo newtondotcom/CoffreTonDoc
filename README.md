@@ -7,3 +7,4 @@
 - Optimize the arboresence loading
 - Make the research work using [this awesome thing](https://github.com/tantaraio/voy)
 - List current sessions (not possible using credentials and jwt)
+- Limit file extension manually created 
