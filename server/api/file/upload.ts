@@ -1,7 +1,7 @@
 import { createFile } from "~/server/data/files";
 import {
   generateUniqueName,
-  createPresignedUrlDownload,
+  createPresignedUrlUpload,
 } from "~/server/data/s3";
 
 export default defineEventHandler(async (event) => {
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
   const extension = body.extension;
   const id = await createFile(name, extension, idParent, size, statut, user_id);
   const uname = generateUniqueName();
-  const urlUpload = await createPresignedUrlDownload(user_id, uname);
+  const { url, objectName} = await createPresignedUrlUpload(uname);
   const idfinal = id.id;
-  return { idfinal, urlUpload };
+  return { idfinal, url, objectName };
 });
