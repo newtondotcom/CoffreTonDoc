@@ -91,6 +91,13 @@ export default defineI18nConfig(() => ({
       success: "Sucess,",
       missing_2fa_account : "Missing 2FA code",
       no_files : "Looks like you don't have any files yet !",
+      seed_phrase : "Encryption phrase",
+      attention_seed : "This phrase will be used to encrypt your datas to guarantee its unviolability !",
+      save_seed : "Do you want to crypt and store your key in your browser ? (a bit unsafe in case someone has access to your computer but still recommended to not type it at each operation)",
+      save_duration : "How much time ?",
+      end_configuration : "End my account configuration",
+      seed_copied : "Your phrase has successfully been copied to your clipboard ",
+      key_seed_saved : "Your key has been saved in your browser",
     },
     fr: {
       welcome: "Bienvenue 👋",
