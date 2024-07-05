@@ -72,8 +72,6 @@
 </template>
 
 <script lang="ts">
-import { getKeyValue } from '@/utils/cookies';
-
 defineProps({
   provideKey: {
     type: Function,
@@ -88,6 +86,9 @@ defineProps({
     required : true
   }
 })
+
+import { getKeyValue } from '@/utils/cookies';
+
 const keySaved = ref(false);
 const key = ref("");
 
