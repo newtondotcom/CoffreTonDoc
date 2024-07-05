@@ -82,7 +82,7 @@ export async function removeVideo(user_id: string, videoId: string) {
   }
 }
 
-export async function createPresignedUrlUpload(user_id: any) {
+export async function createPresignedUrlUpload() {
   const s3Name = constants.NAME_S3_UPLOADS;
   const config = await prisma.s3.findUnique({
     where: {
@@ -111,11 +111,10 @@ export async function createPresignedUrlUpload(user_id: any) {
     objectName,
     expiryInSeconds,
   );
-  return { url, objectName, s3Name };
+  return { url, objectName};
 }
 
 export async function createPresignedUrlDownload(
-  user_id: any,
   objectName: any,
 ) {
   const config = useRuntimeConfig();
