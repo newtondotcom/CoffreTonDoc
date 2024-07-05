@@ -1,31 +1,6 @@
 <template>
     
-    <Button v-if="keySaved" variant="outline">
-        <Button type="submit" class="w-full" @click="provideKey(key)">
-            <div
-              v-if="loading"
-              aria-label="Loading..."
-              role="status"
-              class="align-middle justify-center flex"
-            >
-              <svg
-                class="animate-spin w-6 h-6 fill-slate-800"
-                viewBox="3 3 18 18"
-              >
-                <path
-                  class="opacity-20"
-                  d="M12 5C8.13401 5 5 8.13401 5 12C5 15.866 8.13401 19 12 19C15.866 19 19 15.866 19 12C19 8.13401 15.866 5 12 5ZM3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
-                ></path>
-                <path
-                  d="M16.9497 7.05015C14.2161 4.31648 9.78392 4.31648 7.05025 7.05015C6.65973 7.44067 6.02656 7.44067 5.63604 7.05015C5.24551 6.65962 5.24551 6.02646 5.63604 5.63593C9.15076 2.12121 14.8492 2.12121 18.364 5.63593C18.7545 6.02646 18.7545 6.65962 18.364 7.05015C17.9734 7.44067 17.3403 7.44067 16.9497 7.05015Z"
-                ></path>
-              </svg>
-            </div>
-            <div v-else>
-              {{ $t("register") }}
-            </div>
-          </Button>
-    </Button>
+  <ButtonLoading v-if="keySaved" :loading :text execute="localFunction"/>
 
   <Dialog v-else>
     <DialogTrigger as-child>
@@ -40,24 +15,56 @@
           Make changes to your profile here. Click save when you're done.
         </DialogDescription>
       </DialogHeader>
-      <div class="grid gap-4 py-4">
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="name" class="text-right">
-            Name
-          </Label>
-          <Input id="name" value="Pedro Duarte" class="col-span-3" />
-        </div>
-        <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="username" class="text-right">
-            Username
-          </Label>
-          <Input id="username" value="@peduarte" class="col-span-3" />
-        </div>
-      </div>
-      <DialogFooter>
-        <Button type="submit">
-          Save changes
+      <div class="flex flex-col justify-center align-middle">
+          <Label for="seed">{{ $t("seed_phrase") }}</Label>
+          <div class="grid gap-2">
+            <div class="">
+            <Input
+              v-for="input in seed"
+              id="seed"
+              type="text"
+              placeholder="random"
+              required
+              v-model="input"
+            />
+            <Button variant="secondary" type="submit" size="sm" class="px-3" @click="copy">
+              <span class="sr-only">Copy</span>
+              <Copy class="w-4 h-4" />
         </Button>
+          </div>
+          </div>
+          <div class="grid gap-2">
+            <Label for="save">{{ $t("save_seed") }}</Label>
+            <Switch
+            id="save"
+                :checked="userWantToSaveSeed"
+              />
+            <Label for="duration">{{ $t("save_duration") }}</Label>
+            <Select id="duration" v-model="userSaveSeedDuration">
+    <SelectTrigger class="w-[180px]">
+      <SelectValue placeholder="Select a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectGroup>
+        <SelectLabel>Fruits</SelectLabel>
+        <SelectItem value="1">
+          1 day
+        </SelectItem>
+        <SelectItem value="30">
+          30 days
+        </SelectItem>
+        <SelectItem value="365">
+          1 year
+        </SelectItem>
+        <SelectItem value="99*365">
+          99 years
+        </SelectItem>
+      </SelectGroup>
+    </SelectContent>
+  </Select>
+          </div>
+      <DialogFooter>
+        <ButtonLoading :loading :text execute="localFunction"/>
       </DialogFooter>
     </DialogContent>
   </Dialog>
@@ -87,6 +94,26 @@ const key = ref("");
 if (getKeyValue()){
     keySaved.value = false;
     key.value = getKeyValue();
+}
+
+const seed = ref<String[]>(new Array(12));
+const userWantToSaveSeed = ref(false);
+const userSaveSeedDuration = ref(0);
+
+const storeKey = () => {
+  const key : bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
+  setKeyValue(userSaveSeedDuration,key as string);
+  toast({
+      title: t("success"),
+      description: t("key_seed_saved"),
+    });
+}
+
+async function localFunction () => {
+  if (!keySaved && userWantToSaveSeed.value){
+    storeKey();
+  }
+  props.provideKey()
 }
 
 </script>
