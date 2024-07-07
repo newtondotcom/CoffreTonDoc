@@ -1,32 +1,35 @@
 <template>
   <div class="flex flex-col justify-center align-middle">
     <Label for="seed">{{ $t("seed_phrase") }}</Label>
-    <div class="grid grid-cols-3 gap-x-4 gap-y-8">
-      <div class="">
+    <div class="grid grid-cols-3 gap-x-2 gap-y-4">
+      <div
+        v-for="i in seed.length"
+        :key="i"
+        class="flex items-center space-x-2"
+      >
         <Input
-          v-for="i in seed.length"
-          id="seed"
+          :id="'seed-' + i"
           type="text"
           placeholder="random"
           required
           class="w-[100px]"
           v-model="seed[i]"
         />
-        <Button
-          variant="secondary"
-          type="submit"
-          size="sm"
-          class="px-3"
-          @click="copy"
-        >
-          <span class="sr-only">Copy</span>
-          <Copy class="w-4 h-4" />
-        </Button>
       </div>
+      <Button
+        variant="secondary"
+        type="submit"
+        size="sm"
+        class="px-3"
+        @click="copy"
+      >
+        <span class="sr-only">Copy</span>
+        <Copy class="w-4 h-4" />
+      </Button>
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password") }}</Label>
-      <Button @click="generateSeed">{{$t("generate_seed") }}</Button>
+      <Button @click="generateSeed">{{ $t("generate_seed") }}</Button>
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("save_seed") }}</Label>
@@ -50,7 +53,7 @@
 
     <ButtonLoading
       :loading
-      :text='t("end_configuration")'
+      :text="t('end_configuration')"
       :execute="proceedFinal"
     />
   </div>
@@ -74,7 +77,7 @@ const loading = ref(false);
 
 const seed = ref<String[]>(new Array(12));
 const userWantToSaveSeed = ref(false);
-const userSaveSeedDuration = ref(0);
+const userSaveSeedDuration = ref("0");
 
 const generateSeed = () => {
   const plainSeed = generateSeedPhrase();

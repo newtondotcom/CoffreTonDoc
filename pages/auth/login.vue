@@ -118,7 +118,7 @@ const login = async () => {
             </PinInput>
           </div>
 
-          <ButtonLoading :loading :text='t("login")' :execute="login" />
+          <ButtonLoading :loading :text="t('login')" :execute="login" />
         </div>
         <div class="mt-4 text-center text-sm">
           {{ $t("allow_using") }}

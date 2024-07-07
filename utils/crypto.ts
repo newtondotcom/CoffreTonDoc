@@ -1,6 +1,7 @@
 import crypto from "crypto";
-import bip39 from "bip39";
 import * as bip32 from "bip32";
+import * as bip39 from "bip39";
+import { Buffer } from "node:buffer";
 
 const ALGORITHM = "aes-256-cbc";
 const INPUT_ENCODING = "utf8";
@@ -33,9 +34,9 @@ export const getMasterKeyFromSeed = (
  * @returns {string} The generated encryption key.
  */
 export const getEncryptionKey = (masterKey: bip32.BIP32Interface): string => {
-  return crypto.SHA256(
-    masterKey.privateKey.toString(OUTPUT_ENCODING),
-  ).toString();
+  return crypto
+    .SHA256(masterKey.privateKey.toString(OUTPUT_ENCODING))
+    .toString();
 };
 
 /**

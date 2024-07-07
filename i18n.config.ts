@@ -101,7 +101,7 @@ export default defineI18nConfig(() => ({
       seed_copied:
         "Your phrase has successfully been copied to your clipboard ",
       key_seed_saved: "Your key has been saved in your browser",
-      generate_seed : "Generate one",
+      generate_seed: "Generate one",
     },
     fr: {
       welcome: "Bienvenue 👋",
