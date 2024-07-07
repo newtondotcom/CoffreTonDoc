@@ -7,11 +7,11 @@ definePageMeta({
   },
 });
 
-const twoFATurn = ref(false);
-const seedTurn = ref(true);
+const STATES = "CRED" | "TOTP" | "SEED";
+const currentState = ref("");
 
 const set2FATurn = (value: Boolean) => {
-  twoFATurn.value = value;
+  STATES 
 };
 
 const setSeedTurn = (value: Boolean) => {
@@ -58,7 +58,8 @@ const getPassword = () => {
         :setEmail 
         :getEmail
         />
-        <AuthRegisterGenerateTotp v-else :setSeedTurn
+        <AuthRegisterGenerateTotp v-else 
+        :setSeedTurn
         :getPassword
         :getEmail/>
         <AuthRegisterSeed v-if="seedTurn" />
