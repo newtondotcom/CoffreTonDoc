@@ -56,7 +56,7 @@ CREATE TABLE "File" (
     "user_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "isFolder" BOOLEAN NOT NULL,
+    "isFolder" Boolean NOT NULL,
     "extension" TEXT,
     "idParent" INTEGER,
     "size" INTEGER NOT NULL,
@@ -68,7 +68,7 @@ CREATE TABLE "File" (
 -- CreateTable
 CREATE TABLE "S3" (
     "endpoint" TEXT NOT NULL,
-    "ssl" BOOLEAN NOT NULL,
+    "ssl" Boolean NOT NULL,
     "port" INTEGER NOT NULL,
     "access_key" TEXT NOT NULL,
     "secret_key" TEXT NOT NULL,
