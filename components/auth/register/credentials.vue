@@ -17,12 +17,12 @@
         type="email"
         placeholder="m@example.com"
         required
-        @input="setEmail"
+        @input="Email"
       />
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password") }}</Label>
-      <Input id="password" type="password" required @input="setPassword"/>
+      <Input id="password" type="password" required @input="Password" />
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password_confirmation") }}</Label>
@@ -65,19 +65,11 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-  setEmail: {
+  Email: {
     type: Function,
     required: true,
   },
-  getEmail: {
-    type: Function,
-    required: true,
-  },
-  setPassword: {
-    type: Function,
-    required: true,
-  },
-  getPassword: {
+  Password: {
     type: Function,
     required: true,
   },
@@ -96,10 +88,10 @@ const register = async () => {
   loading.value = true;
   if (
     username.value == "" ||
-    props.getEmail() == "" || 
-    props.getPassword() == "" ||
-    password_confirmation.value == ""||
-    props.getPassword() != password_confirmation.value
+    props.Email() == "" ||
+    props.Password() == "" ||
+    password_confirmation.value == "" ||
+    props.Password() != password_confirmation.value
   ) {
     toast({
       title: t("error"),
@@ -111,8 +103,8 @@ const register = async () => {
   const data = await $fetch(`/api/auth/register`, {
     method: "POST",
     body: {
-      email: props.getEmail(),
-      password: props.getPassword(),
+      email: props.Email(),
+      password: props.Password(),
       name: username.value,
     },
   });

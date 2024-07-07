@@ -16,7 +16,7 @@
     </PinInput>
   </div>
 
-  <ButtonLoading :loading :text='t("submit")' :execute="validateTotpCode" />
+  <ButtonLoading :loading :text="t('submit')" :execute="validateTotpCode" />
 </template>
 
 <script setup lang="ts">
@@ -25,11 +25,11 @@ const props = defineProps({
     type: Function,
     required: true,
   },
-  getEmail: {
+  Email: {
     type: Function,
     required: true,
   },
-  getPassword: {
+  Password: {
     type: Function,
     required: true,
   },
@@ -59,7 +59,7 @@ const validateTotpCode = async () => {
       },
       body: JSON.stringify({
         totpCode: totpCode.value,
-        email: props.getEmail(),
+        email: props.Email(),
       }),
     });
     console.log(body);
@@ -70,8 +70,8 @@ const validateTotpCode = async () => {
       });
       const response = await signIn("credentials", {
         redirect: false,
-        username: props.getEmail(),
-        password: props.getPassword(),
+        username: props.Email(),
+        password: props.Password(),
         totpCode: totpCode.value,
       });
       props.setSeedTurn(true);
@@ -112,13 +112,12 @@ const handleSetupToptp = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        password: props.getPassword(),
-        email: props.getEmail(),
+        password: props.Password(),
+        email: props.Email(),
       }),
     });
     if (response.dataUri) {
       dataUriQrCode.value = response.dataUri;
-      
     } else if (response.message === errorCodes.two_factor_already_enabled) {
       props.setSeedTurn(true);
     } else {
