@@ -1,6 +1,5 @@
 <template>
   <Button
-    v-if="keySaved"
     variant="outline"
     type="submit"
     class="w-full"
@@ -28,7 +27,7 @@
   </Button>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 defineProps({
   execute: {
     type: Function,

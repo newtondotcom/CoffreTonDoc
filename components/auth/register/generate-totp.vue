@@ -16,12 +16,20 @@
     </PinInput>
   </div>
 
-  <ButtonLoading :loading text='t("submit")' execute="validateTotpCode" />
+  <ButtonLoading :loading :text='t("submit")' :execute="validateTotpCode" />
 </template>
 
 <script setup lang="ts">
 const props = defineProps({
   setSeedTurn: {
+    type: Function,
+    required: true,
+  },
+  getEmail: {
+    type: Function,
+    required: true,
+  },
+  getPassword: {
     type: Function,
     required: true,
   },
@@ -39,16 +47,60 @@ const handleComplete = (e: String[]) => {
   totpCode.value = e.join("");
   validateTotpCode();
 };
+
+const validateTotpCode = async () => {
+  loading.value = true;
+
+  try {
+    const body = await $fetch(`/api/auth/totp/enable`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        totpCode: totpCode.value,
+        email: props.getEmail(),
+      }),
+    });
+    console.log(body);
+    if (body.statusCode === 200) {
+      toast({
+        title: t("success"),
+        description: t("twofa_enabled"),
+      });
+      const response = await signIn("credentials", {
+        redirect: false,
+        username: props.getEmail(),
+        password: props.getPassword(),
+        totpCode: totpCode.value,
+      });
+      props.setSeedTurn(true);
+    } else if (body.message === errorCodes.incorrect_password) {
+      toast({
+        title: t("error"),
+        description: t("wrong_credentials"),
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: t("error"),
+        description: t("wrong_credentials"),
+        variant: "destructive",
+      });
+    }
+  } catch (e) {
+    console.error(e);
+    toast({
+      title: t("error"),
+      description: t("wrong_credentials"),
+      variant: "destructive",
+    });
+  } finally {
+    loading.value = false;
+  }
+};
+
 const dataUriQrCode = ref("");
-
-const username = ref("Roebbs  Boomer");
-const email = ref("test@gmail.com");
-const password = ref("test");
-const password_confirmation = ref("test");
-
-onMounted(async () => {
-  await handleSetupToptp();
-});
 
 const handleSetupToptp = async () => {
   loading.value = true;
@@ -60,12 +112,13 @@ const handleSetupToptp = async () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        password: password.value,
-        email: email.value,
+        password: props.getPassword(),
+        email: props.getEmail(),
       }),
     });
     if (response.dataUri) {
       dataUriQrCode.value = response.dataUri;
+      
     } else if (response.message === errorCodes.two_factor_already_enabled) {
       props.setSeedTurn(true);
     } else {
@@ -87,55 +140,7 @@ const handleSetupToptp = async () => {
   }
 };
 
-const validateTotpCode = async () => {
-  loading.value = true;
-
-  try {
-    const body = await $fetch(`/api/auth/totp/enable`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        totpCode: totpCode.value,
-        email: email.value,
-      }),
-    });
-    console.log(body);
-    if (body.status === 200) {
-      toast({
-        title: t("success"),
-        description: t("twofa_enabled"),
-      });
-      const response = await signIn("credentials", {
-        redirect: false,
-        username: username.value.trim(),
-        password: password.value.trim(),
-        totpCode: totpCode.value,
-      });
-      props.setSeedTurn(false);
-    } else if (body.error === errorCodes.incorrect_password) {
-      toast({
-        title: t("error"),
-        description: t("wrong_credentials"),
-        variant: "destructive",
-      });
-    } else {
-      toast({
-        title: t("error"),
-        description: t("wrong_credentials"),
-        variant: "destructive",
-      });
-    }
-  } catch (e) {
-    console.error(e);
-    toast({
-      title: t("error"),
-      description: t("wrong_credentials"),
-      variant: "destructive",
-    });
-  } finally {
-    loading.value = false;
-  }
-};
+onMounted(async () => {
+  await handleSetupToptp();
+});
 </script>

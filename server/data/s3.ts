@@ -140,7 +140,7 @@ export async function insertS3Server(
   name: any,
   endpoint: any,
   port: any,
-  ssl: boolean,
+  ssl: Boolean,
   accessKey: any,
   secretKey: any,
   bucketName: any,

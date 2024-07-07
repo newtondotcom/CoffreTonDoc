@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-center align-middle">
     <Label for="seed">{{ $t("seed_phrase") }}</Label>
-    <div class="grid gap-2">
+    <div class="grid grid-cols-3 gap-x-4 gap-y-8">
       <div class="">
         <Input
           v-for="i in seed.length"
@@ -9,7 +9,8 @@
           type="text"
           placeholder="random"
           required
-          v-model="input[i]"
+          class="w-[100px]"
+          v-model="seed[i]"
         />
         <Button
           variant="secondary"
@@ -25,7 +26,7 @@
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password") }}</Label>
-      <Button name="Generate one" @click="generateSeed" />
+      <Button @click="generateSeed">{{$t("generate_seed") }}</Button>
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("save_seed") }}</Label>
@@ -49,8 +50,8 @@
 
     <ButtonLoading
       :loading
-      text='t("end_configuration")'
-      execute="proceedFinal"
+      :text='t("end_configuration")'
+      :execute="proceedFinal"
     />
   </div>
   <div class="mt-4 text-center text-sm">
@@ -62,16 +63,14 @@
 </template>
 
 <script setup lang="ts">
-
-import { Copy } from 'lucide-vue-next'
+import { Copy } from "lucide-vue-next";
 import { useToast } from "@/components/ui/toast/use-toast";
 const { toast } = useToast();
-const { t } = useI18n()
+const { t } = useI18n();
 import { generateSeedPhrase, getMasterKeyFromSeed } from "~/utils/crypto";
-import * as bip32 from 'bip32';
-import { setKeyValue } from '~/utils/cookies';
+import * as bip32 from "bip32";
+import { setKeyValue } from "~/utils/cookies";
 const loading = ref(false);
-
 
 const seed = ref<String[]>(new Array(12));
 const userWantToSaveSeed = ref(false);
@@ -79,30 +78,30 @@ const userSaveSeedDuration = ref(0);
 
 const generateSeed = () => {
   const plainSeed = generateSeedPhrase();
-  seed.value = plainSeed.split(" ")
-}
+  seed.value = plainSeed.split(" ");
+};
 
 const storeKey = () => {
-  const key : bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
-  setKeyValue(userSaveSeedDuration,key as string);
+  const key: bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
+  setKeyValue(userSaveSeedDuration, key as string);
   toast({
-      title: t("success"),
-      description: t("key_seed_saved"),
-    });
-}
+    title: t("success"),
+    description: t("key_seed_saved"),
+  });
+};
 
 const proceedFinal = () => {
-  if (userWantToSaveSeed.value){
+  if (userWantToSaveSeed.value) {
     storeKey();
   }
   navigateTo("/platform");
-}
+};
 
 const copy = () => {
   navigator.clipboard.writeText(seed.join(" ").value);
   toast({
-      title: t("success"),
-      description: t("seed_copied"),
-    });
-}
+    title: t("success"),
+    description: t("seed_copied"),
+  });
+};
 </script>

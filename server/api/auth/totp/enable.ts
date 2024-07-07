@@ -29,7 +29,7 @@ export default defineEventHandler(async (event) => {
   });
 
   if (!user) {
-    console.error(`Session references user that no longer exists.`);
+    console.error(`Session references user that no longer exists :` + body.email);
     return {
       statusCode: 401,
       body: { message: "Not authenticated" },

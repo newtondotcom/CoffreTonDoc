@@ -8,18 +8,36 @@ definePageMeta({
 });
 
 const twoFATurn = ref(false);
-const seedTurn = ref(false);
+const seedTurn = ref(true);
 
 const set2FATurn = (value: Boolean) => {
   twoFATurn.value = value;
 };
 
 const setSeedTurn = (value: Boolean) => {
+  console.log(value);
   if (value) {
     twoFATurn.value = false;
   }
-  twoFATurn.value = value;
+  seedTurn.value = value;
 };
+
+
+const email = ref(`test${Math.random().toString()}@gmail.com`);
+const password = ref("test");
+
+const setEmail = (value : any ) => {
+  email.value = value.target.value;
+}
+const getEmail = () => {
+  return email.value;
+}
+const setPassword = (value : any ) => {
+  password.value = value.target.value;
+}
+const getPassword = () => {
+  return password.value;
+}
 </script>
 
 <template>
@@ -32,8 +50,17 @@ const setSeedTurn = (value: Boolean) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <AuthRegisterCredentials v-if="!twoFATurn" :set2FATurn />
-        <AuthRegisterGenerateTotp v-else :setSeedTurn />
+        <AuthRegisterCredentials 
+        v-if="!twoFATurn" 
+        :set2FATurn 
+        :setPassword
+        :getPassword
+        :setEmail 
+        :getEmail
+        />
+        <AuthRegisterGenerateTotp v-else :setSeedTurn
+        :getPassword
+        :getEmail/>
         <AuthRegisterSeed v-if="seedTurn" />
       </CardContent>
     </Card>

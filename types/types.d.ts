@@ -2,7 +2,7 @@ export interface File {
   name: string;
   id: number;
   date: string;
-  isFolder: boolean;
+  isFolder: Boolean;
   extension: string | null;
   idParent: number;
   size: number;

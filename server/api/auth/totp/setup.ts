@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
   const user = await prisma.User.findUnique({ where: { email: body.email } });
 
   if (!user) {
-    console.error(`Session references user that no longer exists.`);
+    console.error(`Session references user that no longer exists.` + body.email);
     event.res.statusCode = 401;
     return { message: "Not authenticated" };
   }

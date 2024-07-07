@@ -17,12 +17,12 @@
         type="email"
         placeholder="m@example.com"
         required
-        v-model="email"
+        @input="setEmail"
       />
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password") }}</Label>
-      <Input id="password" type="password" required v-model="password" />
+      <Input id="password" type="password" required @input="setPassword"/>
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t("password_confirmation") }}</Label>
@@ -34,7 +34,7 @@
       />
     </div>
 
-    <ButtonLoading :loading text='t("register")' execute="register" />
+    <ButtonLoading :loading :text="$t('register')" :execute="register" />
   </div>
   <div class="mt-4 text-center text-sm">
     {{ $t("allow_using") }}
@@ -65,6 +65,22 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  setEmail: {
+    type: Function,
+    required: true,
+  },
+  getEmail: {
+    type: Function,
+    required: true,
+  },
+  setPassword: {
+    type: Function,
+    required: true,
+  },
+  getPassword: {
+    type: Function,
+    required: true,
+  },
 });
 
 import { useToast } from "@/components/ui/toast/use-toast";
@@ -74,17 +90,16 @@ const { t } = useI18n();
 const loading = ref(false);
 
 const username = ref("Roebbs  Boomer");
-const email = ref(`test${Math.random.toString()}@gmail.com`);
-const password = ref("test");
 const password_confirmation = ref("test");
 
 const register = async () => {
   loading.value = true;
   if (
     username.value == "" ||
-    password.value == "" ||
-    password_confirmation.value == 0 ||
-    password.value != password_confirmation.value
+    props.getEmail() == "" || 
+    props.getPassword() == "" ||
+    password_confirmation.value == ""||
+    props.getPassword() != password_confirmation.value
   ) {
     toast({
       title: t("error"),
@@ -96,8 +111,8 @@ const register = async () => {
   const data = await $fetch(`/api/auth/register`, {
     method: "POST",
     body: {
-      email: email.value,
-      password: password.value,
+      email: props.getEmail(),
+      password: props.getPassword(),
       name: username.value,
     },
   });

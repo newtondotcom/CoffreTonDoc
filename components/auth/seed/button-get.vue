@@ -1,12 +1,9 @@
 <template>
-    
-  <ButtonLoading v-if="keySaved" :loading :text execute="localFunction"/>
+  <ButtonLoading v-if="keySaved" :loading :text :execute="localFunction" />
 
   <Dialog v-else>
     <DialogTrigger as-child>
-      <Button variant="outline">
-        Edit Profile
-      </Button>
+      <Button variant="outline"> Edit Profile </Button>
     </DialogTrigger>
     <DialogContent class="sm:max-w-[425px]">
       <DialogHeader>
@@ -16,62 +13,57 @@
         </DialogDescription>
       </DialogHeader>
       <div class="flex flex-col justify-center align-middle">
-          <Label for="seed">{{ $t("seed_phrase") }}</Label>
-          <div class="grid gap-2">
-            <div class="">
+        <Label for="seed">{{ $t("seed_phrase") }}</Label>
+        <div class="grid gap-2">
+          <div class="">
             <Input
-              v-for="input in seed"
+              v-for="i in seed.length"
               id="seed"
               type="text"
               placeholder="random"
               required
-              v-model="input"
+              v-model="input[i]"
             />
-            <Button variant="secondary" type="submit" size="sm" class="px-3" @click="copy">
+            <Button
+              variant="secondary"
+              type="submit"
+              size="sm"
+              class="px-3"
+              @click="copy"
+            >
               <span class="sr-only">Copy</span>
               <Copy class="w-4 h-4" />
-        </Button>
+            </Button>
           </div>
-          </div>
-          <div class="grid gap-2">
-            <Label for="save">{{ $t("save_seed") }}</Label>
-            <Switch
-            id="save"
-                :checked="userWantToSaveSeed"
-              />
-            <Label for="duration">{{ $t("save_duration") }}</Label>
-            <Select id="duration" v-model="userSaveSeedDuration">
-    <SelectTrigger class="w-[180px]">
-      <SelectValue placeholder="Select a fruit" />
-    </SelectTrigger>
-    <SelectContent>
-      <SelectGroup>
-        <SelectLabel>Fruits</SelectLabel>
-        <SelectItem value="1">
-          1 day
-        </SelectItem>
-        <SelectItem value="30">
-          30 days
-        </SelectItem>
-        <SelectItem value="365">
-          1 year
-        </SelectItem>
-        <SelectItem value="99*365">
-          99 years
-        </SelectItem>
-      </SelectGroup>
-    </SelectContent>
-  </Select>
-          </div>
+        </div>
+        <div class="grid gap-2">
+          <Label for="save">{{ $t("save_seed") }}</Label>
+          <Switch id="save" :checked="userWantToSaveSeed" />
+          <Label for="duration">{{ $t("save_duration") }}</Label>
+          <Select id="duration" v-model="userSaveSeedDuration">
+            <SelectTrigger class="w-[180px]">
+              <SelectValue placeholder="Select a fruit" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                <SelectItem value="1"> 1 day </SelectItem>
+                <SelectItem value="30"> 30 days </SelectItem>
+                <SelectItem value="365"> 1 year </SelectItem>
+                <SelectItem value="99*365"> 99 years </SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
       <DialogFooter>
-        <ButtonLoading :loading :text execute="localFunction"/>
+        <ButtonLoading :loading :text :execute="localFunction" />
       </DialogFooter>
     </DialogContent>
   </Dialog>
-
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 defineProps({
   provideKey: {
     type: Function,
@@ -116,5 +108,4 @@ async function localFunction () => {
   }
   props.provideKey()
 }
-
 </script>
