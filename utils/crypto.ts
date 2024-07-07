@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import * as bip32 from "bip32";
 import * as bip39 from "bip39";
-import { Buffer } from "node:buffer";
 
 const ALGORITHM = "aes-256-cbc";
 const INPUT_ENCODING = "utf8";
@@ -46,7 +45,6 @@ export const getEncryptionKey = (masterKey: bip32.BIP32Interface): string => {
  * @returns {string} The encrypted ciphertext.
  */
 export const symmetricEncrypt = function (text: string, key: string): string {
-  console.log("Encrypting key length", key.length);
   const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
   const iv = crypto.randomBytes(16);
   const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);

@@ -8,9 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "pnpm exec prettier . --write",
-    "format-staged": "pnpm exec prettier . -staged --write",
-    "prepare": "pnpm format-staged"
+    "format": "pnpm exec prettier . --write"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
