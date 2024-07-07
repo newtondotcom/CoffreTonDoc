@@ -35,13 +35,13 @@
           >
             <Skeleton class="h-10 w-[100%]" />
           </li>
-          <li
-            v-if="!fileLoading && filteredFiles.length === 0"
-          >
-              <Separator />
-          <div class="flex flex-row justify-between text-center mx-4 px-4 py-2">
-            <span>{{ $t("no_files") }}</span>
-          </div>
+          <li v-if="!fileLoading && filteredFiles.length === 0">
+            <Separator />
+            <div
+              class="flex flex-row justify-between text-center mx-4 px-4 py-2"
+            >
+              <span>{{ $t("no_files") }}</span>
+            </div>
           </li>
           <ScrollArea v-else class="h-[70vh]">
             <li

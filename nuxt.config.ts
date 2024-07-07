@@ -34,8 +34,8 @@ export default defineNuxtConfig({
   runtimeConfig: {
     AUTH_SECRET: process.env.AUTH_SECRET,
     AUTH_ORIGIN: process.env.AUTH_ORIGIN,
-    ENCRYPTION_KEY  : process.env.ENCRYPTION_KEY,
-    APP_NAME : process.env.APP_NAME,
+    ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
+    APP_NAME: process.env.APP_NAME,
   },
 
   compatibilityDate: "2024-07-03",

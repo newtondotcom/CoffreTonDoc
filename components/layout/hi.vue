@@ -17,12 +17,14 @@
               </div>
                 -->
     </div>
-    <Button class="w-[70%]" variant="destructive" @click="logout"> Log out </Button>
+    <Button class="w-[70%]" variant="destructive" @click="logout">
+      Log out
+    </Button>
   </div>
 </template>
 
 <script setup lang="ts">
-const {signOut} = useAuth()
+const { signOut } = useAuth();
 import { assert } from "@vueuse/core";
 const { status, data } = useAuth();
 const name = ref("JM");

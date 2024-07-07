@@ -111,12 +111,10 @@ export async function createPresignedUrlUpload() {
     objectName,
     expiryInSeconds,
   );
-  return { url, objectName};
+  return { url, objectName };
 }
 
-export async function createPresignedUrlDownload(
-  objectName: any,
-) {
+export async function createPresignedUrlDownload(objectName: any) {
   const config = useRuntimeConfig();
   const MINIO_ENDPOINT = config.endpoint;
   const MINIO_PORT = config.port;

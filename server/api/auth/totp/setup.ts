@@ -3,7 +3,7 @@ import qrcode from "qrcode";
 import prisma from "~/server/data/prisma";
 import errorCodes from "~/utils/codes";
 import { symmetricEncrypt } from "~/utils/crypto";
-import {isPasswordValid} from "~/utils/hash";
+import { isPasswordValid } from "~/utils/hash";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
@@ -50,13 +50,12 @@ export default defineEventHandler(async (event) => {
   const encryptedSecret = symmetricEncrypt(secret, config.ENCRYPTION_KEY);
 
   await prisma.User.update({
-    where : { email: body.email },
-    data : {
+    where: { email: body.email },
+    data: {
       twoFactorEnabled: false,
       twoFactorSecret: encryptedSecret,
     },
-  }
-  );
+  });
 
   const keyUri = authenticator.keyuri(body.email, config.APP_NAME, secret);
   const dataUri = await qrcode.toDataURL(keyUri);

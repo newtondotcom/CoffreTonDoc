@@ -10,19 +10,16 @@ definePageMeta({
 const twoFATurn = ref(false);
 const seedTurn = ref(false);
 
-const set2FATurn = (value : Boolean) => {
+const set2FATurn = (value: Boolean) => {
   twoFATurn.value = value;
-}
+};
 
-const setSeedTurn = (value : Boolean) => {
-  if (value){
+const setSeedTurn = (value: Boolean) => {
+  if (value) {
     twoFATurn.value = false;
   }
   twoFATurn.value = value;
-}
-
-
-
+};
 </script>
 
 <template>
@@ -34,20 +31,11 @@ const setSeedTurn = (value : Boolean) => {
           {{ $t("register_description") }}
         </CardDescription>
       </CardHeader>
-<CardContent>
-
-      <AuthRegisterCredentials
-      v-if="!twoFATurn"
-      :set2FATurn
-       />
-      <AuthRegisterGenerateTotp
-      v-else
-      :setSeedTurn
-       />
-      <AuthRegisterSeed 
-      v-if="seedTurn"
-      />
-    </CardContent>
+      <CardContent>
+        <AuthRegisterCredentials v-if="!twoFATurn" :set2FATurn />
+        <AuthRegisterGenerateTotp v-else :setSeedTurn />
+        <AuthRegisterSeed v-if="seedTurn" />
+      </CardContent>
     </Card>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 const { signIn } = useAuth();
-const { locale, setLocale } = useI18n()
-const { t } = useI18n()
+const { locale, setLocale } = useI18n();
+const { t } = useI18n();
 import { useToast } from "@/components/ui/toast/use-toast";
 import errorCodes from "~/utils/codes";
 const { toast } = useToast();
@@ -51,7 +51,7 @@ const login = async () => {
       description: t("wrong_credentials"),
       variant: "destructive",
     });
-  loading.value = false;
+    loading.value = false;
     return;
   }
   if (response == errorCodes.incorrect_two_factor_code) {
@@ -60,7 +60,7 @@ const login = async () => {
       description: t("wrong_totp"),
       variant: "destructive",
     });
-  loading.value = false;
+    loading.value = false;
     return;
   }
   navigateTo("/platform");
@@ -117,9 +117,8 @@ const login = async () => {
               </PinInputGroup>
             </PinInput>
           </div>
-          
-          <ButtonLoading :loading text='t("login")' execute="login"/>
-          
+
+          <ButtonLoading :loading text='t("login")' execute="login" />
         </div>
         <div class="mt-4 text-center text-sm">
           {{ $t("allow_using") }}
