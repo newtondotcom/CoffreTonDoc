@@ -9,7 +9,7 @@ import {
 import { cn } from "@/lib/utils";
 
 const props = defineProps<
-  ContextMenuItemProps & { class?: HTMLAttributes["class"]; inset?: boolean }
+  ContextMenuItemProps & { class?: HTMLAttributes["class"]; inset?: Boolean }
 >();
 const emits = defineEmits<ContextMenuItemEmits>();
 
