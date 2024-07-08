@@ -1,5 +1,7 @@
 import crypto from 'crypto';
-import * as bip32 from 'bip32';
+import BIP32Factory from 'bip32';
+import * as ecc from 'tiny-secp256k1';
+import type { BIP32Interface } from 'bip32';
 import * as bip39 from 'bip39';
 
 const ALGORITHM = 'aes-256-cbc';
@@ -18,24 +20,27 @@ export const generateSeedPhrase = (): string => {
 /**
  * Generates a master key from a seed phrase using the bip32 library.
  * @param {string} seedPhrase - The seed phrase to generate the master key from.
- * @returns {bip32.BIP32Interface} The generated master key.
+ * @returns {BIP32Interface} The generated master key.
  */
 export const getMasterKeyFromSeed = (
   seedPhrase: string,
-): bip32.BIP32Interface => {
+): BIP32Interface => {
+
+  const bip32 = BIP32Factory(ecc);
   const seed = bip39.mnemonicToSeedSync(seedPhrase);
   return bip32.fromSeed(seed);
 };
 
 /**
- * Generates an encryption key from a master key using the CryptoJS library.
- * @param {bip32.BIP32Interface} masterKey - The master key to generate the encryption key from.
+ * Generates an encryption key from a master key using the crypto library.
+ * @param {BIP32Interface} masterKey - The master key to generate the encryption key from.
  * @returns {string} The generated encryption key.
  */
-export const getEncryptionKey = (masterKey: bip32.BIP32Interface): string => {
+export const getEncryptionKey = (masterKey: BIP32Interface): string => {
   return crypto
-    .SHA256(masterKey.privateKey.toString(OUTPUT_ENCODING))
-    .toString();
+    .createHash('sha256')
+    .update(masterKey.privateKey!)
+    .digest(OUTPUT_ENCODING);
 };
 
 /**
