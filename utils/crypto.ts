@@ -14,7 +14,7 @@ const FORMAT = 'base64';
  * @returns {string} A new seed phrase.
  */
 export const generateSeedPhrase = (): string => {
-  return bip39.generateMnemonic();
+    return bip39.generateMnemonic();
 };
 
 /**
@@ -22,13 +22,10 @@ export const generateSeedPhrase = (): string => {
  * @param {string} seedPhrase - The seed phrase to generate the master key from.
  * @returns {BIP32Interface} The generated master key.
  */
-export const getMasterKeyFromSeed = (
-  seedPhrase: string,
-): BIP32Interface => {
-
-  const bip32 = BIP32Factory(ecc);
-  const seed = bip39.mnemonicToSeedSync(seedPhrase);
-  return bip32.fromSeed(seed);
+export const getMasterKeyFromSeed = (seedPhrase: string): BIP32Interface => {
+    const bip32 = BIP32Factory(ecc);
+    const seed = bip39.mnemonicToSeedSync(seedPhrase);
+    return bip32.fromSeed(seed);
 };
 
 /**
@@ -37,10 +34,10 @@ export const getMasterKeyFromSeed = (
  * @returns {string} The generated encryption key.
  */
 export const getEncryptionKey = (masterKey: BIP32Interface): string => {
-  return crypto
-    .createHash('sha256')
-    .update(masterKey.privateKey!)
-    .digest(OUTPUT_ENCODING);
+    return crypto
+        .createHash('sha256')
+        .update(masterKey.privateKey!)
+        .digest(OUTPUT_ENCODING);
 };
 
 /**
@@ -50,12 +47,12 @@ export const getEncryptionKey = (masterKey: BIP32Interface): string => {
  * @returns {string} The encrypted ciphertext.
  */
 export const symmetricEncrypt = function (text: string, key: string): string {
-  const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
-  const iv = crypto.randomBytes(16);
-  const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);
-  let encrypted = cipher.update(text, INPUT_ENCODING, FORMAT);
-  encrypted += cipher.final(FORMAT);
-  return iv.toString(OUTPUT_ENCODING) + ':' + encrypted;
+    const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
+    const iv = crypto.randomBytes(16);
+    const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);
+    let encrypted = cipher.update(text, INPUT_ENCODING, FORMAT);
+    encrypted += cipher.final(FORMAT);
+    return iv.toString(OUTPUT_ENCODING) + ':' + encrypted;
 };
 
 /**
@@ -65,17 +62,17 @@ export const symmetricEncrypt = function (text: string, key: string): string {
  * @returns {string} The decrypted plaintext.
  */
 export const symmetricDecrypt = function (text: string, key: string): string {
-  try {
-    const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
-    const parts = text.split(':');
-    const iv = Buffer.from(parts[0], OUTPUT_ENCODING);
-    const encrypted = parts[1];
-    const decipher = crypto.createDecipheriv(ALGORITHM, keyBuffer, iv);
-    let decrypted = decipher.update(encrypted, FORMAT, INPUT_ENCODING);
-    decrypted += decipher.final(INPUT_ENCODING);
-    return decrypted;
-  } catch (error) {
-    console.error('Error decrypting value', error);
-    return '';
-  }
+    try {
+        const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
+        const parts = text.split(':');
+        const iv = Buffer.from(parts[0], OUTPUT_ENCODING);
+        const encrypted = parts[1];
+        const decipher = crypto.createDecipheriv(ALGORITHM, keyBuffer, iv);
+        let decrypted = decipher.update(encrypted, FORMAT, INPUT_ENCODING);
+        decrypted += decipher.final(INPUT_ENCODING);
+        return decrypted;
+    } catch (error) {
+        console.error('Error decrypting value', error);
+        return '';
+    }
 };
