@@ -10,6 +10,7 @@ CoffreTonDoc is a online vault which inludes MFA auth and files encryption.
 - Make the research work using [this awesome thing](https://github.com/tantaraio/voy)
 - List current sessions (not possible using credentials and jwt)
 - Limit file extension manually created
+- Full screen loading 
 
 
 ESLINT AND PRETTIER : https://dev.to/nikitadmitr/configure-eslint-prettier-for-nuxt-3-45f7
