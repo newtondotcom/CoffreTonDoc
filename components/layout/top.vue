@@ -6,7 +6,7 @@
     <div
       class="relative flex font-bold select-none items-center text-left min-w-0 lg:pr-6 pr-12"
     >
-      {{ $t("my_files") }}
+      {{ $t('my_files') }}
     </div>
     <LayoutFilters :toogleSearch />
   </div>

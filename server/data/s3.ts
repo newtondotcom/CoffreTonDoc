@@ -1,7 +1,7 @@
-import { Client } from "minio";
-import prisma from "./prisma";
-import constants from "~/lib/constants";
-import { assert } from "@vueuse/core";
+import { Client } from 'minio';
+import prisma from './prisma';
+import constants from '~/lib/constants';
+import { assert } from '@vueuse/core';
 
 export function generateUniqueName() {
   const date = new Date();
@@ -54,9 +54,9 @@ export async function removeVideo(user_id: string, videoId: string) {
     const objectName = video.name_s3;
     minioClient.removeObject(bucketName, objectName, (err) => {
       if (err) {
-        console.error("Error removing video object:", err);
+        console.error('Error removing video object:', err);
       } else {
-        console.log("Video object removed successfully:", objectName);
+        console.log('Video object removed successfully:', objectName);
       }
     });
 
@@ -78,7 +78,7 @@ export async function removeVideo(user_id: string, videoId: string) {
       },
     });
   } catch (error) {
-    console.error("Error removing video:", error);
+    console.error('Error removing video:', error);
   }
 }
 
@@ -104,7 +104,7 @@ export async function createPresignedUrlUpload() {
     accessKey: MINIO_ACCESS_KEY,
     secretKey: MINIO_SECRET_KEY,
   });
-  const objectName = generateUniqueName() + ".mp4";
+  const objectName = generateUniqueName() + '.mp4';
   const expiryInSeconds = 3600;
   const url = await minioClient.presignedPutObject(
     bucketName,
@@ -132,7 +132,7 @@ export async function createPresignedUrlDownload(objectName: any) {
   });
   const expiryInSeconds = 3600;
   //const url = await minioClient.presignedGetObject(bucketName, objectName, expiryInSeconds);
-  const url = "test";
+  const url = 'test';
   return url;
 }
 

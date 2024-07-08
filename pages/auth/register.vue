@@ -3,7 +3,7 @@ definePageMeta({
   layout: false,
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: "/platform",
+    navigateAuthenticatedTo: '/platform',
   },
 });
 
@@ -31,14 +31,14 @@ const setSeedTurn = (value: Boolean) => {
 };
 
 const email = ref(`test${Math.random().toString()}@gmail.com`);
-const password = ref("test");
+const password = ref('test');
 
 const Email = (value: any) => {
-  if (typeof value == "object") email.value = value.target.value;
+  if (typeof value == 'object') email.value = value.target.value;
   else return email.value;
 };
 const Password = (value: any) => {
-  if (typeof value == "object") password.value = value.target.value;
+  if (typeof value == 'object') password.value = value.target.value;
   else return password.value;
 };
 </script>
@@ -47,9 +47,9 @@ const Password = (value: any) => {
   <div class="flex items-center justify-center h-screen">
     <Card class="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle class="text-2xl"> {{ $t("connect_us") }} </CardTitle>
+        <CardTitle class="text-2xl"> {{ $t('connect_us') }} </CardTitle>
         <CardDescription>
-          {{ $t("register_description") }}
+          {{ $t('register_description') }}
         </CardDescription>
       </CardHeader>
       <CardContent>

@@ -1,11 +1,11 @@
-import crypto from "crypto";
-import * as bip32 from "bip32";
-import * as bip39 from "bip39";
+import crypto from 'crypto';
+import * as bip32 from 'bip32';
+import * as bip39 from 'bip39';
 
-const ALGORITHM = "aes-256-cbc";
-const INPUT_ENCODING = "utf8";
-const OUTPUT_ENCODING = "hex";
-const FORMAT = "base64";
+const ALGORITHM = 'aes-256-cbc';
+const INPUT_ENCODING = 'utf8';
+const OUTPUT_ENCODING = 'hex';
+const FORMAT = 'base64';
 
 /**
  * Generates a new seed phrase using the bip39 library.
@@ -50,7 +50,7 @@ export const symmetricEncrypt = function (text: string, key: string): string {
   const cipher = crypto.createCipheriv(ALGORITHM, keyBuffer, iv);
   let encrypted = cipher.update(text, INPUT_ENCODING, FORMAT);
   encrypted += cipher.final(FORMAT);
-  return iv.toString(OUTPUT_ENCODING) + ":" + encrypted;
+  return iv.toString(OUTPUT_ENCODING) + ':' + encrypted;
 };
 
 /**
@@ -62,7 +62,7 @@ export const symmetricEncrypt = function (text: string, key: string): string {
 export const symmetricDecrypt = function (text: string, key: string): string {
   try {
     const keyBuffer = Buffer.from(key, OUTPUT_ENCODING);
-    const parts = text.split(":");
+    const parts = text.split(':');
     const iv = Buffer.from(parts[0], OUTPUT_ENCODING);
     const encrypted = parts[1];
     const decipher = crypto.createDecipheriv(ALGORITHM, keyBuffer, iv);
@@ -70,7 +70,7 @@ export const symmetricDecrypt = function (text: string, key: string): string {
     decrypted += decipher.final(INPUT_ENCODING);
     return decrypted;
   } catch (error) {
-    console.error("Error decrypting value", error);
-    return "";
+    console.error('Error decrypting value', error);
+    return '';
   }
 };

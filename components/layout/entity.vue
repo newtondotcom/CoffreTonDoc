@@ -24,34 +24,34 @@
       </ContextMenuTrigger>
       <ContextMenuContent class="w-64 bg-white">
         <ContextMenuItem @click="setState('open')">
-          {{ $t("open") }}
+          {{ $t('open') }}
           <ContextMenuShortcut>Enter</ContextMenuShortcut>
         </ContextMenuItem>
 
         <DialogTrigger asChild>
           <ContextMenuItem @click="setState('rename')">
-            {{ $t("rename") }}
+            {{ $t('rename') }}
             <ContextMenuShortcut>F2</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
 
         <DialogTrigger asChild>
           <ContextMenuItem @click="setState('delete')">
-            {{ $t("delete") }}
+            {{ $t('delete') }}
             <ContextMenuShortcut>Del</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
 
         <DialogTrigger asChild>
           <ContextMenuItem @click="setState('access')">
-            {{ $t("access") }}
+            {{ $t('access') }}
             <ContextMenuShortcut>Shift + A</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
 
         <DialogTrigger asChild>
           <ContextMenuItem @click="setState('replace')">
-            {{ $t("replace") }}
+            {{ $t('replace') }}
             <ContextMenuShortcut>Shift + A</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
@@ -60,14 +60,14 @@
 
         <DialogTrigger v-if="file.isFolder" asChild>
           <ContextMenuItem @click="setState('newFile')">
-            {{ $t("new_file_inside") }}
+            {{ $t('new_file_inside') }}
             <ContextMenuShortcut>Ctrl + N</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
 
         <DialogTrigger v-if="file.isFolder" asChild>
           <ContextMenuItem @click="setState('newFolder')">
-            {{ $t("new_folder_inside") }}
+            {{ $t('new_folder_inside') }}
             <ContextMenuShortcut>Ctrl + N</ContextMenuShortcut>
           </ContextMenuItem>
         </DialogTrigger>
@@ -76,21 +76,21 @@
 
     <DialogContent v-if="stateDialog == 'newFile'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("rename_file") }}</DialogTitle>
+        <DialogTitle>{{ $t('rename_file') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("enter_new_file_name") }}
+          {{ $t('enter_new_file_name') }}
         </DialogDescription>
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="file-name" class="text-right font-medium">
-            {{ $t("file_name") }}
+            {{ $t('file_name') }}
           </Label>
           <Input id="file-name" class="col-span-3" v-model="newFileName" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="file-extension" class="text-right font-medium">
-            {{ $t("extension") }}
+            {{ $t('extension') }}
           </Label>
           <Input
             id="file-extension"
@@ -102,7 +102,7 @@
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="createNewFile(newFileName, newFileExtension)">
-            {{ $t("create") }}
+            {{ $t('create') }}
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -110,15 +110,15 @@
 
     <DialogContent v-if="stateDialog === 'newFolder'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("new_folder") }}</DialogTitle>
+        <DialogTitle>{{ $t('new_folder') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("enter_new_folder_name") }}
+          {{ $t('enter_new_folder_name') }}
         </DialogDescription>
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="newFolderName" class="text-right">
-            {{ $t("folder_name") }}
+            {{ $t('folder_name') }}
           </Label>
           <Input
             id="newFolderName"
@@ -130,7 +130,7 @@
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="createNewFolder(file, 'folder', newFolderName)">
-            {{ $t("create") }}
+            {{ $t('create') }}
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -138,15 +138,15 @@
 
     <DialogContent v-if="stateDialog === 'rename'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("rename_file") }}</DialogTitle>
+        <DialogTitle>{{ $t('rename_file') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("enter_new_file_name") }}
+          {{ $t('enter_new_file_name') }}
         </DialogDescription>
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="newName" class="text-right">
-            {{ $t("new_name") }}
+            {{ $t('new_name') }}
           </Label>
           <Input id="newName" v-model="newName" class="col-span-3" />
         </div>
@@ -154,7 +154,7 @@
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="renameFile(file.id, newName)">
-            {{ $t("save_changes") }}
+            {{ $t('save_changes') }}
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -162,15 +162,15 @@
 
     <DialogContent v-if="stateDialog === 'access'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("change_access") }}</DialogTitle>
+        <DialogTitle>{{ $t('change_access') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("modify_access_permissions") }}
+          {{ $t('modify_access_permissions') }}
         </DialogDescription>
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
           <Label for="accessLevel" class="text-right">
-            {{ $t("access_level") }}
+            {{ $t('access_level') }}
           </Label>
           <Input id="accessLevel" v-model="accessLevel" class="col-span-3" />
         </div>
@@ -178,7 +178,7 @@
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="changeAccess(file, accessLevel)">
-            {{ $t("save_changes") }}
+            {{ $t('save_changes') }}
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -186,15 +186,15 @@
 
     <DialogContent v-if="stateDialog === 'delete'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("delete_file") }}</DialogTitle>
+        <DialogTitle>{{ $t('delete_file') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("delete_confirmation") }}
+          {{ $t('delete_confirmation') }}
         </DialogDescription>
       </DialogHeader>
       <DialogFooter>
         <DialogClose as-child>
           <Button @click="deleteItem(file.id)">
-            {{ $t("delete") }}
+            {{ $t('delete') }}
           </Button>
         </DialogClose>
       </DialogFooter>
@@ -202,15 +202,15 @@
 
     <DialogContent v-if="stateDialog === 'replace'" class="sm:max-w-[425px]">
       <DialogHeader>
-        <DialogTitle>{{ $t("replace") }}</DialogTitle>
+        <DialogTitle>{{ $t('replace') }}</DialogTitle>
         <DialogDescription>
-          {{ $t("replace_confirmation") }}
+          {{ $t('replace_confirmation') }}
         </DialogDescription>
       </DialogHeader>
 
       <div class="grid grid-cols-4 items-center gap-4">
         <Label for="file-name" class="text-right font-medium">
-          {{ $t("file_name") }}
+          {{ $t('file_name') }}
         </Label>
         <Input id="file-picture" type="file" @change="handleFileUpload" />
       </div>
@@ -219,7 +219,7 @@
         <DialogClose as-child>
           <Button @click="replace(file.id)">
             <div :disabled="fileValid" v-if="!uploadloading">
-              {{ $t("submit") }}
+              {{ $t('submit') }}
             </div>
             <div v-else class="ml-1 flex">
               <svg
@@ -262,17 +262,17 @@ const props = defineProps({
   replaceFile: Function,
 });
 
-import { assert } from "@vueuse/core";
-import { useToast } from "@/components/ui/toast/use-toast";
+import { assert } from '@vueuse/core';
+import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
-import { ToastAction } from "@/components/ui/toast";
+import { ToastAction } from '@/components/ui/toast';
 
-const newName = ref("");
-const newFileName = ref("");
-const newFileExtension = ref("");
-const newFolderName = ref("");
-const accessLevel = ref("");
-const stateDialog = ref("");
+const newName = ref('');
+const newFileName = ref('');
+const newFileExtension = ref('');
+const newFolderName = ref('');
+const accessLevel = ref('');
+const stateDialog = ref('');
 const uploadloading = ref(false);
 const fileLocal = ref(null);
 const fileValid = ref(false);
@@ -291,14 +291,14 @@ function handleFileUpload(event) {
   fileLocal.value = event.target.files[0];
   if (fileLocal.value) {
     const fullName = fileLocal.value.name;
-    const lastDot = fullName.lastIndexOf(".");
+    const lastDot = fullName.lastIndexOf('.');
     newName.value = fullName.substring(0, lastDot);
     newFileExtension.value = fullName.substring(lastDot + 1);
     if (!assert(newFileExtension.value == props.file.extension)) {
       toast({
-        title: "Error",
-        description: "File extension is not the same as the original file",
-        variant: "destructive",
+        title: 'Error',
+        description: 'File extension is not the same as the original file',
+        variant: 'destructive',
       });
     } else {
       fileValid.value = true;

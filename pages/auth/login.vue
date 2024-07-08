@@ -2,41 +2,41 @@
 const { signIn } = useAuth();
 const { locale, setLocale } = useI18n();
 const { t } = useI18n();
-import { useToast } from "@/components/ui/toast/use-toast";
-import errorCodes from "~/utils/codes";
+import { useToast } from '@/components/ui/toast/use-toast';
+import errorCodes from '~/utils/codes';
 const { toast } = useToast();
 
 definePageMeta({
   layout: false,
   auth: {
     unauthenticatedOnly: true,
-    navigateAuthenticatedTo: "/platform",
+    navigateAuthenticatedTo: '/platform',
   },
 });
 
-const username = ref("");
-const password = ref("");
+const username = ref('');
+const password = ref('');
 const loading = ref(false);
 
 const value = ref<String[]>([]);
 const totpCode = ref(0);
 const handleComplete = (e: String[]) => {
-  totpCode.value = e.join("");
+  totpCode.value = e.join('');
   login();
 };
 
 const login = async () => {
   loading.value = true;
-  if (username.value == "" || password.value == "" || totpCode.value == 0) {
+  if (username.value == '' || password.value == '' || totpCode.value == 0) {
     toast({
-      title: t("error"),
-      description: t("all_fields"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('all_fields'),
+      variant: 'destructive',
     });
     loading.value = false;
     return;
   }
-  const response = await signIn("credentials", {
+  const response = await signIn('credentials', {
     redirect: false,
     username: username.value.trim(),
     password: password.value.trim(),
@@ -47,23 +47,23 @@ const login = async () => {
     response == errorCodes.incorrect_password
   ) {
     toast({
-      title: t("error"),
-      description: t("wrong_credentials"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('wrong_credentials'),
+      variant: 'destructive',
     });
     loading.value = false;
     return;
   }
   if (response == errorCodes.incorrect_two_factor_code) {
     toast({
-      title: t("error"),
-      description: t("wrong_totp"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('wrong_totp'),
+      variant: 'destructive',
     });
     loading.value = false;
     return;
   }
-  navigateTo("/platform");
+  navigateTo('/platform');
 };
 </script>
 
@@ -71,15 +71,15 @@ const login = async () => {
   <div class="flex items-center justify-center h-screen">
     <Card class="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle class="text-2xl"> {{ $t("connect_us") }} </CardTitle>
+        <CardTitle class="text-2xl"> {{ $t('connect_us') }} </CardTitle>
         <CardDescription>
-          {{ $t("login_description") }}
+          {{ $t('login_description') }}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div class="grid gap-4">
           <div class="grid gap-2">
-            <Label for="email">{{ $t("email") }}</Label>
+            <Label for="email">{{ $t('email') }}</Label>
             <Input
               id="email"
               type="email"
@@ -90,7 +90,7 @@ const login = async () => {
           </div>
           <div class="grid gap-2">
             <div class="flex items-center">
-              <Label for="password">{{ $t("password") }}</Label>
+              <Label for="password">{{ $t('password') }}</Label>
               <NuxtLink
                 to="/auth/reset"
                 class="ml-auto inline-block text-sm underline"
@@ -101,7 +101,7 @@ const login = async () => {
             <Input id="password" type="password" required v-model="password" />
           </div>
           <div class="grid gap-2">
-            <Label for="email">{{ $t("twofa_code") }}</Label>
+            <Label for="email">{{ $t('twofa_code') }}</Label>
             <PinInput
               id="pin-input"
               v-model="value"
@@ -121,24 +121,24 @@ const login = async () => {
           <ButtonLoading :loading :text="t('login')" :execute="login" />
         </div>
         <div class="mt-4 text-center text-sm">
-          {{ $t("allow_using") }}
+          {{ $t('allow_using') }}
           <NuxtLink class="text-gray-500 underline" to="/tos">{{
-            $t("tos")
+            $t('tos')
           }}</NuxtLink>
           and
           <NuxtLink to="/privacy" class="text-gray-500 underline">{{
-            $t("privacy")
+            $t('privacy')
           }}</NuxtLink>
           <br />
 
           <span class="text-xs">
-            {{ $t("data_collect") }}
+            {{ $t('data_collect') }}
           </span>
         </div>
         <div class="mt-4 text-center text-sm">
-          {{ $t("no_account") }}
+          {{ $t('no_account') }}
           <NuxtLink to="/auth/register" class="underline">
-            {{ $t("register") }}
+            {{ $t('register') }}
           </NuxtLink>
         </div>
       </CardContent>

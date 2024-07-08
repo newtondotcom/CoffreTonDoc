@@ -10,16 +10,16 @@
       >
         <AlertDialogHeader>
           <AlertDialogTitle class="text-lg font-semibold">{{
-            $t("create_folder")
+            $t('create_folder')
           }}</AlertDialogTitle>
           <AlertDialogDescription class="text-sm text-gray-500">
-            {{ $t("specify_names") }}
+            {{ $t('specify_names') }}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div class="grid gap-4 py-4">
           <div class="grid grid-cols-4 items-center gap-4">
             <Label for="folder-name" class="text-right font-medium">
-              {{ $t("folder_name") }}
+              {{ $t('folder_name') }}
             </Label>
             <Input id="folder-name" class="col-span-3" v-model="folderName" />
           </div>
@@ -38,7 +38,7 @@
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction>
             <Button @click="createNewFolder(folderName)">{{
-              $t("create_folder")
+              $t('create_folder')
             }}</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
@@ -55,10 +55,10 @@
       >
         <AlertDialogHeader>
           <AlertDialogTitle class="text-lg font-semibold">{{
-            $t("create_file")
+            $t('create_file')
           }}</AlertDialogTitle>
           <AlertDialogDescription class="text-sm text-gray-500">{{
-            $t("specify_file_name")
+            $t('specify_file_name')
           }}</AlertDialogDescription>
         </AlertDialogHeader>
         <div class="grid gap-4 py-4">
@@ -74,13 +74,13 @@
             class="grid grid-cols-4 items-center gap-4 mt-4"
           >
             <Label for="file-name" class="text-right font-medium">
-              {{ $t("file_name") }}
+              {{ $t('file_name') }}
             </Label>
             <Input id="file-name" class="col-span-3" v-model="fileName" />
           </div>
           <div v-if="fileSelected" class="grid grid-cols-4 items-center gap-4">
             <Label for="file-extension" class="text-right font-medium">
-              {{ $t("extension") }}
+              {{ $t('extension') }}
             </Label>
             <Input
               disabled
@@ -92,7 +92,7 @@
         </div>
         <AlertDialogFooter>
           <Button v-if="!fileCreated" @click="uploadFile">
-            {{ $t("create_file") }}
+            {{ $t('create_file') }}
             <div v-if="isLoading" class="ml-1 flex">
               <svg
                 class="animate-spin h-4 w-4 m-1"
@@ -130,13 +130,13 @@
 </template>
 
 <script setup lang="ts">
-import { FileUp, FolderUp } from "lucide-vue-next";
-import { AccessStatus } from "@prisma/client";
-import { ref } from "vue";
+import { FileUp, FolderUp } from 'lucide-vue-next';
+import { AccessStatus } from '@prisma/client';
+import { ref } from 'vue';
 
-const folderName = ref("");
-const fileName = ref("");
-const fileExtension = ref("");
+const folderName = ref('');
+const fileName = ref('');
+const fileExtension = ref('');
 const fileSelected = ref(false);
 const isLoading = ref(false);
 const fileToUpload = ref<File | null>(null);
@@ -151,10 +151,10 @@ const props = defineProps({
 
 function handleFileUpload(event) {
   const file = event.target.files[0];
-  console.log("File selected:", props.selectedFolder);
+  console.log('File selected:', props.selectedFolder);
   if (file) {
     const fullName = file.name;
-    const lastDot = fullName.lastIndexOf(".");
+    const lastDot = fullName.lastIndexOf('.');
     fileName.value = fullName.substring(0, lastDot);
     fileExtension.value = fullName.substring(lastDot + 1);
     fileSelected.value = true;
@@ -173,8 +173,8 @@ async function uploadFile() {
 
   try {
     // Query for the presigned URL
-    const response = await $fetch("/api/file/upload", {
-      method: "POST",
+    const response = await $fetch('/api/file/upload', {
+      method: 'POST',
       body: JSON.stringify({
         name: fileName.value,
         idParent: props.selectedFolder,
@@ -183,7 +183,7 @@ async function uploadFile() {
         extension: fileExtension.value,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
 
@@ -191,11 +191,11 @@ async function uploadFile() {
     props.createNewFile(fileName.value, fileExtension.value);
 
     const { id, url, fields } = await response.json();
-    console.log("Presigned URL:", url);
+    console.log('Presigned URL:', url);
 
     // Upload the file to S3
     const formData = new FormData();
-    formData.append("file", fileToUpload.value);
+    formData.append('file', fileToUpload.value);
 
     /*
         await fetch(url, {
@@ -204,13 +204,13 @@ async function uploadFile() {
         });
         */
     await setTimeout(function () {
-      console.log("THIS IS");
+      console.log('THIS IS');
     }, 2000);
 
     isLoading.value = false;
     fileCreated.value = true;
   } catch (error) {
-    console.error("Error uploading file:", error);
+    console.error('Error uploading file:', error);
   } finally {
   }
 }

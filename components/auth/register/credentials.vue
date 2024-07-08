@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-4">
     <div class="grid gap-2">
-      <Label for="username">{{ $t("username") }}</Label>
+      <Label for="username">{{ $t('username') }}</Label>
       <Input
         id="username"
         type="text"
@@ -11,7 +11,7 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="email">{{ $t("email") }}</Label>
+      <Label for="email">{{ $t('email') }}</Label>
       <Input
         id="email"
         type="email"
@@ -21,11 +21,11 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t("password") }}</Label>
+      <Label for="password">{{ $t('password') }}</Label>
       <Input id="password" type="password" required @input="Password" />
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t("password_confirmation") }}</Label>
+      <Label for="password">{{ $t('password_confirmation') }}</Label>
       <Input
         id="password"
         type="password"
@@ -37,24 +37,24 @@
     <ButtonLoading :loading :text="$t('register')" :execute="register" />
   </div>
   <div class="mt-4 text-center text-sm">
-    {{ $t("allow_using") }}
+    {{ $t('allow_using') }}
     <NuxtLink class="text-gray-500 underline" to="/tos">{{
-      $t("tos")
+      $t('tos')
     }}</NuxtLink>
     and
     <NuxtLink to="/privacy" class="text-gray-500 underline">{{
-      $t("privacy")
+      $t('privacy')
     }}</NuxtLink>
     <br />
 
     <span class="text-xs">
-      {{ $t("data_collect") }}
+      {{ $t('data_collect') }}
     </span>
   </div>
   <div class="mt-4 text-center text-sm">
-    {{ $t("already_account") }}
+    {{ $t('already_account') }}
     <NuxtLink to="/auth/login" class="underline">
-      {{ $t("login") }}
+      {{ $t('login') }}
     </NuxtLink>
   </div>
 </template>
@@ -75,33 +75,33 @@ const props = defineProps({
   },
 });
 
-import { useToast } from "@/components/ui/toast/use-toast";
+import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
-import errorCodes from "~/utils/codes";
+import errorCodes from '~/utils/codes';
 const { t } = useI18n();
 const loading = ref(false);
 
-const username = ref("Roebbs  Boomer");
-const password_confirmation = ref("test");
+const username = ref('Roebbs  Boomer');
+const password_confirmation = ref('test');
 
 const register = async () => {
   loading.value = true;
   if (
-    username.value == "" ||
-    props.Email() == "" ||
-    props.Password() == "" ||
-    password_confirmation.value == "" ||
+    username.value == '' ||
+    props.Email() == '' ||
+    props.Password() == '' ||
+    password_confirmation.value == '' ||
     props.Password() != password_confirmation.value
   ) {
     toast({
-      title: t("error"),
-      description: t("all_fields"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('all_fields'),
+      variant: 'destructive',
     });
     return;
   }
   const data = await $fetch(`/api/auth/register`, {
-    method: "POST",
+    method: 'POST',
     body: {
       email: props.Email(),
       password: props.Password(),
@@ -111,25 +111,25 @@ const register = async () => {
   loading.value = true;
   if (data.message == errorCodes.user_already_exists) {
     toast({
-      title: t("error"),
-      description: t("missing_2fa_account"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('missing_2fa_account'),
+      variant: 'destructive',
     });
     props.set2FATurn(true);
     return;
   }
   if (data.message == errorCodes.success_user_created) {
     toast({
-      title: t("success"),
-      description: t("account_created"),
+      title: t('success'),
+      description: t('account_created'),
     });
     props.set2FATurn(true);
     return;
   } else {
     toast({
-      title: t("error"),
-      description: t("wrong_credentials"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('wrong_credentials'),
+      variant: 'destructive',
     });
     return;
   }

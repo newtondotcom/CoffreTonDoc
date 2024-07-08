@@ -13,13 +13,13 @@
       <TooltipContent>
         <p>
           {{
-            statut === "USER"
-              ? $t("access_you")
-              : statut === "SHARED"
-                ? $t("access_shared")
-                : statut === "COMPANY"
-                  ? $t("access_company")
-                  : ""
+            statut === 'USER'
+              ? $t('access_you')
+              : statut === 'SHARED'
+                ? $t('access_shared')
+                : statut === 'COMPANY'
+                  ? $t('access_company')
+                  : ''
           }}
         </p>
       </TooltipContent>
@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { User, Users, Building } from "lucide-vue-next";
+import { User, Users, Building } from 'lucide-vue-next';
 defineProps({
   statut: {
     type: String,

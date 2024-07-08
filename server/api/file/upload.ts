@@ -1,5 +1,5 @@
-import { createFile } from "~/server/data/files";
-import { generateUniqueName, createPresignedUrlUpload } from "~/server/data/s3";
+import { createFile } from '~/server/data/files';
+import { generateUniqueName, createPresignedUrlUpload } from '~/server/data/s3';
 
 export default defineEventHandler(async (event) => {
   const user_id = event.context.user_id;

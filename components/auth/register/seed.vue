@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col justify-center align-middle">
-    <Label for="seed">{{ $t("seed_phrase") }}</Label>
+    <Label for="seed">{{ $t('seed_phrase') }}</Label>
     <div class="grid grid-cols-3 gap-x-2 gap-y-4">
       <div
         v-for="i in seed.length"
@@ -28,13 +28,13 @@
       </Button>
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t("password") }}</Label>
-      <Button @click="generateSeed">{{ $t("generate_seed") }}</Button>
+      <Label for="password">{{ $t('password') }}</Label>
+      <Button @click="generateSeed">{{ $t('generate_seed') }}</Button>
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t("save_seed") }}</Label>
+      <Label for="password">{{ $t('save_seed') }}</Label>
       <Switch :checked="userWantToSaveSeed" />
-      <Label for="password">{{ $t("save_duration") }}</Label>
+      <Label for="password">{{ $t('save_duration') }}</Label>
       <Select v-model="userSaveSeedDuration">
         <SelectTrigger class="w-[180px]">
           <SelectValue placeholder="Select a fruit" />
@@ -58,38 +58,38 @@
     />
   </div>
   <div class="mt-4 text-center text-sm">
-    {{ $t("already_account") }}
+    {{ $t('already_account') }}
     <NuxtLink to="/auth/login" class="underline">
-      {{ $t("login") }}
+      {{ $t('login') }}
     </NuxtLink>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Copy } from "lucide-vue-next";
-import { useToast } from "@/components/ui/toast/use-toast";
+import { Copy } from 'lucide-vue-next';
+import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
 const { t } = useI18n();
-import { generateSeedPhrase, getMasterKeyFromSeed } from "~/utils/crypto";
-import * as bip32 from "bip32";
-import { setKeyValue } from "~/utils/cookies";
+import { generateSeedPhrase, getMasterKeyFromSeed } from '~/utils/crypto';
+import * as bip32 from 'bip32';
+import { setKeyValue } from '~/utils/cookies';
 const loading = ref(false);
 
 const seed = ref<String[]>(new Array(12));
 const userWantToSaveSeed = ref(false);
-const userSaveSeedDuration = ref("0");
+const userSaveSeedDuration = ref('0');
 
 const generateSeed = () => {
   const plainSeed = generateSeedPhrase();
-  seed.value = plainSeed.split(" ");
+  seed.value = plainSeed.split(' ');
 };
 
 const storeKey = () => {
-  const key: bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
+  const key: bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(' '));
   setKeyValue(userSaveSeedDuration, key as string);
   toast({
-    title: t("success"),
-    description: t("key_seed_saved"),
+    title: t('success'),
+    description: t('key_seed_saved'),
   });
 };
 
@@ -97,14 +97,14 @@ const proceedFinal = () => {
   if (userWantToSaveSeed.value) {
     storeKey();
   }
-  navigateTo("/platform");
+  navigateTo('/platform');
 };
 
 const copy = () => {
-  navigator.clipboard.writeText(seed.join(" ").value);
+  navigator.clipboard.writeText(seed.join(' ').value);
   toast({
-    title: t("success"),
-    description: t("seed_copied"),
+    title: t('success'),
+    description: t('seed_copied'),
   });
 };
 </script>

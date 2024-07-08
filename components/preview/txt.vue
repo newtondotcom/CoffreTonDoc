@@ -11,5 +11,5 @@
 </template>
 
 <script setup lang="ts">
-const text = ref<string>("");
+const text = ref<string>('');
 </script>

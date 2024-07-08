@@ -23,10 +23,10 @@
       <div class="text-center min-w-full">
         <ul class="justify-center align-middle items-center px-4">
           <li class="flex flex-row justify-between text-center mx-4 px-4 py-2">
-            <span>{{ $t("list_date") }}</span>
-            <span class="w-[60%]">{{ $t("list_name") }}</span>
-            <span>{{ $t("list_size") }}</span>
-            <span>{{ $t("list_access") }}</span>
+            <span>{{ $t('list_date') }}</span>
+            <span class="w-[60%]">{{ $t('list_name') }}</span>
+            <span>{{ $t('list_size') }}</span>
+            <span>{{ $t('list_access') }}</span>
           </li>
           <li
             v-if="fileLoading"
@@ -40,7 +40,7 @@
             <div
               class="flex flex-row justify-between text-center mx-4 px-4 py-2"
             >
-              <span>{{ $t("no_files") }}</span>
+              <span>{{ $t('no_files') }}</span>
             </div>
           </li>
           <ScrollArea v-else class="h-[70vh]">
@@ -69,11 +69,11 @@
 </template>
 
 <script setup lang="ts">
-import { generateFakeFiles } from "~/lib/utils";
-import { ref, computed, watch } from "vue";
-import type { File } from "~/types/types";
-import { useToast } from "@/components/ui/toast/use-toast";
-import { ToastAction } from "@/components/ui/toast";
+import { generateFakeFiles } from '~/lib/utils';
+import { ref, computed, watch } from 'vue';
+import type { File } from '~/types/types';
+import { useToast } from '@/components/ui/toast/use-toast';
+import { ToastAction } from '@/components/ui/toast';
 const { toast } = useToast();
 
 const files = ref<File[]>([]);
@@ -88,7 +88,7 @@ const fileLoading = ref(true);
 
 const isRenameModalOpen = ref(false);
 const fileToRename = ref<File | null>(null);
-const newFileName = ref<string>("");
+const newFileName = ref<string>('');
 
 const filteredFiles = computed(() => {
   return files.value.filter((file) => file.idParent === selectedFolder.value);
@@ -104,8 +104,8 @@ async function getArborescence() {
   const body = {
     fileId: selectedFolder.value,
   };
-  const data = await $fetch("/api/both/arborescence", {
-    method: "POST",
+  const data = await $fetch('/api/both/arborescence', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
   files.value = data;
@@ -113,7 +113,7 @@ async function getArborescence() {
 }
 
 function test() {
-  console.log("test");
+  console.log('test');
 }
 
 function navigateToRoot() {
@@ -157,7 +157,7 @@ function openItem(file: File) {
   if (file.isFolder) {
     selectedFolder.value = file.id;
   } else {
-    console.log("Opening file:", file);
+    console.log('Opening file:', file);
   }
 }
 
@@ -173,12 +173,12 @@ async function renameFile(fileId: string, newName: string) {
     fileId,
     newName,
   };
-  const data: string = await $fetch("/api/both/rename", {
-    method: "POST",
+  const data: string = await $fetch('/api/both/rename', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
-  console.log("Renamed file:", data);
-  if (data == "ok") {
+  console.log('Renamed file:', data);
+  if (data == 'ok') {
     files.value = files.value.map((f) => {
       if (f.id === fileId) {
         f.name = newName;
@@ -186,45 +186,45 @@ async function renameFile(fileId: string, newName: string) {
       return f;
     });
     toast({
-      title: "Success",
-      description: "File renamed successfully",
+      title: 'Success',
+      description: 'File renamed successfully',
     });
   } else {
     toast({
-      title: "Error",
-      description: "An error occured while renaming the file",
-      variant: "destructive",
+      title: 'Error',
+      description: 'An error occured while renaming the file',
+      variant: 'destructive',
     });
   }
 }
 
 async function deleteItem(fileId: string) {
-  console.log("Deleting file:", fileId);
+  console.log('Deleting file:', fileId);
   const body = {
     fileId,
   };
-  const data = await $fetch("/api/both/delete", {
-    method: "POST",
+  const data = await $fetch('/api/both/delete', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
-  console.log("Deleted file:", data);
-  if (data == "ok") {
+  console.log('Deleted file:', data);
+  if (data == 'ok') {
     files.value = files.value.filter((f) => f.id !== fileId);
     toast({
-      title: "Success",
-      description: "File deleted successfully",
+      title: 'Success',
+      description: 'File deleted successfully',
     });
   } else {
     toast({
-      title: "Error",
-      description: "An error occured while deleting the file",
-      variant: "destructive",
+      title: 'Error',
+      description: 'An error occured while deleting the file',
+      variant: 'destructive',
     });
   }
 }
 
 async function createNewFile(name: string, extension: string) {
-  console.log("Creating new file in folder:");
+  console.log('Creating new file in folder:');
   const idParent = selectedFolder.value;
   const size = 1000;
   const statut = AccessStatus.USER;
@@ -235,8 +235,8 @@ async function createNewFile(name: string, extension: string) {
     size,
     statut,
   };
-  const data = await $fetch("/api/file/create", {
-    method: "POST",
+  const data = await $fetch('/api/file/create', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
   const newFile: File = {
@@ -247,13 +247,13 @@ async function createNewFile(name: string, extension: string) {
     extension: extension,
     idParent: idParent,
     size: 0,
-    statut: "you",
+    statut: 'you',
   };
   files.value.push(newFile);
 }
 
 async function createNewFolder(name: string) {
-  console.log("Creating new folder in folder:");
+  console.log('Creating new folder in folder:');
   const idParent = selectedFolder.value;
   const statut = AccessStatus.USER;
   const body = {
@@ -261,8 +261,8 @@ async function createNewFolder(name: string) {
     idParent,
     statut,
   };
-  const data = await $fetch("/api/folder/create", {
-    method: "POST",
+  const data = await $fetch('/api/folder/create', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
   const newFolder: File = {
@@ -270,19 +270,19 @@ async function createNewFolder(name: string) {
     name: name,
     date: new Date().toISOString(),
     isFolder: true,
-    extension: "",
+    extension: '',
     idParent: idParent,
     size: 0,
-    statut: "you",
+    statut: 'you',
   };
   files.value.push(newFolder);
 }
 
 async function replaceFile(fileId: string) {
-  console.log("Creating new file in folder:");
+  console.log('Creating new file in folder:');
   const body = { fileId };
-  const url = await $fetch("/api/file/replace", {
-    method: "POST",
+  const url = await $fetch('/api/file/replace', {
+    method: 'POST',
     body: JSON.stringify(body),
   });
   return url;

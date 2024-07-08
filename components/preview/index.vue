@@ -31,14 +31,14 @@ const props = defineProps({
   },
 });
 
-const supportedExtensions = ["docx", "pdf", "pptx", "txt", "xlsx"];
+const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx'];
 const fileSupported = ref(false);
 
 const loading = ref(true);
-const fileUrl = ref("");
+const fileUrl = ref('');
 
 async function getUrlToPreview() {
-  const url = await $fetch("/api/file/preview", {
+  const url = await $fetch('/api/file/preview', {
     body: JSON.stringify({ name_s3: name_in_s3 }),
   });
   if (url) {

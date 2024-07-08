@@ -1,25 +1,25 @@
-import { authenticator } from "otplib";
-import prisma from "~/server/data/prisma";
-import errorCodes from "~/utils/codes";
-import { symmetricDecrypt } from "~/utils/crypto";
+import { authenticator } from 'otplib';
+import prisma from '~/server/data/prisma';
+import errorCodes from '~/utils/codes';
+import { symmetricDecrypt } from '~/utils/crypto';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const session = event.context.session;
   const config = useRuntimeConfig();
 
-  if (event.node.req.method !== "POST") {
+  if (event.node.req.method !== 'POST') {
     event.node.res.statusCode = 405;
-    return { message: "Method not allowed" };
+    return { message: 'Method not allowed' };
   }
 
   if (!session) {
     event.node.res.statusCode = 401;
-    return { message: "Not authenticated" };
+    return { message: 'Not authenticated' };
   }
 
   if (!session.user?.email) {
-    console.error("Session is missing a user email.");
+    console.error('Session is missing a user email.');
     event.node.res.statusCode = 500;
     return { error: errorCodes.missing_id };
   }
@@ -56,7 +56,7 @@ export default defineEventHandler(async (event) => {
 
   if (!config.ENCRYPTION_KEY) {
     console.error(
-      "Missing encryption key; cannot proceed with two factor login.",
+      'Missing encryption key; cannot proceed with two factor login.',
     );
     event.node.res.statusCode = 500;
     return { error: errorCodes.internal_server_error };
@@ -86,5 +86,5 @@ export default defineEventHandler(async (event) => {
   });
 
   event.node.res.statusCode = 200;
-  return { message: "Two-factor authentication disabled" };
+  return { message: 'Two-factor authentication disabled' };
 });

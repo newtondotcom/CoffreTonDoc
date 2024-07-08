@@ -25,24 +25,24 @@
 
 <script setup lang="ts">
 const { signOut } = useAuth();
-import { assert } from "@vueuse/core";
+import { assert } from '@vueuse/core';
 const { status, data } = useAuth();
-const name = ref("JM");
-const email = ref("TEST");
+const name = ref('JM');
+const email = ref('TEST');
 
 const logout = async () => {
   await signOut();
-  navigateTo("/auth/login");
+  navigateTo('/auth/login');
 };
 
-const initials_cookie = useCookie("initials");
+const initials_cookie = useCookie('initials');
 if (!initials_cookie.value) {
-  initials_cookie.value = "NI";
+  initials_cookie.value = 'NI';
 } else {
   assert(
     name.value.includes(initials_cookie.value[1]) &&
       name.value.includes(initials_cookie.value[0]),
-    "Initials in cookie do not match user name",
+    'Initials in cookie do not match user name',
   );
 }
 const initials = ref(initials_cookie.value);

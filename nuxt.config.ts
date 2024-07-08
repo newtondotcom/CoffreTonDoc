@@ -2,27 +2,27 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   modules: [
-    "@nuxt/ui",
-    "@nuxtjs/tailwindcss",
-    "shadcn-nuxt",
-    "@nuxtjs/i18n",
-    "@sidebase/nuxt-auth",
+    '@nuxt/ui',
+    '@nuxtjs/tailwindcss',
+    'shadcn-nuxt',
+    '@nuxtjs/i18n',
+    '@sidebase/nuxt-auth',
   ],
 
   auth: {
     provider: {
-      type: "authjs",
+      type: 'authjs',
     },
   },
 
   shadcn: {
-    prefix: "",
-    componentDir: "./components/ui",
+    prefix: '',
+    componentDir: './components/ui',
   },
 
   tailwindcss: {
-    cssPath: ["~/assets/css/tailwind.css", { injectPosition: "first" }],
-    configPath: "tailwind.config",
+    cssPath: ['~/assets/css/tailwind.css', { injectPosition: 'first' }],
+    configPath: 'tailwind.config',
     exposeConfig: {
       level: 2,
     },
@@ -38,5 +38,5 @@ export default defineNuxtConfig({
     APP_NAME: process.env.APP_NAME,
   },
 
-  compatibilityDate: "2024-07-03",
+  compatibilityDate: '2024-07-03',
 });

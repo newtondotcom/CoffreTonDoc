@@ -13,7 +13,7 @@
         </DialogDescription>
       </DialogHeader>
       <div class="flex flex-col justify-center align-middle">
-        <Label for="seed">{{ $t("seed_phrase") }}</Label>
+        <Label for="seed">{{ $t('seed_phrase') }}</Label>
         <div class="grid gap-2">
           <div class="">
             <Input
@@ -37,9 +37,9 @@
           </div>
         </div>
         <div class="grid gap-2">
-          <Label for="save">{{ $t("save_seed") }}</Label>
+          <Label for="save">{{ $t('save_seed') }}</Label>
           <Switch id="save" :checked="userWantToSaveSeed" />
-          <Label for="duration">{{ $t("save_duration") }}</Label>
+          <Label for="duration">{{ $t('save_duration') }}</Label>
           <Select id="duration" v-model="userSaveSeedDuration">
             <SelectTrigger class="w-[180px]">
               <SelectValue placeholder="Select a fruit" />

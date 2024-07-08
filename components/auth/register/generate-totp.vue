@@ -3,7 +3,7 @@
     <img :src="dataUriQrCode" class="" alt="2FA code" />
   </div>
   <div class="grid gap-2">
-    <Label for="email">{{ $t("twofa_code") }}</Label>
+    <Label for="email">{{ $t('twofa_code') }}</Label>
     <PinInput
       id="pin-input"
       v-model="value"
@@ -36,15 +36,15 @@ const props = defineProps({
 });
 
 const { signIn } = useAuth();
-import { useToast } from "@/components/ui/toast/use-toast";
-import errorCodes from "~/utils/codes";
+import { useToast } from '@/components/ui/toast/use-toast';
+import errorCodes from '~/utils/codes';
 const { toast } = useToast();
 const { t } = useI18n();
 const loading = ref(false);
 const value = ref<String[]>([]);
 const totpCode = ref(0);
 const handleComplete = (e: String[]) => {
-  totpCode.value = e.join("");
+  totpCode.value = e.join('');
   validateTotpCode();
 };
 
@@ -53,9 +53,9 @@ const validateTotpCode = async () => {
 
   try {
     const body = await $fetch(`/api/auth/totp/enable`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         totpCode: totpCode.value,
@@ -65,10 +65,10 @@ const validateTotpCode = async () => {
     console.log(body);
     if (body.statusCode === 200) {
       toast({
-        title: t("success"),
-        description: t("twofa_enabled"),
+        title: t('success'),
+        description: t('twofa_enabled'),
       });
-      const response = await signIn("credentials", {
+      const response = await signIn('credentials', {
         redirect: false,
         username: props.Email(),
         password: props.Password(),
@@ -77,39 +77,39 @@ const validateTotpCode = async () => {
       props.setSeedTurn(true);
     } else if (body.message === errorCodes.incorrect_password) {
       toast({
-        title: t("error"),
-        description: t("wrong_credentials"),
-        variant: "destructive",
+        title: t('error'),
+        description: t('wrong_credentials'),
+        variant: 'destructive',
       });
     } else {
       toast({
-        title: t("error"),
-        description: t("wrong_credentials"),
-        variant: "destructive",
+        title: t('error'),
+        description: t('wrong_credentials'),
+        variant: 'destructive',
       });
     }
   } catch (e) {
     console.error(e);
     toast({
-      title: t("error"),
-      description: t("wrong_credentials"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('wrong_credentials'),
+      variant: 'destructive',
     });
   } finally {
     loading.value = false;
   }
 };
 
-const dataUriQrCode = ref("");
+const dataUriQrCode = ref('');
 
 const handleSetupToptp = async () => {
   loading.value = true;
 
   try {
     const response = await $fetch(`/api/auth/totp/setup`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         password: props.Password(),
@@ -122,17 +122,17 @@ const handleSetupToptp = async () => {
       props.setSeedTurn(true);
     } else {
       toast({
-        title: t("error"),
-        description: t("wrong_credentials"),
-        variant: "destructive",
+        title: t('error'),
+        description: t('wrong_credentials'),
+        variant: 'destructive',
       });
     }
   } catch (e) {
     console.error(e);
     toast({
-      title: t("error"),
-      description: t("wrong_credentials"),
-      variant: "destructive",
+      title: t('error'),
+      description: t('wrong_credentials'),
+      variant: 'destructive',
     });
   } finally {
     loading.value = false;

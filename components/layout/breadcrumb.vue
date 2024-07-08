@@ -2,12 +2,12 @@
   <div
     class="flex flex-row justify-between items-center px-4 border b-1 rounded-xl my-2 py-2 text-sm"
   >
-    <span class="opacity-50">{{ $t("breadcrumb_path") }} : </span>
+    <span class="opacity-50">{{ $t('breadcrumb_path') }} : </span>
     <Breadcrumb class="ml-2">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink @click="navigateToRoot" class="cursor-pointer">
-            {{ $t("breadcrumb_home") }}
+            {{ $t('breadcrumb_home') }}
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator v-if="breadcrumb.length" />
@@ -33,13 +33,13 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+} from '@/components/ui/breadcrumb';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
 defineProps({
   navigateToFolder: Function,

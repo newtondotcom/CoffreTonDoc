@@ -6,7 +6,7 @@ import {
   Settings,
   Smile,
   User,
-} from "lucide-vue-next";
+} from 'lucide-vue-next';
 defineProps({
   toogleSearch: Function,
   isSearching: Boolean,

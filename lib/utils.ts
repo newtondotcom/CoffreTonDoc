@@ -1,5 +1,5 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { type ClassValue, clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -7,8 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 
 // Fonction pour générer un nom de fichier aléatoire
 export function generateFileName() {
-  const adjectives = ["Red", "Blue", "Green", "Yellow", "Purple"];
-  const nouns = ["Dog", "Cat", "Bird", "Fish", "Elephant"];
+  const adjectives = ['Red', 'Blue', 'Green', 'Yellow', 'Purple'];
+  const nouns = ['Dog', 'Cat', 'Bird', 'Fish', 'Elephant'];
   const adjective = adjectives[Math.floor(Math.random() * adjectives.length)];
   const noun = nouns[Math.floor(Math.random() * nouns.length)];
   return `${adjective}_${noun}`;
@@ -26,10 +26,10 @@ export function generateFakeFiles(count: number) {
       id: i,
       date: new Date().toISOString(),
       isFolder,
-      extension: !isFolder && Math.random() < 0.8 ? "vue" : "typescript",
+      extension: !isFolder && Math.random() < 0.8 ? 'vue' : 'typescript',
       idParent: -1, // Initialement pas de parent
       size: Math.floor(Math.random() * 100000),
-      statut: Math.random() < 0.5 ? "self" : "work",
+      statut: Math.random() < 0.5 ? 'self' : 'work',
     };
 
     fakeFiles.push(newFile);
@@ -47,10 +47,10 @@ export function generateFakeFiles(count: number) {
         name: generateFileName(),
         date: new Date().toISOString(),
         isFolder: false,
-        extension: "txt",
+        extension: 'txt',
         idParent: parentId,
         size: Math.floor(Math.random() * 100000),
-        statut: Math.random() < 0.5 ? "self" : "shared",
+        statut: Math.random() < 0.5 ? 'self' : 'shared',
       };
       fakeFiles.push(childFile);
     }

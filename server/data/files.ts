@@ -1,6 +1,6 @@
-import { assert } from "@vueuse/core";
-import prisma from "./prisma";
-import { File, AccessStatus } from "@prisma/client";
+import { assert } from '@vueuse/core';
+import prisma from './prisma';
+import { File, AccessStatus } from '@prisma/client';
 
 // Get all files within a folder for a specific user
 export async function getFilesInFolder(
@@ -15,8 +15,8 @@ export async function getFilesInFolder(
       },
     });
   } catch (error) {
-    console.error("Error fetching files in folder:", error);
-    throw new Error("Failed to fetch files in folder");
+    console.error('Error fetching files in folder:', error);
+    throw new Error('Failed to fetch files in folder');
   }
 }
 
@@ -33,8 +33,8 @@ export async function getFileById(
       },
     });
   } catch (error) {
-    console.error("Error fetching file by ID:", error);
-    throw new Error("Failed to fetch file by ID");
+    console.error('Error fetching file by ID:', error);
+    throw new Error('Failed to fetch file by ID');
   }
 }
 
@@ -60,8 +60,8 @@ export async function createFile(
       },
     });
   } catch (error) {
-    console.error("Error creating file:", error);
-    throw new Error("Failed to create file");
+    console.error('Error creating file:', error);
+    throw new Error('Failed to create file');
   }
 }
 
@@ -87,8 +87,8 @@ export async function createFolder(
       },
     });
   } catch (error) {
-    console.error("Error creating folder:", error);
-    throw new Error("Failed to create folder");
+    console.error('Error creating folder:', error);
+    throw new Error('Failed to create folder');
   }
 }
 
@@ -112,8 +112,8 @@ export async function renameFile(
       },
     });
   } catch (error) {
-    console.error("Error renaming file/folder:", error);
-    throw new Error("Failed to rename file/folder");
+    console.error('Error renaming file/folder:', error);
+    throw new Error('Failed to rename file/folder');
   }
 }
 
@@ -133,8 +133,8 @@ export async function deleteFile(
       },
     });
   } catch (error) {
-    console.error("Error deleting file/folder:", error);
-    throw new Error("Failed to delete file/folder");
+    console.error('Error deleting file/folder:', error);
+    throw new Error('Failed to delete file/folder');
   }
 }
 
@@ -153,8 +153,8 @@ export async function changeAccess(
       },
     });
   } catch (error) {
-    console.error("Error changing access level:", error);
-    throw new Error("Failed to change access level");
+    console.error('Error changing access level:', error);
+    throw new Error('Failed to change access level');
   }
 }
 
@@ -177,7 +177,7 @@ export async function replaceFile(
       },
     });
   } catch (error) {
-    console.error("Error creating file:", error);
-    throw new Error("Failed to create file");
+    console.error('Error creating file:', error);
+    throw new Error('Failed to create file');
   }
 }

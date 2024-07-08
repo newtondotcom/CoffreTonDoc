@@ -1,17 +1,17 @@
-import { authenticator } from "otplib";
-import qrcode from "qrcode";
-import prisma from "~/server/data/prisma";
-import errorCodes from "~/utils/codes";
-import { symmetricEncrypt } from "~/utils/crypto";
-import { isPasswordValid } from "~/utils/hash";
+import { authenticator } from 'otplib';
+import qrcode from 'qrcode';
+import prisma from '~/server/data/prisma';
+import errorCodes from '~/utils/codes';
+import { symmetricEncrypt } from '~/utils/crypto';
+import { isPasswordValid } from '~/utils/hash';
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event);
   const config = useRuntimeConfig();
 
-  if (event.req.method !== "POST") {
+  if (event.req.method !== 'POST') {
     event.res.statusCode = 405;
-    return { message: "Method not allowed" };
+    return { message: 'Method not allowed' };
   }
 
   const user = await prisma.User.findUnique({ where: { email: body.email } });
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
       `Session references user that no longer exists.` + body.email,
     );
     event.res.statusCode = 401;
-    return { message: "Not authenticated" };
+    return { message: 'Not authenticated' };
   }
 
   if (!user.password) {
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
 
   if (!config.ENCRYPTION_KEY) {
     console.error(
-      "Missing encryption key; cannot proceed with two-factor setup.",
+      'Missing encryption key; cannot proceed with two-factor setup.',
     );
     event.res.statusCode = 500;
     return { error: errorCodes.internal_server_error };

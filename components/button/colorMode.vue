@@ -42,6 +42,6 @@
 
 <script setup lang="ts">
 function toogle() {
-  document.documentElement.classList.toggle("dark");
+  document.documentElement.classList.toggle('dark');
 }
 </script>

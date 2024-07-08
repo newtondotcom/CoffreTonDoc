@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 const url =
-  "https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx";
+  'https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx';
 
 // convert to pdf and display pdf
 </script>

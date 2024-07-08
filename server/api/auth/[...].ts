@@ -1,11 +1,11 @@
-import CredentialsProvider from "next-auth/providers/credentials";
-import { NuxtAuthHandler } from "#auth";
-import { authenticator } from "otplib";
-import { symmetricDecrypt } from "~/utils/crypto";
-import bcrypt from "bcryptjs";
-import prisma from "~/server/data/prisma";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import errorCodes from "~/utils/codes";
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { NuxtAuthHandler } from '#auth';
+import { authenticator } from 'otplib';
+import { symmetricDecrypt } from '~/utils/crypto';
+import bcrypt from 'bcryptjs';
+import prisma from '~/server/data/prisma';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import errorCodes from '~/utils/codes';
 
 const config = useRuntimeConfig();
 export default NuxtAuthHandler({
@@ -17,34 +17,34 @@ export default NuxtAuthHandler({
     maxAge: 30 * 24 * 60 * 60, // 30 Days
   },
   pages: {
-    signIn: "/auth/login",
-    signOut: "/auth/login",
-    error: "/auth/login",
+    signIn: '/auth/login',
+    signOut: '/auth/login',
+    error: '/auth/login',
   },
   providers: [
     CredentialsProvider.default({
-      id: "credentials",
-      name: "Credentials",
+      id: 'credentials',
+      name: 'Credentials',
       credentials: {
         email: {
-          label: "Email Address",
-          type: "email",
-          placeholder: "john.doe@example.com",
+          label: 'Email Address',
+          type: 'email',
+          placeholder: 'john.doe@example.com',
         },
         password: {
-          label: "Password",
-          type: "password",
-          placeholder: "Your super secure password",
+          label: 'Password',
+          type: 'password',
+          placeholder: 'Your super secure password',
         },
         totpCode: {
-          label: "Two-factor Code",
-          type: "input",
-          placeholder: "Code from authenticator app",
+          label: 'Two-factor Code',
+          type: 'input',
+          placeholder: 'Code from authenticator app',
         },
       },
 
       async authorize(credentials: any) {
-        console.log("credentials", credentials);
+        console.log('credentials', credentials);
         const user = await prisma.user.findUnique({
           where: { email: credentials?.username },
         });
@@ -84,7 +84,7 @@ export default NuxtAuthHandler({
 
         if (!config.ENCRYPTION_KEY) {
           console.error(
-            "Missing encryption key; cannot proceed with two factor setup.",
+            'Missing encryption key; cannot proceed with two factor setup.',
           );
           return {
             statusCode: 500,

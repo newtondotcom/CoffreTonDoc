@@ -8,7 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "format": "pnpm exec prettier . --write"
+    "prepare": "husky"
   },
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.7",
@@ -27,7 +27,6 @@
     "minio": "^8.0.1",
     "nuxt": "^3.12.3",
     "otplib": "^12.0.1",
-    "prettier": "^3.3.2",
     "qrcode": "^1.5.3",
     "radix-vue": "^1.8.5",
     "shadcn-nuxt": "^0.10.4",
@@ -43,6 +42,8 @@
   },
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
+    "husky": "^9.0.11",
+    "prettier": "^3.3.2",
     "prisma": "^5.16.1",
     "sass": "^1.77.6",
     "typescript": "^5.5.3"
