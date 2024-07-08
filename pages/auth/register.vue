@@ -12,7 +12,7 @@ enum STATES {
   TOTP,
   SEED,
 }
-const currentState = ref(STATES.SEED);
+const currentState = ref(STATES.CREDENTIALS);
 
 const set2FATurn = (value: Boolean) => {
   if (value) {

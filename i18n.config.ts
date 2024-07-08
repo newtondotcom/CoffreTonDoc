@@ -97,11 +97,14 @@ export default defineI18nConfig(() => ({
       save_seed:
         'Do you want to crypt and store your key in your browser ? (a bit unsafe in case someone has access to your computer but still recommended to not type it at each operation)',
       save_duration: 'How much time ?',
-      end_configuration: 'End my account configuration',
+      seed_duration: 'Duration',
+      select_duration: 'Select a duration',
+      seed_day : 'day',
+      seed_year : 'year',
+      end_configuration: 'Complete my account configuration',
       seed_copied:
         'Your phrase has successfully been copied to your clipboard ',
       key_seed_saved: 'Your key has been saved in your browser',
-      generate_seed: 'Generate one',
     },
     fr: {
       welcome: 'Bienvenue 👋',

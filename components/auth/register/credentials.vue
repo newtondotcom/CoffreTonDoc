@@ -1,7 +1,7 @@
 <template>
   <div class="grid gap-4">
     <div class="grid gap-2">
-      <Label for="username">{{ $t('username') }}</Label>
+      <Label class="my-2" for="username">{{ $t('username') }}</Label>
       <Input
         id="username"
         type="text"
@@ -11,7 +11,7 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="email">{{ $t('email') }}</Label>
+      <Label class="my-2" for="email">{{ $t('email') }}</Label>
       <Input
         id="email"
         type="email"
@@ -21,11 +21,11 @@
       />
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t('password') }}</Label>
+      <Label class="my-2" for="password">{{ $t('password') }}</Label>
       <Input id="password" type="password" required @input="Password" />
     </div>
     <div class="grid gap-2">
-      <Label for="password">{{ $t('password_confirmation') }}</Label>
+      <Label class="my-2" for="password">{{ $t('password_confirmation') }}</Label>
       <Input
         id="password"
         type="password"
@@ -47,7 +47,7 @@
     }}</NuxtLink>
     <br />
 
-    <span class="text-xs">
+    <span class="text-xs mt-2">
       {{ $t('data_collect') }}
     </span>
   </div>
@@ -98,6 +98,7 @@ const register = async () => {
       description: t('all_fields'),
       variant: 'destructive',
     });
+  loading.value = false;
     return;
   }
   const data = await $fetch(`/api/auth/register`, {

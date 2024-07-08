@@ -2,8 +2,8 @@
   <div class="grid gap-2">
     <img :src="dataUriQrCode" class="" alt="2FA code" />
   </div>
-  <div class="grid gap-2">
-    <Label for="email">{{ $t('twofa_code') }}</Label>
+  <div class="grid gap-2 mb-4">
+    <Label class="my-2" for="email">{{ $t('twofa_code') }}</Label>
     <PinInput
       id="pin-input"
       v-model="value"
