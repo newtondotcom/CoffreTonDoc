@@ -10,10 +10,9 @@
         <Input
           :id="'seed-' + i"
           type="text"
-          placeholder="random"
-          required
           class="w-[100px]"
-          v-model="seed[i]"
+          v-model="seed[i-1]"
+          disabled
         />
       </div>
       <Button
@@ -26,10 +25,6 @@
         <span class="sr-only">Copy</span>
         <Copy class="w-4 h-4" />
       </Button>
-    </div>
-    <div class="grid gap-2">
-      <Label for="password">{{ $t('password') }}</Label>
-      <Button @click="generateSeed">{{ $t('generate_seed') }}</Button>
     </div>
     <div class="grid gap-2">
       <Label for="password">{{ $t('save_seed') }}</Label>
@@ -71,7 +66,7 @@ import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
 const { t } = useI18n();
 import { generateSeedPhrase, getMasterKeyFromSeed } from '~/utils/crypto';
-import * as bip32 from 'bip32';
+import type {BIP32Interface} from 'bip32';
 import { setKeyValue } from '~/utils/cookies';
 const loading = ref(false);
 
@@ -79,13 +74,12 @@ const seed = ref<String[]>(new Array(12));
 const userWantToSaveSeed = ref(false);
 const userSaveSeedDuration = ref('0');
 
-const generateSeed = () => {
-  const plainSeed = generateSeedPhrase();
-  seed.value = plainSeed.split(' ');
-};
+
+const plainSeed = generateSeedPhrase();
+seed.value = plainSeed.split(' ');
 
 const storeKey = () => {
-  const key: bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(' '));
+  const key: BIP32Interface = getMasterKeyFromSeed(plainSeed);
   setKeyValue(userSaveSeedDuration, key as string);
   toast({
     title: t('success'),
@@ -101,7 +95,7 @@ const proceedFinal = () => {
 };
 
 const copy = () => {
-  navigator.clipboard.writeText(seed.join(' ').value);
+  navigator.clipboard.writeText(plainSeed);
   toast({
     title: t('success'),
     description: t('seed_copied'),
