@@ -24,3 +24,6 @@ logs
 !.env.example
 
 prisma/dev.db
+
+pnpm-lock.yaml
+bun.lockb
