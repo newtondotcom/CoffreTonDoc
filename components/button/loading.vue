@@ -1,5 +1,5 @@
 <template>
-  <Button variant="outline" type="submit" class="w-full" @click="execute">
+  <Button type="submit" class="w-full" @click="execute">
     <div
       v-if="loading"
       aria-label="Loading..."
