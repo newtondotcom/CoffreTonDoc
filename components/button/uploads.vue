@@ -18,14 +18,14 @@
         </AlertDialogHeader>
         <div class="grid gap-4 py-4">
           <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="folder-name" class="text-right font-medium">
+            <Label for="folder-name" class="text-right font-medium my-2">
               {{ $t('folder_name') }}
             </Label>
             <Input id="folder-name" class="col-span-3" v-model="folderName" />
           </div>
           <div class="grid grid-cols-4 items-center gap-4">
             <div class="grid w-full max-w-sm items-center gap-1.5">
-              <Label for="folder-picture">Folder</Label>
+              <Label class="my-2" for="folder-picture">Folder</Label>
               <Input
                 id="folder-picture"
                 type="file"
@@ -66,20 +66,20 @@
             v-if="!fileSelected"
             class="grid w-full max-w-sm items-center gap-1.5"
           >
-            <Label for="file-picture">File</Label>
+            <Label class="my-2" for="file-picture">File</Label>
             <Input id="file-picture" type="file" @change="handleFileUpload" />
           </div>
           <div
             v-if="fileSelected"
             class="grid grid-cols-4 items-center gap-4 mt-4"
           >
-            <Label for="file-name" class="text-right font-medium">
+            <Label for="file-name" class="text-right font-medium my-2">
               {{ $t('file_name') }}
             </Label>
             <Input id="file-name" class="col-span-3" v-model="fileName" />
           </div>
           <div v-if="fileSelected" class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-extension" class="text-right font-medium">
+            <Label for="file-extension" class="text-right font-medium my-2">
               {{ $t('extension') }}
             </Label>
             <Input

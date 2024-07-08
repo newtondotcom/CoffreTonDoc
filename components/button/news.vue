@@ -16,7 +16,7 @@
         </DialogHeader>
         <div class="grid gap-4 py-4">
           <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="folder-name" class="text-right font-medium">
+            <Label for="folder-name" class="text-right font-medium my-2">
               {{ $t('folder_name') }}
             </Label>
             <Input id="folder-name" class="col-span-3" v-model="folderName" />
@@ -48,13 +48,13 @@
         </DialogHeader>
         <div class="py-4 flex flex-col space-y-4">
           <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-name" class="text-right font-medium">
+            <Label for="file-name" class="text-right font-medium my-2">
               {{ $t('file_name') }}
             </Label>
             <Input id="file-name" class="col-span-3" v-model="fileName" />
           </div>
           <div class="grid grid-cols-4 items-center gap-4">
-            <Label for="file-extension" class="text-right font-medium">
+            <Label for="file-extension" class="text-right font-medium my-2">
               {{ $t('extension') }}
             </Label>
             <Input

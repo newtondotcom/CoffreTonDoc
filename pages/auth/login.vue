@@ -79,7 +79,7 @@ const login = async () => {
       <CardContent>
         <div class="grid gap-4">
           <div class="grid gap-2">
-            <Label for="email">{{ $t('email') }}</Label>
+            <Label class="my-2" for="email">{{ $t('email') }}</Label>
             <Input
               id="email"
               type="email"
@@ -90,7 +90,7 @@ const login = async () => {
           </div>
           <div class="grid gap-2">
             <div class="flex items-center">
-              <Label for="password">{{ $t('password') }}</Label>
+              <Label class="my-2" for="password">{{ $t('password') }}</Label>
               <NuxtLink
                 to="/auth/reset"
                 class="ml-auto inline-block text-sm underline"
@@ -101,7 +101,7 @@ const login = async () => {
             <Input id="password" type="password" required v-model="password" />
           </div>
           <div class="grid gap-2">
-            <Label for="email">{{ $t('twofa_code') }}</Label>
+            <Label class="my-2" for="email">{{ $t('twofa_code') }}</Label>
             <PinInput
               id="pin-input"
               v-model="value"

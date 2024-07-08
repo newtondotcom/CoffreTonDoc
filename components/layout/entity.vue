@@ -83,13 +83,13 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="file-name" class="text-right font-medium">
+          <Label for="file-name" class="text-right font-medium my-2">
             {{ $t('file_name') }}
           </Label>
           <Input id="file-name" class="col-span-3" v-model="newFileName" />
         </div>
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="file-extension" class="text-right font-medium">
+          <Label for="file-extension" class="text-right font-medium my-2">
             {{ $t('extension') }}
           </Label>
           <Input
@@ -117,7 +117,7 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="newFolderName" class="text-right">
+          <Label for="newFolderName" class="text-right my-2">
             {{ $t('folder_name') }}
           </Label>
           <Input
@@ -145,7 +145,7 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="newName" class="text-right">
+          <Label for="newName" class="text-right my-2">
             {{ $t('new_name') }}
           </Label>
           <Input id="newName" v-model="newName" class="col-span-3" />
@@ -169,7 +169,7 @@
       </DialogHeader>
       <div class="grid gap-4 py-4">
         <div class="grid grid-cols-4 items-center gap-4">
-          <Label for="accessLevel" class="text-right">
+          <Label for="accessLevel" class="text-right my-2">
             {{ $t('access_level') }}
           </Label>
           <Input id="accessLevel" v-model="accessLevel" class="col-span-3" />
@@ -209,7 +209,7 @@
       </DialogHeader>
 
       <div class="grid grid-cols-4 items-center gap-4">
-        <Label for="file-name" class="text-right font-medium">
+        <Label for="file-name" class="text-right font-medium my-2">
           {{ $t('file_name') }}
         </Label>
         <Input id="file-picture" type="file" @change="handleFileUpload" />
