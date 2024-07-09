@@ -160,7 +160,6 @@
 <script setup lang="ts">
 import { FileUp, FolderUp } from 'lucide-vue-next';
 import { AccessStatus } from '@prisma/client';
-import { ref } from 'vue';
 
 const folderName = ref('');
 const fileName = ref('');

@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { generateFakeFiles } from '~/lib/utils';
 import { ref, computed, watch } from 'vue';
-import type { File } from '~/types/types';
+import type { File } from '@prisma/client';
 import errorCodes from '~/utils/codes';
 import { useToast } from '@/components/ui/toast/use-toast';
 
