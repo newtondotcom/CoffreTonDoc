@@ -20,6 +20,8 @@ const error_codes = {
     'THIRD_PARTY_IDENTITY_PROVIDER_ENABLED',
   no_2fa_code: 'NO_2FA_CODE',
   success_user_created: 'SUCCESS_USER_CREATED',
+  file_already_exists: 'FILE_ALREADY_EXISTS',
+  folder_already_exists: 'FOLDER_ALREADY_EXISTS',
 };
 
 export default Object.freeze(error_codes);
