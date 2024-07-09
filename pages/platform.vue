@@ -72,7 +72,9 @@
 import { generateFakeFiles } from '~/lib/utils';
 import { ref, computed, watch } from 'vue';
 import type { File } from '~/types/types';
+import errorCodes from "~/utils/codes"
 import { useToast } from '@/components/ui/toast/use-toast';
+
 import { ToastAction } from '@/components/ui/toast';
 const { toast } = useToast();
 
@@ -165,7 +167,6 @@ function openRenameModal(file: File) {
   fileToRename.value = file;
   newFileName.value = file.name;
   isRenameModalOpen.value = true;
-  console.log(file.name);
 }
 
 async function renameFile(fileId: string, newName: string) {
@@ -239,6 +240,14 @@ async function createNewFile(name: string, extension: string) {
     method: 'POST',
     body: JSON.stringify(body),
   });
+  if (data == errorCodes.file_already_exists ) {
+    toast({
+      title: 'Error',
+      description: 'A file with the same name already exists',
+      variant: 'destructive',
+    });
+    return;
+  }
   const newFile: File = {
     id: data,
     name: name,
@@ -265,6 +274,14 @@ async function createNewFolder(name: string) {
     method: 'POST',
     body: JSON.stringify(body),
   });
+  if (data == errorCodes.folder_already_exists) {
+    toast({
+      title: 'Error',
+      description: 'A folder with the same name already exists in this folder',
+      variant: 'destructive',
+    });
+    return;
+  }
   const newFolder: File = {
     id: data,
     name: name,
