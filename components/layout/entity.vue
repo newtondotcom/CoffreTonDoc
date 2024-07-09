@@ -283,7 +283,7 @@ function setState(newState) {
 
 async function replace(file) {
   uploadloading.value = true;
-  const url = await replaceFile(file);
+  const { idfinal, urlUpload } = await replaceFile(file);
   uploadloading.value = false;
 }
 
