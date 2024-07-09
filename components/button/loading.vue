@@ -1,5 +1,5 @@
 <template>
-  <Button type="submit" class="w-full" @click="execute">
+  <Button :disabled="loading" type="submit" class="w-full" @click="execute">
     <div
       v-if="loading"
       aria-label="Loading..."
