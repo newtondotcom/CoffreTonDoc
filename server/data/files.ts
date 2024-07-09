@@ -181,3 +181,36 @@ export async function replaceFile(
     throw new Error('Failed to create file');
   }
 }
+
+export async function fileExists(name, extension, idParent, user_id){
+  try {
+    return await prisma.file.findFirst({
+      where: {
+        name: name,
+        extension: extension,
+        idParent: idParent,
+        user_id: user_id,
+        isFolder: false
+      }
+    });
+  } catch (error) {
+    console.error('Error finding file:', error);
+    throw new Error('Failed to finding file');
+  }
+}
+
+export async function folderExists(name, idParent, user_id){
+  try {
+    return await prisma.file.findFirst({
+      where: {
+        name: name,
+        idParent: idParent,
+        user_id: user_id,
+        isFolder: true
+      }
+    });
+  } catch (error) {
+    console.error('Error finding folder:', error);
+    throw new Error('Failed to finding folder');
+  }
+}
