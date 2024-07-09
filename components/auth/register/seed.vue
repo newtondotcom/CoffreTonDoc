@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col justify-center align-middle">
-            <div class="flex flex-row justify-between items-center py-2 px-1">
-        <Label for="seed">{{ $t('seed_phrase') }}</Label>
+        <div class="flex flex-row items-center justify-between px-1 py-2">
+            <Label for="seed">{{ $t('seed_phrase') }}</Label>
             <Button
                 variant="secondary"
                 type="submit"
@@ -28,28 +28,41 @@
                 />
             </div>
         </div>
-        <div class="grid gap-2 my-2">
-            <div class="flex flex-row justify-between items-center">
-            <Label class="my-2" for="want">{{ $t('save_seed') }}</Label>
-            <Switch id="want" v-model:checked="userWantToSaveSeed" />
+        <div class="my-2 grid gap-2">
+            <div class="flex flex-row items-center justify-between">
+                <Label class="my-2" for="want">{{ $t('save_seed') }}</Label>
+                <Switch id="want" v-model:checked="userWantToSaveSeed" />
             </div>
 
-            <div v-if="userWantToSaveSeed" class="flex flex-row justify-between items-center">
-            <Label class="my-2 mr-4" for="duration">{{ $t('save_duration') }}</Label>
-            <Select id="duration" v-model="userSaveSeedDuration">
-                <SelectTrigger class="w-[180px]">
-                    <SelectValue placeholder="Select a fruit" />
-                </SelectTrigger>
-                <SelectContent>
-                    <SelectGroup>
-                        <SelectLabel>{{$t("seed_duration")}}</SelectLabel>
-                        <SelectItem value="1"> 1 {{$t("seed_day")}} </SelectItem>
-                        <SelectItem value="30"> 30 {{$t("seed_day")}} </SelectItem>
-                        <SelectItem value="365"> 1 {{$t("seed_year")}} </SelectItem>
-                        <SelectItem value="99*365"> 99 {{$t("seed_year")}} </SelectItem>
-                    </SelectGroup>
-                </SelectContent>
-            </Select>
+            <div
+                v-if="userWantToSaveSeed"
+                class="flex flex-row items-center justify-between"
+            >
+                <Label class="my-2 mr-4" for="duration">{{
+                    $t('save_duration')
+                }}</Label>
+                <Select id="duration" v-model="userSaveSeedDuration">
+                    <SelectTrigger class="w-[180px]">
+                        <SelectValue placeholder="Select a fruit" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectLabel>{{ $t('seed_duration') }}</SelectLabel>
+                            <SelectItem value="1">
+                                1 {{ $t('seed_day') }}
+                            </SelectItem>
+                            <SelectItem value="30">
+                                30 {{ $t('seed_day') }}
+                            </SelectItem>
+                            <SelectItem value="365">
+                                1 {{ $t('seed_year') }}
+                            </SelectItem>
+                            <SelectItem value="99*365">
+                                99 {{ $t('seed_year') }}
+                            </SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
             </div>
         </div>
 

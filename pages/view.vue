@@ -1,5 +1,5 @@
 <template>
-  <PreviewTxt />
+    <PreviewTxt />
 </template>
 
 <script setup lang="ts">

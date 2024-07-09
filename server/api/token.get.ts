@@ -1,5 +1,5 @@
 import { getToken } from '#auth';
 export default defineEventHandler(async (event) => {
-  const token = await getToken({ event });
-  return token || 'no token present';
+    const token = await getToken({ event });
+    return token || 'no token present';
 });

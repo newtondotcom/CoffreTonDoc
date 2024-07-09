@@ -4,66 +4,69 @@ import errorCodes from '~/utils/codes';
 import { symmetricDecrypt } from '~/utils/crypto';
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody(event);
-  const config = useRuntimeConfig();
+    const body = await readBody(event);
+    const config = useRuntimeConfig();
 
-  if (event.req.method !== 'POST') {
-    return {
-      statusCode: 405,
-      body: { message: 'Method not allowed' },
-    };
-  }
+    if (event.req.method !== 'POST') {
+        return {
+            statusCode: 405,
+            body: { message: 'Method not allowed' },
+        };
+    }
 
-  if (!body.email) {
-    console.error('Session is missing a user email.');
-    return {
-      statusCode: 500,
-      body: { error: errorCodes.internal_server_error },
-    };
-  }
+    if (!body.email) {
+        console.error('Session is missing a user email.');
+        return {
+            statusCode: 500,
+            body: { error: errorCodes.internal_server_error },
+        };
+    }
 
-  const user = await prisma.user.findFirst({
-    where: {
-      email: body.email,
-    },
-  });
+    const user = await prisma.user.findFirst({
+        where: {
+            email: body.email,
+        },
+    });
 
-  if (!user) {
-    console.error(
-      `Session references user that no longer exists :` + body.email,
+    if (!user) {
+        console.error(
+            `Session references user that no longer exists :` + body.email,
+        );
+        return {
+            statusCode: 401,
+            body: { message: 'Not authenticated' },
+        };
+    }
+
+    if (user.twoFactorEnabled) {
+        return {
+            statusCode: 400,
+            body: { error: errorCodes.two_factor_already_enabled },
+        };
+    }
+
+    if (!user.twoFactorSecret) {
+        return {
+            statusCode: 400,
+            body: { error: errorCodes.two_factor_setup_required },
+        };
+    }
+
+    if (!config.ENCRYPTION_KEY) {
+        console.error(
+            'Missing encryption key; cannot proceed with two factor setup.',
+        );
+        return {
+            statusCode: 500,
+            body: { error: errorCodes.internal_server_error },
+        };
+    }
+
+    const secret = symmetricDecrypt(
+        user.twoFactorSecret,
+        config.ENCRYPTION_KEY,
     );
-    return {
-      statusCode: 401,
-      body: { message: 'Not authenticated' },
-    };
-  }
-
-  if (user.twoFactorEnabled) {
-    return {
-      statusCode: 400,
-      body: { error: errorCodes.two_factor_already_enabled },
-    };
-  }
-
-  if (!user.twoFactorSecret) {
-    return {
-      statusCode: 400,
-      body: { error: errorCodes.two_factor_setup_required },
-    };
-  }
-
-  if (!config.ENCRYPTION_KEY) {
-    console.error(
-      'Missing encryption key; cannot proceed with two factor setup.',
-    );
-    return {
-      statusCode: 500,
-      body: { error: errorCodes.internal_server_error },
-    };
-  }
-
-  const secret = symmetricDecrypt(user.twoFactorSecret, config.ENCRYPTION_KEY);
-  /*
+    /*
   if (secret.length !== 32) {
     console.log(secret);
     console.error(
@@ -76,23 +79,23 @@ export default defineEventHandler(async (event) => {
   }
   */
 
-  const isValidToken = authenticator.check(body.totpCode, secret);
-  if (!isValidToken) {
+    const isValidToken = authenticator.check(body.totpCode, secret);
+    if (!isValidToken) {
+        return {
+            statusCode: 400,
+            body: { error: errorCodes.incorrect_two_factor_code },
+        };
+    }
+
+    await prisma.user.update({
+        where: { email: body.email },
+        data: {
+            twoFactorEnabled: true,
+        },
+    });
+
     return {
-      statusCode: 400,
-      body: { error: errorCodes.incorrect_two_factor_code },
+        statusCode: 200,
+        body: { message: errorCodes.two_factor_enabled },
     };
-  }
-
-  await prisma.user.update({
-    where: { email: body.email },
-    data: {
-      twoFactorEnabled: true,
-    },
-  });
-
-  return {
-    statusCode: 200,
-    body: { message: errorCodes.two_factor_enabled },
-  };
 });
