@@ -11,3 +11,4 @@ CoffreTonDoc is a online vault which inludes MFA auth and files encryption.
 - List current sessions (not possible using credentials and jwt)
 - Limit file extension manually created
 - Full screen loading 
+- Button disabled while loading
