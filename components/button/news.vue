@@ -86,6 +86,9 @@ defineProps({
 
 // Filter to see if the name is empty or already in use
 // Manage access
+// Restrict allowed file extension
+
+const allowedFileExtensions = ["txt","md","vue","js","ts","html","css","scss","json","xml","yml","yaml","csv","sql","php","py","rb","java","c","cpp","cs","go","swift","kt","rs","pl","sh","bat","ps1","psm1","psd1","ps1xml","pssc","mof","mfl","mof","mfl"]
 
 const folderName = ref('');
 const fileName = ref('');
