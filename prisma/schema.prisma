@@ -70,11 +70,11 @@ model VerificationRequest {
   @@unique([identifier, token])
 }
 
-// enum AccessStatus {
- // USER
- // SHARED
- // COMPANY
-//}
+enum AccessStatus {
+ USER
+ SHARED
+ COMPANY
+}
 
 model File {
   id        Int         @id @default(autoincrement())
@@ -85,8 +85,7 @@ model File {
   extension String?     // Nullable because folders might not have an extension
   idParent  Int?        // Nullable to allow root-level files/folders
   size      Int
-  //statut    AccessStatus
-  statut    String
+  statut    AccessStatus
   file_name_on_s3 String?
   s3_server_name String?
 }
