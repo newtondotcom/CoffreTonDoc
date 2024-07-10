@@ -22,7 +22,13 @@
         </div>
         <div class="grid gap-2">
             <Label class="my-2" for="password">{{ $t('password') }}</Label>
-            <Input id="password" type="password" required @input="Password" />
+            <Input
+                id="password"
+                type="password"
+                required
+                @input="Password"
+                placeholder="password"
+            />
         </div>
         <div class="grid gap-2">
             <Label class="my-2" for="password">{{
@@ -32,6 +38,7 @@
                 id="password"
                 type="password"
                 required
+                placeholder="password"
                 v-model="password_confirmation"
             />
         </div>
@@ -87,8 +94,8 @@ import errorCodes from '~/utils/codes';
 const { t } = useI18n();
 const loading = ref(false);
 
-const username = ref('Roebbs  Boomer');
-const password_confirmation = ref('test');
+const username = ref('');
+const password_confirmation = ref('');
 
 const register = async () => {
     loading.value = true;
@@ -116,41 +123,41 @@ const register = async () => {
         },
     });
     loading.value = true;
-    switch(data.message){
-        case errorCodes.user_already_exists : {
-        toast({
-            title: t('error'),
-            description: t('missing_2fa_account'),
-            variant: 'destructive',
-        });
-        props.set2FATurn(true);
-            break;
-        }
-        case errorCodes.two_factor_already_enabled : {
+    switch (data.message) {
+        case errorCodes.user_already_exists: {
             toast({
-            title: t('error'),
-            description: t('twofa_already_enabled'),
-            variant: 'destructive',
-        });
-        props.setSeedTurn(true);
+                title: t('error'),
+                description: t('missing_2fa_account'),
+                variant: 'destructive',
+            });
+            props.set2FATurn(true);
             break;
         }
-        case errorCodes.success_user_created : {
+        case errorCodes.two_factor_already_enabled: {
             toast({
-            title: t('success'),
-            description: t('account_created'),
-        });
-        props.set2FATurn(true);
+                title: t('error'),
+                description: t('twofa_already_enabled'),
+                variant: 'destructive',
+            });
+            props.setSeedTurn(true);
             break;
         }
-        default: { 
-        toast({
-            title: t('error'),
-            description: t('wrong_credentials'),
-            variant: 'destructive',
-        });
-      break; 
-   } 
+        case errorCodes.success_user_created: {
+            toast({
+                title: t('success'),
+                description: t('account_created'),
+            });
+            props.set2FATurn(true);
+            break;
+        }
+        default: {
+            toast({
+                title: t('error'),
+                description: t('wrong_credentials'),
+                variant: 'destructive',
+            });
+            break;
+        }
     }
     return;
 };
