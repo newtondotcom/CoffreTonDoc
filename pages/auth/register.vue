@@ -56,6 +56,7 @@ const Password = (value: any) => {
                 <AuthRegisterCredentials
                     v-if="currentState == STATES.CREDENTIALS"
                     :set2FATurn
+                    :setSeedTurn
                     :Password
                     :Email
                 />

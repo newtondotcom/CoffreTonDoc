@@ -96,6 +96,7 @@ export default defineI18nConfig(() => ({
                 "Account created successfully, now let's set up 2FA !",
             success: 'Sucess,',
             missing_2fa_account: 'Missing 2FA code',
+            twofa_already_enabled : "2FA is already enabled on your account !",
             no_files: "Looks like you don't have any files yet !",
             seed_phrase: 'Encryption phrase',
             attention_seed:
