@@ -1,18 +1,22 @@
 -- CreateTable
 CREATE TABLE "users" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT,
     "password" TEXT,
-    "email_verified" DATETIME,
+    "email_verified" TIMESTAMP(3),
     "image" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "two_factor_enabled" BOOLEAN DEFAULT false,
+    "two_factor_secret" TEXT,
+
+    CONSTRAINT "users_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "accounts" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
     "type" TEXT,
     "provider" TEXT NOT NULL,
@@ -23,57 +27,65 @@ CREATE TABLE "accounts" (
     "expires_at" INTEGER,
     "scope" TEXT,
     "id_token" TEXT,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "accounts_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "sessions" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "user_id" TEXT,
     "session_token" TEXT NOT NULL,
     "access_token" TEXT,
-    "expires" DATETIME NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL,
-    CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE ON UPDATE CASCADE
+    "expires" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "sessions_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "VerificationRequest" (
-    "id" TEXT NOT NULL PRIMARY KEY,
+    "id" TEXT NOT NULL,
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
-    "expires" DATETIME NOT NULL,
-    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" DATETIME NOT NULL
+    "expires" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "VerificationRequest_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "File" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "id" SERIAL NOT NULL,
     "user_id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
-    "date" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "isFolder" Boolean NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "isFolder" BOOLEAN NOT NULL,
     "extension" TEXT,
     "idParent" INTEGER,
     "size" INTEGER NOT NULL,
     "statut" TEXT NOT NULL,
     "file_name_on_s3" TEXT,
-    "s3_server_name" TEXT
+    "s3_server_name" TEXT,
+
+    CONSTRAINT "File_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "S3" (
     "endpoint" TEXT NOT NULL,
-    "ssl" Boolean NOT NULL,
+    "ssl" BOOLEAN NOT NULL,
     "port" INTEGER NOT NULL,
     "access_key" TEXT NOT NULL,
     "secret_key" TEXT NOT NULL,
     "bucket" TEXT NOT NULL,
-    "name" TEXT NOT NULL PRIMARY KEY
+    "name" TEXT NOT NULL,
+
+    CONSTRAINT "S3_pkey" PRIMARY KEY ("name")
 );
 
 -- CreateIndex
@@ -90,3 +102,9 @@ CREATE UNIQUE INDEX "VerificationRequest_token_key" ON "VerificationRequest"("to
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationRequest_identifier_token_key" ON "VerificationRequest"("identifier", "token");
+
+-- AddForeignKey
+ALTER TABLE "accounts" ADD CONSTRAINT "accounts_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "sessions" ADD CONSTRAINT "sessions_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
