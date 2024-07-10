@@ -1,4 +1,5 @@
-const error_codes = {
+const errorCodes = {
+    success : 'SUCCESS',
     method_not_allowed: 'METHOD_NOT_ALLOWED',
     no_mail: 'NO_MAIL',
     missing_id: 'MISSING_ID',
@@ -22,6 +23,17 @@ const error_codes = {
     success_user_created: 'SUCCESS_USER_CREATED',
     file_already_exists: 'FILE_ALREADY_EXISTS',
     folder_already_exists: 'FOLDER_ALREADY_EXISTS',
+    totp_setup_success : 'TOTP_GENERATION_SUCCESS'
 };
 
-export default Object.freeze(error_codes);
+export default errorCodes;
+
+export function setSuccess(event : any, message : string) {
+    event.res.statusCode = 200;
+    return { message};
+}
+
+export function setFail(event : any, message : string){
+    event.res.statusCode = 403;
+    return { message};
+}
