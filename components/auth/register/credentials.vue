@@ -67,6 +67,10 @@ const props = defineProps({
         type: Function,
         required: true,
     },
+    setSeedTurn: {
+        type: Function,
+        required: true,
+    },
     Email: {
         type: Function,
         required: true,
@@ -112,29 +116,42 @@ const register = async () => {
         },
     });
     loading.value = true;
-    if (data.message == errorCodes.user_already_exists) {
+    switch(data.message){
+        case errorCodes.user_already_exists : {
         toast({
             title: t('error'),
             description: t('missing_2fa_account'),
             variant: 'destructive',
         });
         props.set2FATurn(true);
-        return;
-    }
-    if (data.message == errorCodes.success_user_created) {
-        toast({
+            break;
+        }
+        case errorCodes.two_factor_already_enabled : {
+            toast({
+            title: t('error'),
+            description: t('twofa_already_enabled'),
+            variant: 'destructive',
+        });
+        props.setSeedTurn(true);
+            break;
+        }
+        case errorCodes.success_user_created : {
+            toast({
             title: t('success'),
             description: t('account_created'),
         });
         props.set2FATurn(true);
-        return;
-    } else {
+            break;
+        }
+        default: { 
         toast({
             title: t('error'),
             description: t('wrong_credentials'),
             variant: 'destructive',
         });
-        return;
+      break; 
+   } 
     }
+    return;
 };
 </script>
