@@ -1,5 +1,5 @@
 import { getFilesInFolder } from '~/server/data/files';
-import errorCodes, {setSuccess , setFail} from '~/utils/codes';
+import errorCodes, { setSuccess, setFail } from '~/utils/codes';
 import { deleteFile, renameFile } from '~/server/data/files';
 
 export default defineEventHandler(async (event) => {
@@ -30,7 +30,7 @@ async function delete_(event) {
     const body = await readBody(event);
     const fileId = body.fileId;
     await deleteFile(fileId, user_id);
-    return setSuccess(event,errorCodes.success);
+    return setSuccess(event, errorCodes.success);
 }
 
 async function rename(event) {
@@ -39,5 +39,5 @@ async function rename(event) {
     const fileId = body.fileId;
     const newName = body.newName;
     await renameFile(fileId, newName, user_id);
-    return setSuccess(event,errorCodes.success);
+    return setSuccess(event, errorCodes.success);
 }

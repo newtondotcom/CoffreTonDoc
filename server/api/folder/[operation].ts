@@ -1,5 +1,5 @@
 import { createFolder, folderExists } from '~/server/data/files';
-import errorCodes, {setSuccess , setFail} from '~/utils/codes';
+import errorCodes, { setSuccess, setFail } from '~/utils/codes';
 
 export default defineEventHandler(async (event) => {
     const operation = getRouterParam(event, 'operation');
@@ -19,7 +19,7 @@ export async function create(event) {
     const statut = body.statut;
     const exists = await folderExists(name, idParent, user_id);
     if (exists) {
-            return setFail(event, errorCodes.folder_already_exists);
+        return setFail(event, errorCodes.folder_already_exists);
     }
     const id = await createFolder(name, idParent, statut, user_id);
     event.res.statusCode = 200;

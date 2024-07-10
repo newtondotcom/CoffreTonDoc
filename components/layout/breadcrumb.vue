@@ -6,10 +6,7 @@
         <Breadcrumb class="ml-2">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink
-                        @click="navigateToRoot"
-                        class="cursor-pointer"
-                    >
+                    <BreadcrumbLink @click="navigateToRoot" class="cursor-pointer">
                         {{ $t('breadcrumb_home') }}
                     </BreadcrumbLink>
                 </BreadcrumbItem>

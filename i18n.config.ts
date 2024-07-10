@@ -8,8 +8,7 @@ export default defineI18nConfig(() => ({
             create_folder: 'Create Folder 📁',
             folder_name: 'Folder Name 📁',
             create_file: 'Create File 📄',
-            specify_file_name:
-                'Specify the name and extension of the new file. 📄',
+            specify_file_name: 'Specify the name and extension of the new file. 📄',
             file_name: 'File Name 📄',
             extension: 'Extension 📋',
             list_date: 'Date 📅',
@@ -29,16 +28,14 @@ export default defineI18nConfig(() => ({
             delete: 'Delete 🗑️',
             access: 'Access 🔒',
             replace: 'Replace 🔄',
-            replace_confirmation:
-                'Choose a file to replace the current one. 🔄',
+            replace_confirmation: 'Choose a file to replace the current one. 🔄',
             new_file_inside: 'New File Inside 📄',
             new_folder_inside: 'New Folder Inside 📁',
             enter_new_folder_name: 'Enter the name for the new folder. 📂',
             create: 'Create 🔧',
             enter_new_file_name: 'Enter the name for the new file. 📄',
             change_access: 'Change Access 🔒',
-            modify_access_permissions:
-                'Modify the access permissions for this file. 🔒',
+            modify_access_permissions: 'Modify the access permissions for this file. 🔒',
             access_level: 'Access Level 🔒',
             save_changes: 'Save Changes 💾',
             delete_file: 'Delete File 🗑️',
@@ -56,23 +53,19 @@ export default defineI18nConfig(() => ({
             storage_quota: 'Storage Quota 📦',
             mfa_code: 'MFA Code 🔑',
             mfa_enrollment: 'MFA Enrollment 🔑',
-            mfa_enrollment_description:
-                'Please enroll your device with the MFA service. 🔑',
-            enter_mfa_code:
-                'Please enter the code from your authenticator app. 🔑',
+            mfa_enrollment_description: 'Please enroll your device with the MFA service. 🔑',
+            enter_mfa_code: 'Please enter the code from your authenticator app. 🔑',
             submit: 'Submit 🔑',
             cancel: 'Cancel 🚫',
             mfa_list: 'A list of your MFA enrolled codes.',
             unenroll_device: 'Unenroll the device',
-            unenroll_confirmation:
-                'Do you really want to unenroll this device?',
+            unenroll_confirmation: 'Do you really want to unenroll this device?',
             close: 'Close',
             hi: 'Hi',
             wrong_credentials: 'Wrong credentials ! ⚠️',
             wrong_totp: 'Wrong TOTP code ! ⌛',
             error: 'Error',
-            all_fields:
-                'Please make sure all the fields are correctly completed !',
+            all_fields: 'Please make sure all the fields are correctly completed !',
             allow_using: 'By using our service, you agree to our ',
             tos: 'Terms of Service',
             privacy: 'Privacy policy',
@@ -92,11 +85,10 @@ export default defineI18nConfig(() => ({
       don't worry ! You can check, this is open source 😊`,
             no_account: "Don't have an account?",
             already_account: 'Already have an account ?',
-            account_created:
-                "Account created successfully, now let's set up 2FA !",
+            account_created: "Account created successfully, now let's set up 2FA !",
             success: 'Sucess,',
             missing_2fa_account: 'Missing 2FA code',
-            twofa_already_enabled : "2FA is already enabled on your account !",
+            twofa_already_enabled: '2FA is already enabled on your account !',
             no_files: "Looks like you don't have any files yet !",
             seed_phrase: 'Encryption phrase',
             attention_seed:
@@ -109,8 +101,7 @@ export default defineI18nConfig(() => ({
             seed_day: 'day',
             seed_year: 'year',
             end_configuration: 'Complete my account configuration',
-            seed_copied:
-                'Your phrase has successfully been copied to your clipboard ',
+            seed_copied: 'Your phrase has successfully been copied to your clipboard ',
             key_seed_saved: 'Your key has been saved in your browser',
         },
         fr: {

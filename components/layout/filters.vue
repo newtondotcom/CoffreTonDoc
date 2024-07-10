@@ -10,9 +10,7 @@
         </Button>
         <Button variant="secondary" class="mx-2">
             <Upload />
-            <span class="ml-2 text-sm font-bold">{{
-                $t('upload_create')
-            }}</span>
+            <span class="ml-2 text-sm font-bold">{{ $t('upload_create') }}</span>
         </Button>
         <Button variant="secondary" class="mx-2">
             <SquareCheckBig />
@@ -31,22 +29,14 @@
             class="pl-10"
             @focus="toogleSearch"
         />
-        <span
-            class="absolute inset-y-0 start-0 flex items-center justify-center px-2"
-        >
+        <span class="absolute inset-y-0 start-0 flex items-center justify-center px-2">
             <MagnifyingGlassIcon class="size-6 text-muted-foreground" />
         </span>
     </div>
 </template>
 
 <script setup lang="ts">
-import {
-    Search,
-    Filter,
-    Upload,
-    SquareCheckBig,
-    FolderKanban,
-} from 'lucide-vue-next';
+import { Search, Filter, Upload, SquareCheckBig, FolderKanban } from 'lucide-vue-next';
 import { MagnifyingGlassIcon } from '@radix-icons/vue';
 defineProps({
     toogleSearch: Function,

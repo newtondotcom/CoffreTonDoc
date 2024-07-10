@@ -14,9 +14,7 @@
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         >
             <div class="rounded-lg bg-white p-8">
-                <h2 class="mb-4 text-xl font-bold">
-                    Enable two-factor authentication
-                </h2>
+                <h2 class="mb-4 text-xl font-bold">Enable two-factor authentication</h2>
                 <div v-if="step === SetupStep.ConfirmPassword">
                     <input
                         type="password"
@@ -41,8 +39,8 @@
                 </div>
                 <div v-if="step === SetupStep.DisplayQrCode">
                     <p class="mb-4">
-                        Scan the image below with the authenticator app on your
-                        phone or manually enter the text code instead.
+                        Scan the image below with the authenticator app on your phone or manually
+                        enter the text code instead.
                     </p>
                     <img :src="dataUri" alt="QR Code" class="mb-4" />
                     <div class="flex justify-end">
@@ -89,9 +87,7 @@
             class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
         >
             <div class="rounded-lg bg-white p-8">
-                <h2 class="mb-4 text-xl font-bold">
-                    Disable two-factor authentication
-                </h2>
+                <h2 class="mb-4 text-xl font-bold">Disable two-factor authentication</h2>
                 <p class="mb-2">Enter your code to disable 2FA</p>
                 <input
                     type="text"

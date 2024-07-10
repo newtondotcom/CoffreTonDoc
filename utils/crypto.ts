@@ -34,10 +34,7 @@ export const getMasterKeyFromSeed = (seedPhrase: string): BIP32Interface => {
  * @returns {string} The generated encryption key.
  */
 export const getEncryptionKey = (masterKey: BIP32Interface): string => {
-    return crypto
-        .createHash('sha256')
-        .update(masterKey.privateKey!)
-        .digest(OUTPUT_ENCODING);
+    return crypto.createHash('sha256').update(masterKey.privateKey!).digest(OUTPUT_ENCODING);
 };
 
 /**

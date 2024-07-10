@@ -6,16 +6,8 @@ definePageMeta({
         navigateAuthenticatedTo: '/',
     },
 });
-const {
-    status,
-    data,
-    lastRefreshedAt,
-    getCsrfToken,
-    getProviders,
-    getSession,
-    signIn,
-    signOut,
-} = useAuth();
+const { status, data, lastRefreshedAt, getCsrfToken, getProviders, getSession, signIn, signOut } =
+    useAuth();
 
 enum UploadState {
     STEP1 = 'STEP1',

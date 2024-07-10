@@ -9,8 +9,7 @@
             <DialogHeader>
                 <DialogTitle>Edit profile</DialogTitle>
                 <DialogDescription>
-                    Make changes to your profile here. Click save when you're
-                    done.
+                    Make changes to your profile here. Click save when you're done.
                 </DialogDescription>
             </DialogHeader>
             <div class="flex flex-col justify-center align-middle">
@@ -40,9 +39,7 @@
                 <div class="grid gap-2">
                     <Label class="my-2" for="save">{{ $t('save_seed') }}</Label>
                     <Switch id="save" :checked="userWantToSaveSeed" />
-                    <Label class="my-2" for="duration">{{
-                        $t('save_duration')
-                    }}</Label>
+                    <Label class="my-2" for="duration">{{ $t('save_duration') }}</Label>
                     <Select id="duration" v-model="userSaveSeedDuration">
                         <SelectTrigger class="w-[180px]">
                             <SelectValue placeholder="Select a fruit" />
@@ -53,9 +50,7 @@
                                 <SelectItem value="1"> 1 day </SelectItem>
                                 <SelectItem value="30"> 30 days </SelectItem>
                                 <SelectItem value="365"> 1 year </SelectItem>
-                                <SelectItem value="99*365">
-                                    99 years
-                                </SelectItem>
+                                <SelectItem value="99*365"> 99 years </SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>

@@ -12,13 +12,7 @@
         </div>
         <div class="grid gap-2">
             <Label class="my-2" for="email">{{ $t('email') }}</Label>
-            <Input
-                id="email"
-                type="email"
-                placeholder="m@example.com"
-                required
-                @input="Email"
-            />
+            <Input id="email" type="email" placeholder="m@example.com" required @input="Email" />
         </div>
         <div class="grid gap-2">
             <Label class="my-2" for="password">{{ $t('password') }}</Label>
@@ -31,9 +25,7 @@
             />
         </div>
         <div class="grid gap-2">
-            <Label class="my-2" for="password">{{
-                $t('password_confirmation')
-            }}</Label>
+            <Label class="my-2" for="password">{{ $t('password_confirmation') }}</Label>
             <Input
                 id="password"
                 type="password"
@@ -47,13 +39,9 @@
     </div>
     <div class="mt-4 text-center text-sm">
         {{ $t('allow_using') }}
-        <NuxtLink class="text-gray-500 underline" to="/tos">{{
-            $t('tos')
-        }}</NuxtLink>
+        <NuxtLink class="text-gray-500 underline" to="/tos">{{ $t('tos') }}</NuxtLink>
         and
-        <NuxtLink to="/privacy" class="text-gray-500 underline">{{
-            $t('privacy')
-        }}</NuxtLink>
+        <NuxtLink to="/privacy" class="text-gray-500 underline">{{ $t('privacy') }}</NuxtLink>
         <br />
 
         <span class="mt-2 text-xs">

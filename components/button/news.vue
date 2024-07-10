@@ -3,13 +3,9 @@
         <!-- Dialog for Creating Folder -->
         <Dialog>
             <DialogTrigger as-child>
-                <Button variant="secondary" class="mx-2">
-                    <FolderPlus
-                /></Button>
+                <Button variant="secondary" class="mx-2"> <FolderPlus /></Button>
             </DialogTrigger>
-            <DialogContent
-                class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]"
-            >
+            <DialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle class="text-lg font-semibold">{{
                         $t('create_folder')
@@ -20,17 +16,10 @@
                 </DialogHeader>
                 <div class="grid gap-4 py-4">
                     <div class="grid grid-cols-4 items-center gap-4">
-                        <Label
-                            for="folder-name"
-                            class="my-2 text-right font-medium"
-                        >
+                        <Label for="folder-name" class="my-2 text-right font-medium">
                             {{ $t('folder_name') }}
                         </Label>
-                        <Input
-                            id="folder-name"
-                            class="col-span-3"
-                            v-model="folderName"
-                        />
+                        <Input id="folder-name" class="col-span-3" v-model="folderName" />
                     </div>
                 </div>
                 <DialogFooter>
@@ -48,51 +37,32 @@
             <DialogTrigger as-child>
                 <Button variant="secondary" class="mx-2"> <FilePlus /></Button>
             </DialogTrigger>
-            <DialogContent
-                class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]"
-            >
+            <DialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
                 <DialogHeader>
-                    <DialogTitle class="text-lg font-semibold">{{
-                        $t('create_file')
-                    }}</DialogTitle>
+                    <DialogTitle class="text-lg font-semibold">{{ $t('create_file') }}</DialogTitle>
                     <DialogDescription class="text-sm text-gray-500"
                         >{{ $t('specify_file_name') }}
                     </DialogDescription>
                 </DialogHeader>
                 <div class="flex flex-col space-y-4 py-4">
                     <div class="grid grid-cols-4 items-center gap-4">
-                        <Label
-                            for="file-name"
-                            class="my-2 text-right font-medium"
-                        >
+                        <Label for="file-name" class="my-2 text-right font-medium">
                             {{ $t('file_name') }}
                         </Label>
-                        <Input
-                            id="file-name"
-                            class="col-span-3"
-                            v-model="fileName"
-                        />
+                        <Input id="file-name" class="col-span-3" v-model="fileName" />
                     </div>
                     <div class="grid grid-cols-4 items-center gap-4">
-                        <Label
-                            for="file-extension"
-                            class="my-2 text-right font-medium"
-                        >
+                        <Label for="file-extension" class="my-2 text-right font-medium">
                             {{ $t('extension') }}
                         </Label>
-                        <Input
-                            id="file-extension"
-                            class="col-span-3"
-                            v-model="fileExtension"
-                        />
+                        <Input id="file-extension" class="col-span-3" v-model="fileExtension" />
                     </div>
                 </div>
                 <DialogFooter>
                     <DialogClose as-child>
-                        <Button
-                            @click="createNewFile(fileName, fileExtension)"
-                            >{{ $t('create_file') }}</Button
-                        >
+                        <Button @click="createNewFile(fileName, fileExtension)">{{
+                            $t('create_file')
+                        }}</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

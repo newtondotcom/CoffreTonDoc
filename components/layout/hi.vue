@@ -17,9 +17,7 @@
               </div>
                 -->
         </div>
-        <Button class="w-[70%]" variant="destructive" @click="logout">
-            Log out
-        </Button>
+        <Button class="w-[70%]" variant="destructive" @click="logout"> Log out </Button>
     </div>
 </template>
 

@@ -1,6 +1,6 @@
 import bcrypt from 'bcryptjs';
 import prisma from '~/server/data/prisma';
-import errorCodes, {setSuccess , setFail} from '~/utils/codes';
+import errorCodes, { setSuccess, setFail } from '~/utils/codes';
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
@@ -11,9 +11,9 @@ export default defineEventHandler(async (event) => {
 
     if (user) {
         if (user.twoFactorEnabled) {
-            return setFail(event,errorCodes.two_factor_already_enabled)
+            return setFail(event, errorCodes.two_factor_already_enabled);
         }
-        return setSuccess(event,errorCodes.user_already_exists);
+        return setSuccess(event, errorCodes.user_already_exists);
     }
 
     await prisma.user.create({

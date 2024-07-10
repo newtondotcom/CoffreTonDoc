@@ -1,12 +1,5 @@
 <script setup lang="ts">
-import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Settings,
-    Smile,
-    User,
-} from 'lucide-vue-next';
+import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-vue-next';
 defineProps({
     toogleSearch: Function,
     isSearching: Boolean,
@@ -19,9 +12,7 @@ defineProps({
         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm"
         @keyup.esc="toogleSearch"
     >
-        <Command
-            class="z-50 max-h-[320px] max-w-[450px] rounded-lg border bg-white p-4 shadow-md"
-        >
+        <Command class="z-50 max-h-[320px] max-w-[450px] rounded-lg border bg-white p-4 shadow-md">
             <CommandInput placeholder="Type a command or search..." />
             <CommandList>
                 <CommandEmpty>No results found.</CommandEmpty>
