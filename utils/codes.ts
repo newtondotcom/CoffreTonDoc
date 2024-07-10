@@ -29,11 +29,11 @@ const errorCodes = {
 export default errorCodes;
 
 export function setSuccess(event : any, message : string) {
-    event.res.statusCode = 200;
+    setResponseStatus(event, 200)
     return { message};
 }
 
 export function setFail(event : any, message : string){
-    event.res.statusCode = 403;
+    setResponseStatus(event, 403)
     return { message};
 }
