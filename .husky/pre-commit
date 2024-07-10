@@ -1,1 +1,2 @@
-npx prettier --write "$(git diff --name-only --diff-filter=d --cached | grep -E '\.(vue|ts|js)$')"
+#npx prettier --write "$(git diff --name-only --diff-filter=d --cached | grep -E '\.(vue|ts|js)$')"
+echo "Husky is around"
