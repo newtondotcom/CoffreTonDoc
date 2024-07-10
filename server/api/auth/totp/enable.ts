@@ -1,71 +1,65 @@
 import { authenticator } from 'otplib';
 import prisma from '~/server/data/prisma';
-import errorCodes from '~/utils/codes';
+import errorCodes, {setSuccess , setFail} from '~/utils/codes';
 import { symmetricDecrypt } from '~/utils/crypto';
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event);
+    const session = event.context.session;
     const config = useRuntimeConfig();
 
-    if (event.req.method !== 'POST') {
-        return {
-            statusCode: 405,
-            body: { message: 'Method not allowed' },
-        };
+    if (event.node.req.method !== 'POST') {
+        return setFail(event, errorCodes.method_not_allowed);
     }
 
-    if (!body.email) {
+    if (!session) {
+        console.error('Session is missing.');
+        return setFail(event,  errorCodes.not_authenticated);
+    }
+
+    if (!session.user?.email) {
         console.error('Session is missing a user email.');
-        return {
-            statusCode: 500,
-            body: { error: errorCodes.internal_server_error },
-        };
+        return setFail(event,  errorCodes.missing_id);
     }
 
     const user = await prisma.user.findFirst({
         where: {
-            email: body.email,
+            email: session.user.email,
         },
     });
 
     if (!user) {
-        console.error(
-            `Session references user that no longer exists :` + body.email,
-        );
-        return {
-            statusCode: 401,
-            body: { message: 'Not authenticated' },
-        };
+        console.error(`Session references user that no longer exists.`);
+        return setFail(event,errorCodes.not_authentificated);
     }
 
-    if (user.twoFactorEnabled) {
-        return {
-            statusCode: 400,
-            body: { error: errorCodes.two_factor_already_enabled },
-        };
+    if (!user.twoFactorEnabled) {
+        return setFail(event,errorCodes.No2FACode);
+    }
+
+    if (!body.totpCode) {
+        return setFail(event,errorCodes.SecondFactorRequired);
     }
 
     if (!user.twoFactorSecret) {
-        return {
-            statusCode: 400,
-            body: { error: errorCodes.two_factor_setup_required },
-        };
+        console.error(
+            `Two factor is enabled for user ${user.email} but they have no secret`,
+        );
+        return setFail(event,errorCodes.internal_server_error);
     }
 
     if (!config.ENCRYPTION_KEY) {
         console.error(
-            'Missing encryption key; cannot proceed with two factor setup.',
+            'Missing encryption key; cannot proceed with two factor login.',
         );
-        return {
-            statusCode: 500,
-            body: { error: errorCodes.internal_server_error },
-        };
+        return setFail(event,errorCodes.internal_server_error);
     }
 
     const secret = symmetricDecrypt(
         user.twoFactorSecret,
         config.ENCRYPTION_KEY,
     );
+    
     /*
   if (secret.length !== 32) {
     console.log(secret);
@@ -87,12 +81,14 @@ export default defineEventHandler(async (event) => {
         };
     }
 
-    await prisma.user.update({
-        where: { email: body.email },
-        data: {
-            twoFactorEnabled: true,
-        },
-    });
+    if (!user.twoFactorEnabled){
+        await prisma.user.update({
+            where: { email: body.email },
+            data: {
+                twoFactorEnabled: true,
+            },
+        });
+    }
 
     return {
         statusCode: 200,

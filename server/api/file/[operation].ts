@@ -1,4 +1,4 @@
-import errorCodes from '~/utils/codes';
+import errorCodes, {setSuccess , setFail} from '~/utils/codes';
 import { createFile, fileExists, replaceFile } from '~/server/data/files';
 import {
     createPresignedUrlDownload,
@@ -18,7 +18,7 @@ export default defineEventHandler(async (event) => {
         case 'upload':
             return upload(event);
         default:
-            return errorCodes.method_not_allowed;
+            return setFail(event, errorCodes.method_not_allowed);
     }
 });
 
@@ -32,7 +32,7 @@ async function create(event) {
     const extension = body.extension;
     const exists = await fileExists(name, extension, idParent, user_id);
     if (exists) {
-        return errorCodes.file_already_exists;
+        return setFail(event, errorCodes.file_already_exists);
     }
     const id = await createFile(
         name,
@@ -42,15 +42,18 @@ async function create(event) {
         statut,
         user_id,
     );
+    event.res.statusCode = 200;
     return id.id;
 }
 
 async function preview(event) {
     const user_id = event.context.user_id;
+    // check the ownership or the sharing
     const body = await readBody(event);
     const name_s3 = body.name_s3;
     // log file access
     const url = await createPresignedUrlDownload(name_s3);
+    event.res.statusCode = 200;
     return { url };
 }
 
@@ -62,6 +65,7 @@ async function replace(event) {
     const urlUpload = await createPresignedUrlDownload(user_id, uname);
     const id = await replaceFile(user_id, fileId, uname);
     const idfinal = id.id;
+    event.res.statusCode = 200;
     return { idfinal, urlUpload };
 }
 
@@ -84,5 +88,6 @@ async function upload(event) {
     const uname = generateUniqueName();
     const { url, objectName } = await createPresignedUrlUpload(uname);
     const idfinal = id.id;
+    event.res.statusCode = 200;
     return { idfinal, url, objectName };
 }

@@ -5,7 +5,7 @@ import { symmetricDecrypt } from '~/utils/crypto';
 import bcrypt from 'bcryptjs';
 import prisma from '~/server/data/prisma';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
-import errorCodes from '~/utils/codes';
+import errorCodes, {setSuccess , setFail} from '~/utils/codes';
 
 const config = useRuntimeConfig();
 export default NuxtAuthHandler({

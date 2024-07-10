@@ -1,7 +1,7 @@
 import { authenticator } from 'otplib';
 import qrcode from 'qrcode';
 import prisma from '~/server/data/prisma';
-import errorCodes from '~/utils/codes';
+import errorCodes, {setSuccess , setFail} from '~/utils/codes';
 import { symmetricEncrypt } from '~/utils/crypto';
 import { isPasswordValid } from '~/utils/hash';
 
@@ -38,7 +38,7 @@ export default defineEventHandler(async (event) => {
             'Missing encryption key; cannot proceed with two-factor setup.',
         );
         event.res.statusCode = 500;
-        return { error: errorCodes.internal_server_error };
+        return { message: errorCodes.internal_server_error };
     }
 
     const isCorrectPassword = await isPasswordValid(
@@ -48,7 +48,7 @@ export default defineEventHandler(async (event) => {
 
     if (!isCorrectPassword) {
         event.res.statusCode = 400;
-        return { error: errorCodes.incorrect_password };
+        return { message: errorCodes.incorrect_password };
     }
 
     const secret = authenticator.generateSecret(32);
@@ -66,5 +66,5 @@ export default defineEventHandler(async (event) => {
     const dataUri = await qrcode.toDataURL(keyUri);
 
     event.res.statusCode = 200;
-    return { secret, keyUri, dataUri };
+    return { message : errorCodes.totp_setup_success , keyUri, dataUri };
 });

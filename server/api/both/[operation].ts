@@ -1,5 +1,5 @@
 import { getFilesInFolder } from '~/server/data/files';
-import errorCodes from '~/utils/codes';
+import errorCodes, {setSuccess , setFail} from '~/utils/codes';
 import { deleteFile, renameFile } from '~/server/data/files';
 
 export default defineEventHandler(async (event) => {
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
         case 'rename':
             return rename(event);
         default:
-            return errorCodes.method_not_allowed;
+            return setFail(event, errorCodes.method_not_allowed);
     }
 });
 
@@ -21,6 +21,7 @@ async function arborescence(event) {
     const body = await readBody(event);
     const fileId = body.fileId;
     const files = await getFilesInFolder(fileId, user_id);
+    event.res.statusCode = 200;
     return files;
 }
 
@@ -29,7 +30,7 @@ async function delete_(event) {
     const body = await readBody(event);
     const fileId = body.fileId;
     await deleteFile(fileId, user_id);
-    return 'ok';
+    return setSuccess(event,errorCodes.success);
 }
 
 async function rename(event) {
@@ -38,5 +39,5 @@ async function rename(event) {
     const fileId = body.fileId;
     const newName = body.newName;
     await renameFile(fileId, newName, user_id);
-    return 'ok';
+    return setSuccess(event,errorCodes.success);
 }
