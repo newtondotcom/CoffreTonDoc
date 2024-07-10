@@ -42,28 +42,31 @@ const login = async () => {
         password: password.value.trim(),
         totpCode: totpCode.value,
     });
-    if (
-        response == errorCodes.incorrect_username ||
-        response == errorCodes.incorrect_password
-    ) {
+    switch(response){
+        case errorCodes.incorrect_username || errorCodes.incorrect_password : {
         toast({
             title: t('error'),
             description: t('wrong_credentials'),
             variant: 'destructive',
         });
         loading.value = false;
-        return;
-    }
-    if (response == errorCodes.incorrect_two_factor_code) {
+        break;
+        }
+        case errorCodes.incorrect_two_factor_code : {
         toast({
             title: t('error'),
             description: t('wrong_totp'),
             variant: 'destructive',
         });
         loading.value = false;
-        return;
-    }
-    navigateTo('/platform');
+        break;
+        }
+        default : {
+            navigateTo('/platform');
+            break;
+        }
+        
+        }
 };
 </script>
 
