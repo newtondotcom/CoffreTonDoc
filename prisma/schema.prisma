@@ -88,6 +88,7 @@ model File {
   statut    AccessStatus
   file_name_on_s3 String?
   s3_server_name String?
+  deleted_at DateTime?
 }
 
 model S3 {
