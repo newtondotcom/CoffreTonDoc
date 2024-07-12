@@ -29,6 +29,10 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    keyToDecrypt : {
+        type : String,
+        required : true
+    }
 });
 
 const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx'];
@@ -37,11 +41,14 @@ const fileSupported = ref(false);
 const loading = ref(true);
 const fileUrl = ref('');
 
+// need to decrypt
+
 async function getUrlToPreview() {
     const url = await $fetch('/api/file/preview', {
         body: JSON.stringify({ name_s3: name_in_s3 }),
     });
     if (url) {
+        // need to decrypt
         fileUrl.value = url;
     }
 }
