@@ -256,7 +256,6 @@ const props = defineProps({
 
 import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
-import { ToastAction } from '@/components/ui/toast';
 
 const newName = ref('');
 const newFileName = ref('');

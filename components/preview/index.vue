@@ -35,7 +35,7 @@ const props = defineProps({
     }
 });
 
-const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx'];
+const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx','ag','ts','js','vue'];
 const fileSupported = ref(false);
 
 const loading = ref(true);
