@@ -1,5 +1,5 @@
 <template>
-    <div class="h-full w-full">
+    <div class="h-[90%] w-[90%]">
         <PreviewNop v-if="!fileSupported" />
         <div v-else>
             <div v-if="loading"></div>
