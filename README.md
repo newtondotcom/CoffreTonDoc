@@ -11,6 +11,8 @@ CoffreTonDoc is a online vault which inludes MFA auth and files encryption.
 -   List current sessions (not possible using credentials and jwt)
 -   Limit file extension manually created
 -   Catch `Enter` press in dialog
+-   Manually enter totp key : `Vous pouvez également saisir la clé manuellement et utiliser “LinkedIn” comme nom de compte.
+3DTCHHIUBCI3GZRLD4SNBZSBPQ6TROBV`
 
 Test user credentials :
 

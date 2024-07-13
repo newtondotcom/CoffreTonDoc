@@ -8,7 +8,8 @@
         "generate": "nuxt generate",
         "preview": "nuxt preview",
         "postinstall": "nuxt prepare",
-        "prepare": "husky"
+        "prepare": "husky",
+        "prettier": "npx prettier --write ."
     },
     "dependencies": {
         "@next-auth/prisma-adapter": "^1.0.7",
