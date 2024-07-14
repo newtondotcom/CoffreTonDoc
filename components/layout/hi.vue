@@ -17,6 +17,8 @@
               </div>
                 -->
         </div>
+<div v-if="status === 'authenticated'" class="flex flex-row items-center"><div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>{{ $t("authenticated") }}</div>
+<div v-else class="flex flex-row items-center"><div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>>{{ $t("not_authenticated") }}</div>
         <Button class="w-[70%]" variant="destructive" @click="logout"> Log out </Button>
     </div>
 </template>
