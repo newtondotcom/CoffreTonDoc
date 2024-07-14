@@ -24,7 +24,8 @@
                 </div>
                 <DialogFooter>
                     <DialogClose as-child>
-                        <Button @click="createNewFolder(folderName)">{{
+                        <Button @click="handleNewFolder"
+                        >{{
                             $t('create_folder')
                         }}</Button>
                     </DialogClose>
@@ -60,7 +61,9 @@
                 </div>
                 <DialogFooter>
                     <DialogClose as-child>
-                        <Button @click="createNewFile(fileName, fileExtension)">{{
+                        <Button
+                        @click="handleNewFile"
+                        >{{
                             $t('create_file')
                         }}</Button>
                     </DialogClose>
@@ -71,56 +74,54 @@
 </template>
 
 <script setup lang="ts">
-import { FolderPlus, FilePlus } from 'lucide-vue-next';
 defineProps({
     createNewFile: Function,
     createNewFolder: Function,
     filteredFiles: Object,
 });
 
+import { useToast } from '@/components/ui/toast/use-toast';
+const { toast } = useToast();
+
+import { FolderPlus, FilePlus } from 'lucide-vue-next';
+import {allowedFileExtensions} from '~/utils/extensions';
+
+
 // Filter to see if the name is empty or already in use
 // Manage access
 // Restrict allowed file extension
 
-const allowedFileExtensions = [
-    'txt',
-    'md',
-    'vue',
-    'js',
-    'ts',
-    'html',
-    'css',
-    'scss',
-    'json',
-    'xml',
-    'yml',
-    'yaml',
-    'csv',
-    'sql',
-    'php',
-    'py',
-    'rb',
-    'java',
-    'c',
-    'cpp',
-    'cs',
-    'go',
-    'swift',
-    'kt',
-    'rs',
-    'pl',
-    'sh',
-    'bat',
-    'ps1',
-    'psm1',
-    'psd1',
-    'ps1xml',
-    'pssc',
-    'mof',
-    'mfl',
-    'mof',
-    'mfl',
-];
+async function handleNewFile() {
+    if (!fileName.value || !fileExtension.value) {
+        toast({
+            title: 'Please specify a file name and extension',
+            description: 'File name and extension are required to create a new file',
+            variant: 'destructive',
+        });
+        return;
+    }
+    if (!allowedFileExtensions.includes(fileExtension.value)) {
+        toast({
+            title: 'Invalid file extension',
+            description: 'Please specify a valid file extension',
+            variant: 'destructive',
+        });
+        return;
+    }
+    createNewFile(fileName.value, fileExtension.value);
+}
+
+async function handleNewFolder() {
+    if (!folderName.value) {
+        toast({
+            title: 'Please specify a folder name',
+            description: 'Folder name is required to create a new folder',
+            variant: 'destructive',
+        });
+        return;
+    }
+    createNewFolder(folderName.value);
+}
 
 const folderName = ref('');
 const fileName = ref('');
