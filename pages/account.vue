@@ -6,5 +6,5 @@
 </template>
 
 <script setup lang="ts">
-const quota = ref(13);
+    const quota = ref(13);
 </script>

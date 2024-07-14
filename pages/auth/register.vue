@@ -1,53 +1,53 @@
 <script setup lang="ts">
-definePageMeta({
-    layout: false,
-    auth: {
-        unauthenticatedOnly: true,
-        navigateAuthenticatedTo: '/platform',
-    },
-});
+    definePageMeta({
+        layout: false,
+        auth: {
+            unauthenticatedOnly: true,
+            navigateAuthenticatedTo: '/platform',
+        },
+    });
 
-enum STATES {
-    CREDENTIALS,
-    TOTP,
-    SEED,
-}
-const currentState = ref(STATES.SEED);
-
-const set2FATurn = (value: Boolean) => {
-    if (value) {
-        currentState.value = STATES.TOTP;
-    } else {
-        currentState.value = STATES.CREDENTIALS;
+    enum STATES {
+        CREDENTIALS,
+        TOTP,
+        SEED,
     }
-};
+    const currentState = ref(STATES.SEED);
 
-const setSeedTurn = (value: Boolean) => {
-    if (value) {
-        currentState.value = STATES.SEED;
-    } else {
-        currentState.value = STATES.TOTP;
-    }
-};
+    const set2FATurn = (value: Boolean) => {
+        if (value) {
+            currentState.value = STATES.TOTP;
+        } else {
+            currentState.value = STATES.CREDENTIALS;
+        }
+    };
 
-const email = ref(`test${Math.random().toString()}@gmail.com`);
-const password = ref('test');
+    const setSeedTurn = (value: Boolean) => {
+        if (value) {
+            currentState.value = STATES.SEED;
+        } else {
+            currentState.value = STATES.TOTP;
+        }
+    };
 
-const Email = (value: any) => {
-    if (typeof value == 'object') email.value = value.target.value;
-    else return email.value;
-};
-const Password = (value: any) => {
-    if (typeof value == 'object') password.value = value.target.value;
-    else return password.value;
-};
+    const email = ref(`test${Math.random().toString()}@gmail.com`);
+    const password = ref('test');
+
+    const Email = (value: any) => {
+        if (typeof value == 'object') email.value = value.target.value;
+        else return email.value;
+    };
+    const Password = (value: any) => {
+        if (typeof value == 'object') password.value = value.target.value;
+        else return password.value;
+    };
 </script>
 
 <template>
     <div class="flex h-screen items-center justify-center">
         <Card class="mx-auto max-w-sm">
             <CardHeader>
-                <CardTitle class="text-2xl"> {{ $t('connect_us') }} </CardTitle>
+                <CardTitle class="text-2xl">{{ $t('connect_us') }}</CardTitle>
                 <CardDescription>
                     {{ $t('register_description') }}
                 </CardDescription>
@@ -66,10 +66,7 @@ const Password = (value: any) => {
                     :Password
                     :Email
                 />
-                <AuthRegisterSeed 
-                v-if="currentState == STATES.SEED"
-                :Email
-                />
+                <AuthRegisterSeed v-if="currentState == STATES.SEED" :Email />
             </CardContent>
         </Card>
     </div>

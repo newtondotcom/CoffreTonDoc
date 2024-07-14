@@ -57,105 +57,105 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    set2FATurn: {
-        type: Function,
-        required: true,
-    },
-    setSeedTurn: {
-        type: Function,
-        required: true,
-    },
-    Email: {
-        type: Function,
-        required: true,
-    },
-    Password: {
-        type: Function,
-        required: true,
-    },
-});
-
-import { useToast } from '@/components/ui/toast/use-toast';
-const { toast } = useToast();
-import errorCodes from '~/utils/codes';
-const { t } = useI18n();
-const loading = ref(false);
-
-const username = ref('');
-const password_confirmation = ref('');
-
-const register = async () => {
-    loading.value = true;
-    if (
-        username.value == '' ||
-        props.Email() == '' ||
-        props.Password() == '' ||
-        password_confirmation.value == '' ||
-        props.Password() != password_confirmation.value
-    ) {
-        toast({
-            title: t('error'),
-            description: t('all_fields'),
-            variant: 'destructive',
-        });
-        loading.value = false;
-        return;
-    }
-    const data = await $fetch(`/api/auth/register`, {
-        method: 'POST',
-        body: {
-            email: props.Email(),
-            password: props.Password(),
-            name: username.value,
+    const props = defineProps({
+        set2FATurn: {
+            type: Function,
+            required: true,
+        },
+        setSeedTurn: {
+            type: Function,
+            required: true,
+        },
+        Email: {
+            type: Function,
+            required: true,
+        },
+        Password: {
+            type: Function,
+            required: true,
         },
     });
-    loading.value = true;
-    switch (data.message) {
-        case errorCodes.user_already_exists: {
+
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+    import errorCodes from '~/utils/codes';
+    const { t } = useI18n();
+    const loading = ref(false);
+
+    const username = ref('');
+    const password_confirmation = ref('');
+
+    const register = async () => {
+        loading.value = true;
+        if (
+            username.value == '' ||
+            props.Email() == '' ||
+            props.Password() == '' ||
+            password_confirmation.value == '' ||
+            props.Password() != password_confirmation.value
+        ) {
             toast({
                 title: t('error'),
-                description: t('missing_2fa_account'),
+                description: t('all_fields'),
                 variant: 'destructive',
             });
-            props.set2FATurn(true);
-            break;
+            loading.value = false;
+            return;
         }
-        case errorCodes.two_factor_already_enabled: {
-            toast({
-                title: t('error'),
-                description: t('twofa_already_enabled'),
-                variant: 'destructive',
-            });
-            props.setSeedTurn(true);
-            break;
+        const data = await $fetch(`/api/auth/register`, {
+            method: 'POST',
+            body: {
+                email: props.Email(),
+                password: props.Password(),
+                name: username.value,
+            },
+        });
+        loading.value = true;
+        switch (data.message) {
+            case errorCodes.user_already_exists: {
+                toast({
+                    title: t('error'),
+                    description: t('missing_2fa_account'),
+                    variant: 'destructive',
+                });
+                props.set2FATurn(true);
+                break;
+            }
+            case errorCodes.two_factor_already_enabled: {
+                toast({
+                    title: t('error'),
+                    description: t('twofa_already_enabled'),
+                    variant: 'destructive',
+                });
+                props.setSeedTurn(true);
+                break;
+            }
+            case errorCodes.seed_already_generated: {
+                toast({
+                    title: t('error'),
+                    description: t('twofa_already_enabled'),
+                    variant: 'destructive',
+                });
+                navigateTo('/auth/login');
+                break;
+            }
+            case errorCodes.success_user_created: {
+                toast({
+                    title: t('success'),
+                    description: t('account_created'),
+                });
+                props.set2FATurn(true);
+                break;
+            }
+            default: {
+                toast({
+                    title: t('error'),
+                    description: t('wrong_credentials'),
+                    variant: 'destructive',
+                });
+                break;
+            }
         }
-        case errorCodes.seed_already_generated: {
-            toast({
-                title: t('error'),
-                description: t('twofa_already_enabled'),
-                variant: 'destructive',
-            });
-            navigateTo('/auth/login')
-            break;
-        }
-        case errorCodes.success_user_created: {
-            toast({
-                title: t('success'),
-                description: t('account_created'),
-            });
-            props.set2FATurn(true);
-            break;
-        }
-        default: {
-            toast({
-                title: t('error'),
-                description: t('wrong_credentials'),
-                variant: 'destructive',
-            });
-            break;
-        }
-    }
-    return;
-};
+        return;
+    };
 </script>

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-vue-next';
-defineProps({
-    toogleSearch: Function,
-    isSearching: Boolean,
-});
+    import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-vue-next';
+    defineProps({
+        toogleSearch: Function,
+        isSearching: Boolean,
+    });
 </script>
 
 <template>
@@ -54,7 +54,7 @@ defineProps({
 </template>
 
 <style scoped>
-.bg-opacity-50 {
-    backdrop-filter: blur(5px);
-}
+    .bg-opacity-50 {
+        backdrop-filter: blur(5px);
+    }
 </style>

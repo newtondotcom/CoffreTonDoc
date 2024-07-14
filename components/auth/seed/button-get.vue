@@ -3,7 +3,7 @@
 
     <Dialog v-else>
         <DialogTrigger as-child>
-            <Button variant="outline"> Edit Profile </Button>
+            <Button variant="outline">Edit Profile</Button>
         </DialogTrigger>
         <DialogContent class="sm:max-w-[425px]">
             <DialogHeader>
@@ -47,10 +47,10 @@
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Fruits</SelectLabel>
-                                <SelectItem value="1"> 1 day </SelectItem>
-                                <SelectItem value="30"> 30 days </SelectItem>
-                                <SelectItem value="365"> 1 year </SelectItem>
-                                <SelectItem value="99*365"> 99 years </SelectItem>
+                                <SelectItem value="1">1 day</SelectItem>
+                                <SelectItem value="30">30 days</SelectItem>
+                                <SelectItem value="365">1 year</SelectItem>
+                                <SelectItem value="99*365">99 years</SelectItem>
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -64,48 +64,48 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-  provideKey: {
-    type: Function,
-    required: true
-  },
-  text : {
-    type : String,
-    required : true
-  },
-  loading : {
-    type : Boolean,
-    required : true
-  }
-})
+    defineProps({
+      provideKey: {
+        type: Function,
+        required: true
+      },
+      text : {
+        type : String,
+        required : true
+      },
+      loading : {
+        type : Boolean,
+        required : true
+      }
+    })
 
-import { getKeyValue } from '@/utils/cookies';
+    import { getKeyValue } from '@/utils/cookies';
 
-const keySaved = ref(false);
-const key = ref("");
+    const keySaved = ref(false);
+    const key = ref("");
 
-if (getKeyValue()){
-    keySaved.value = false;
-    key.value = getKeyValue();
-}
+    if (getKeyValue()){
+        keySaved.value = false;
+        key.value = getKeyValue();
+    }
 
-const seed = ref<String[]>(new Array(12));
-const userWantToSaveSeed = ref(false);
-const userSaveSeedDuration = ref(0);
+    const seed = ref<String[]>(new Array(12));
+    const userWantToSaveSeed = ref(false);
+    const userSaveSeedDuration = ref(0);
 
-const storeKey = () => {
-  const key : bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
-  setKeyValue(userSaveSeedDuration,key as string);
-  toast({
-      title: t("success"),
-      description: t("key_seed_saved"),
-    });
-}
+    const storeKey = () => {
+      const key : bip32.BIP32Interface = getMasterKeyFromSeed(seed.value.join(" "));
+      setKeyValue(userSaveSeedDuration,key as string);
+      toast({
+          title: t("success"),
+          description: t("key_seed_saved"),
+        });
+    }
 
-async function localFunction () => {
-  if (!keySaved && userWantToSaveSeed.value){
-    storeKey();
-  }
-  props.provideKey()
-}
+    async function localFunction () => {
+      if (!keySaved && userWantToSaveSeed.value){
+        storeKey();
+      }
+      props.provideKey()
+    }
 </script>

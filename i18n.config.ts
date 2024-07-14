@@ -107,7 +107,8 @@ export default defineI18nConfig(() => ({
             key_seed_saved: 'Your key has been saved in your browser',
             authenticated: 'Authentifcated',
             unauthenticated: 'Unauthenticated',
-            topt_by_hand : "Can't scan this ? In your TOPT app, you can also use 'CoffreTonDoc' as the account name and enter the following key manually: ",
+            topt_by_hand:
+                "Can't scan this ? In your TOPT app, you can also use 'CoffreTonDoc' as the account name and enter the following key manually: ",
         },
         fr: {
             welcome: 'Bienvenue 👋',

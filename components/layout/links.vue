@@ -25,5 +25,5 @@
 </template>
 
 <script setup lang="ts">
-import { Home, Settings } from 'lucide-vue-next';
+    import { Home, Settings } from 'lucide-vue-next';
 </script>

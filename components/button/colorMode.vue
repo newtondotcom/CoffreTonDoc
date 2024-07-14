@@ -32,7 +32,7 @@
 </template>
 
 <script setup lang="ts">
-function toogle() {
-    document.documentElement.classList.toggle('dark');
-}
+    function toogle() {
+        document.documentElement.classList.toggle('dark');
+    }
 </script>

@@ -113,23 +113,23 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    loading: {
-        type: Boolean,
-        required: true,
-    },
-    currentStep: {
-        type: String,
-        required: true,
-    },
-});
+    const props = defineProps({
+        loading: {
+            type: Boolean,
+            required: true,
+        },
+        currentStep: {
+            type: String,
+            required: true,
+        },
+    });
 
-import { BadgeCheck } from 'lucide-vue-next';
-enum UploadState {
-    STEP1 = 'STEP1',
-    STEP2 = 'STEP2',
-    STEP3 = 'STEP3',
-    COMPLETE = 'STEP4',
-}
-const classCompleted = 'bg-gray-500 rounded-xl text-white';
+    import { BadgeCheck } from 'lucide-vue-next';
+    enum UploadState {
+        STEP1 = 'STEP1',
+        STEP2 = 'STEP2',
+        STEP3 = 'STEP3',
+        COMPLETE = 'STEP4',
+    }
+    const classCompleted = 'bg-gray-500 rounded-xl text-white';
 </script>

@@ -13,10 +13,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    size: {
-        type: Number,
-        required: true,
-    },
-});
+    defineProps({
+        size: {
+            type: Number,
+            required: true,
+        },
+    });
 </script>

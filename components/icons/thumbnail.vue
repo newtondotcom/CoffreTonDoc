@@ -11,29 +11,29 @@
 </template>
 
 <style>
-.text-shadow {
-    text-shadow:
-        2px 0 rgb(0, 0, 0),
-        -2px 0 rgb(0, 0, 0),
-        0 2px rgb(0, 0, 0),
-        0 -2px rgb(0, 0, 0),
-        1px 1px rgb(0, 0, 0),
-        -1px -1px rgb(0, 0, 0),
-        1px -1px rgb(0, 0, 0),
-        -1px 1px rgb(0, 0, 0);
-    letter-spacing: 5px;
-}
+    .text-shadow {
+        text-shadow:
+            2px 0 rgb(0, 0, 0),
+            -2px 0 rgb(0, 0, 0),
+            0 2px rgb(0, 0, 0),
+            0 -2px rgb(0, 0, 0),
+            1px 1px rgb(0, 0, 0),
+            -1px -1px rgb(0, 0, 0),
+            1px -1px rgb(0, 0, 0),
+            -1px 1px rgb(0, 0, 0);
+        letter-spacing: 5px;
+    }
 </style>
 
 <script setup lang="ts">
-const props = defineProps({
-    extension: {
-        type: String,
-        required: true,
-    },
-});
+    const props = defineProps({
+        extension: {
+            type: String,
+            required: true,
+        },
+    });
 
-import {iconMapping} from '~/utils/extensions';
+    import { iconMapping } from '~/utils/extensions';
 
-const icon = iconMapping[props.extension];
+    const icon = iconMapping[props.extension];
 </script>

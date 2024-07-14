@@ -114,181 +114,181 @@
 </template>
 
 <script setup lang="ts">
-import { useToast } from '@/components/ui/toast/use-toast';
-const { toast } = useToast();
-const isOpenSetupModal = ref(false);
-const isOpenDisableModal = ref(false);
-const isEnabled = ref(false);
-const SetupStep = {
-    ConfirmPassword: 0,
-    DisplayQrCode: 1,
-    EnterTotpCode: 2,
-};
-const step = ref(SetupStep.ConfirmPassword);
-const password = ref('');
-const totpCode = ref('');
-const dataUri = ref('');
-const isSubmitting = ref(false);
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+    const isOpenSetupModal = ref(false);
+    const isOpenDisableModal = ref(false);
+    const isEnabled = ref(false);
+    const SetupStep = {
+        ConfirmPassword: 0,
+        DisplayQrCode: 1,
+        EnterTotpCode: 2,
+    };
+    const step = ref(SetupStep.ConfirmPassword);
+    const password = ref('');
+    const totpCode = ref('');
+    const dataUri = ref('');
+    const isSubmitting = ref(false);
 
-const openSetupModal = () => {
-    isOpenSetupModal.value = true;
-};
+    const openSetupModal = () => {
+        isOpenSetupModal.value = true;
+    };
 
-const closeSetupModal = () => {
-    isOpenSetupModal.value = false;
-    resetState();
-};
+    const closeSetupModal = () => {
+        isOpenSetupModal.value = false;
+        resetState();
+    };
 
-const openDisableModal = () => {
-    isOpenDisableModal.value = true;
-};
+    const openDisableModal = () => {
+        isOpenDisableModal.value = true;
+    };
 
-const closeDisableModal = () => {
-    isOpenDisableModal.value = false;
-    resetState();
-};
+    const closeDisableModal = () => {
+        isOpenDisableModal.value = false;
+        resetState();
+    };
 
-const handleSetup = async () => {
-    if (isSubmitting.value) {
-        return;
-    }
+    const handleSetup = async () => {
+        if (isSubmitting.value) {
+            return;
+        }
 
-    isSubmitting.value = true;
+        isSubmitting.value = true;
 
-    try {
-        const response = await $fetch(`/api/auth/totp/setup`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                password: password.value,
-            }),
-        });
-        const body = await response.json();
-
-        if (response.status === 200) {
-            dataUri.value = body.dataUri;
-            step.value = SetupStep.DisplayQrCode;
-        } else if (body.error === errorCodes.incorrect_password) {
-            toast({
-                title: 'Incorrect Password',
-                status: 'error',
+        try {
+            const response = await $fetch(`/api/auth/totp/setup`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    password: password.value,
+                }),
             });
-        } else {
+            const body = await response.json();
+
+            if (response.status === 200) {
+                dataUri.value = body.dataUri;
+                step.value = SetupStep.DisplayQrCode;
+            } else if (body.error === errorCodes.incorrect_password) {
+                toast({
+                    title: 'Incorrect Password',
+                    status: 'error',
+                });
+            } else {
+                toast({
+                    title: 'Sorry something went wrong',
+                    status: 'error',
+                });
+            }
+        } catch (e) {
             toast({
                 title: 'Sorry something went wrong',
                 status: 'error',
             });
+        } finally {
+            isSubmitting.value = false;
         }
-    } catch (e) {
-        toast({
-            title: 'Sorry something went wrong',
-            status: 'error',
-        });
-    } finally {
-        isSubmitting.value = false;
-    }
-};
+    };
 
-const handleEnable = async () => {
-    if (isSubmitting.value) {
-        return;
-    }
+    const handleEnable = async () => {
+        if (isSubmitting.value) {
+            return;
+        }
 
-    isSubmitting.value = true;
+        isSubmitting.value = true;
 
-    try {
-        const response = await $fetch(`/api/auth/totp/enable`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                totpCode: totpCode.value,
-            }),
-        });
-        const body = await response.json();
-
-        if (body.error === errorCodes.incorrect_two_factor_code) {
-            toast({
-                title: 'Incorrect code. Please try again',
-                status: 'error',
+        try {
+            const response = await $fetch(`/api/auth/totp/enable`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    totpCode: totpCode.value,
+                }),
             });
-        } else if (body.error) {
+            const body = await response.json();
+
+            if (body.error === errorCodes.incorrect_two_factor_code) {
+                toast({
+                    title: 'Incorrect code. Please try again',
+                    status: 'error',
+                });
+            } else if (body.error) {
+                toast({
+                    title: 'Sorry something went wrong',
+                    status: 'error',
+                });
+            } else {
+                toast({
+                    title: 'Successfully enabled 2FA',
+                    status: 'success',
+                });
+            }
+
+            onEnable();
+        } catch (e) {
             toast({
                 title: 'Sorry something went wrong',
                 status: 'error',
             });
-        } else {
-            toast({
-                title: 'Successfully enabled 2FA',
-                status: 'success',
-            });
+        } finally {
+            isSubmitting.value = false;
+        }
+    };
+
+    const handleDisable = async () => {
+        if (isSubmitting.value) {
+            return;
         }
 
-        onEnable();
-    } catch (e) {
-        toast({
-            title: 'Sorry something went wrong',
-            status: 'error',
-        });
-    } finally {
-        isSubmitting.value = false;
-    }
-};
+        isSubmitting.value = true;
 
-const handleDisable = async () => {
-    if (isSubmitting.value) {
-        return;
-    }
-
-    isSubmitting.value = true;
-
-    try {
-        const response = await $fetch(`/api/auth/totp/disable`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                totpCode: totpCode.value,
-            }),
-        });
-        const body = await response.json();
-
-        if (body.error === errorCodes.incorrect_two_factor_code) {
-            toast({
-                title: 'Incorrect code. Please try again',
-                status: 'error',
+        try {
+            const response = await $fetch(`/api/auth/totp/disable`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    totpCode: totpCode.value,
+                }),
             });
-        } else if (body.error) {
+            const body = await response.json();
+
+            if (body.error === errorCodes.incorrect_two_factor_code) {
+                toast({
+                    title: 'Incorrect code. Please try again',
+                    status: 'error',
+                });
+            } else if (body.error) {
+                toast({
+                    title: 'Sorry something went wrong',
+                    status: 'error',
+                });
+            } else {
+                toast({
+                    title: 'Successfully disabled 2FA',
+                    status: 'success',
+                });
+            }
+
+            onDisable();
+        } catch (e) {
             toast({
                 title: 'Sorry something went wrong',
                 status: 'error',
             });
-        } else {
-            toast({
-                title: 'Successfully disabled 2FA',
-                status: 'success',
-            });
+        } finally {
+            isSubmitting.value = false;
         }
+    };
 
-        onDisable();
-    } catch (e) {
-        toast({
-            title: 'Sorry something went wrong',
-            status: 'error',
-        });
-    } finally {
-        isSubmitting.value = false;
-    }
-};
-
-const resetState = () => {
-    step.value = SetupStep.ConfirmPassword;
-    password.value = '';
-    totpCode.value = '';
-    dataUri.value = '';
-};
+    const resetState = () => {
+        step.value = SetupStep.ConfirmPassword;
+        password.value = '';
+        totpCode.value = '';
+        dataUri.value = '';
+    };
 </script>

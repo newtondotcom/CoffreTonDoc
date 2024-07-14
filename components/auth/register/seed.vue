@@ -33,10 +33,10 @@
                     <SelectContent>
                         <SelectGroup>
                             <SelectLabel>{{ $t('seed_duration') }}</SelectLabel>
-                            <SelectItem value="1"> 1 {{ $t('seed_day') }} </SelectItem>
-                            <SelectItem value="30"> 30 {{ $t('seed_day') }} </SelectItem>
-                            <SelectItem value="365"> 1 {{ $t('seed_year') }} </SelectItem>
-                            <SelectItem value="99*365"> 99 {{ $t('seed_year') }} </SelectItem>
+                            <SelectItem value="1">1 {{ $t('seed_day') }}</SelectItem>
+                            <SelectItem value="30">30 {{ $t('seed_day') }}</SelectItem>
+                            <SelectItem value="365">1 {{ $t('seed_year') }}</SelectItem>
+                            <SelectItem value="99*365">99 {{ $t('seed_year') }}</SelectItem>
                         </SelectGroup>
                     </SelectContent>
                 </Select>
@@ -54,75 +54,75 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-    Email: {
-        type: Function,
-        required: true,
-    },
-});
-
-import { useToast } from '@/components/ui/toast/use-toast';
-const { toast } = useToast();
-
-import { Copy } from 'lucide-vue-next';
-const { t } = useI18n();
-import { generateSeedPhrase, getMasterKeyFromSeed } from '~/utils/crypto';
-import type { BIP32Interface } from 'bip32';
-import { setKeyValue } from '~/utils/cookies';
-const loading = ref(false);
-
-const seed = ref<String[]>(new Array(12));
-const userWantToSaveSeed = ref(false);
-const userSaveSeedDuration = ref('0');
-
-const plainSeed = generateSeedPhrase();
-seed.value = plainSeed.split(' ');
-
-const storeKey = () => {
-    const key: BIP32Interface = getMasterKeyFromSeed(plainSeed);
-    setKeyValue(userSaveSeedDuration.value, key as string);
-    toast({
-        title: t('success'),
-        description: t('key_seed_saved'),
+    const props = defineProps({
+        Email: {
+            type: Function,
+            required: true,
+        },
     });
-};
 
-const proceedFinal = async () => {
-    if (userWantToSaveSeed.value) {
-        if (userSaveSeedDuration.value !== '0') {
-            storeKey();
-        } else {
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+
+    import { Copy } from 'lucide-vue-next';
+    const { t } = useI18n();
+    import { generateSeedPhrase, getMasterKeyFromSeed } from '~/utils/crypto';
+    import type { BIP32Interface } from 'bip32';
+    import { setKeyValue } from '~/utils/cookies';
+    const loading = ref(false);
+
+    const seed = ref<String[]>(new Array(12));
+    const userWantToSaveSeed = ref(false);
+    const userSaveSeedDuration = ref('0');
+
+    const plainSeed = generateSeedPhrase();
+    seed.value = plainSeed.split(' ');
+
+    const storeKey = () => {
+        const key: BIP32Interface = getMasterKeyFromSeed(plainSeed);
+        setKeyValue(userSaveSeedDuration.value, key as string);
+        toast({
+            title: t('success'),
+            description: t('key_seed_saved'),
+        });
+    };
+
+    const proceedFinal = async () => {
+        if (userWantToSaveSeed.value) {
+            if (userSaveSeedDuration.value !== '0') {
+                storeKey();
+            } else {
+                toast({
+                    title: t('error'),
+                    description: t('select_duration'),
+                });
+                return;
+            }
+        }
+        const data = await $fetch('/api/auth/seed', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: props.Email(),
+            }),
+        });
+        if (data.message != errorCodes.success_user_created) {
             toast({
                 title: t('error'),
-                description: t('select_duration'),
+                description: t('error_occurred'),
             });
             return;
         }
-    }
-    const data = await $fetch('/api/auth/seed', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            email: props.Email()
-        }),
-    });
-    if (data.message != errorCodes.success_user_created) {
-        toast({
-            title: t('error'),
-            description: t('error_occurred'),
-        });
-        return;
-    }
-    navigateTo('/platform');
-};
+        navigateTo('/platform');
+    };
 
-const copy = () => {
-    navigator.clipboard.writeText(plainSeed);
-    toast({
-        title: t('success'),
-        description: t('seed_copied'),
-    });
-};
+    const copy = () => {
+        navigator.clipboard.writeText(plainSeed);
+        toast({
+            title: t('success'),
+            description: t('seed_copied'),
+        });
+    };
 </script>

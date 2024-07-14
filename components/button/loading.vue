@@ -23,18 +23,18 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    execute: {
-        type: Function,
-        required: true,
-    },
-    text: {
-        type: String,
-        required: true,
-    },
-    loading: {
-        type: Boolean,
-        required: true,
-    },
-});
+    defineProps({
+        execute: {
+            type: Function,
+            required: true,
+        },
+        text: {
+            type: String,
+            required: true,
+        },
+        loading: {
+            type: Boolean,
+            required: true,
+        },
+    });
 </script>

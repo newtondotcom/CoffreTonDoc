@@ -7,12 +7,12 @@
         @error="errorHandler"
     />
      -->
-     <iframe :src="pdf" width="600" height="500"></iframe>
+    <iframe :src="pdf" width="600" height="500"></iframe>
 </template>
 
 <script setup lang="ts">
-const pdf = 'http://static.shanhuxueyuan.com/test.pdf'; // Set the PDF URL
-/*
+    const pdf = 'http://static.shanhuxueyuan.com/test.pdf'; // Set the PDF URL
+    /*
 import VueOfficePdf from '@vue-office/pdf';
 
 function renderedHandler() {

@@ -15,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-const isSearching = ref(false);
+    const isSearching = ref(false);
 
-function toogleSearch() {
-    isSearching.value = !isSearching.value;
-}
+    function toogleSearch() {
+        isSearching.value = !isSearching.value;
+    }
 </script>

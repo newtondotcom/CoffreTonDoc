@@ -17,33 +17,39 @@
               </div>
                 -->
         </div>
-<div v-if="status === 'authenticated'" class="flex flex-row items-center"><div class="h-3 w-3 rounded-full bg-green-500 mr-2"></div>{{ $t("authenticated") }}</div>
-<div v-else class="flex flex-row items-center"><div class="h-3 w-3 rounded-full bg-red-500 mr-2"></div>>{{ $t("not_authenticated") }}</div>
-        <Button class="w-[70%]" variant="destructive" @click="logout"> Log out </Button>
+        <div v-if="status === 'authenticated'" class="flex flex-row items-center">
+            <div class="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
+            {{ $t('authenticated') }}
+        </div>
+        <div v-else class="flex flex-row items-center">
+            <div class="mr-2 h-3 w-3 rounded-full bg-red-500"></div>
+            >{{ $t('not_authenticated') }}
+        </div>
+        <Button class="w-[70%]" variant="destructive" @click="logout">Log out</Button>
     </div>
 </template>
 
 <script setup lang="ts">
-const { signOut } = useAuth();
-import { assert } from '@vueuse/core';
-const { status, data } = useAuth();
-const name = ref('JM');
-const email = ref('TEST');
+    const { signOut } = useAuth();
+    import { assert } from '@vueuse/core';
+    const { status, data } = useAuth();
+    const name = ref('JM');
+    const email = ref('TEST');
 
-const logout = async () => {
-    await signOut();
-    navigateTo('/auth/login');
-};
+    const logout = async () => {
+        await signOut();
+        navigateTo('/auth/login');
+    };
 
-const initials_cookie = useCookie('initials');
-if (!initials_cookie.value) {
-    initials_cookie.value = 'NI';
-} else {
-    assert(
-        name.value.includes(initials_cookie.value[1]) &&
-            name.value.includes(initials_cookie.value[0]),
-        'Initials in cookie do not match user name',
-    );
-}
-const initials = ref(initials_cookie.value);
+    const initials_cookie = useCookie('initials');
+    if (!initials_cookie.value) {
+        initials_cookie.value = 'NI';
+    } else {
+        assert(
+            name.value.includes(initials_cookie.value[1]) &&
+                name.value.includes(initials_cookie.value[0]),
+            'Initials in cookie do not match user name',
+        );
+    }
+    const initials = ref(initials_cookie.value);
 </script>

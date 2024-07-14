@@ -28,11 +28,11 @@
 </template>
 
 <script setup lang="ts">
-import { User, Users, Building } from 'lucide-vue-next';
-defineProps({
-    statut: {
-        type: String,
-        required: true,
-    },
-});
+    import { User, Users, Building } from 'lucide-vue-next';
+    defineProps({
+        statut: {
+            type: String,
+            required: true,
+        },
+    });
 </script>

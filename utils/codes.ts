@@ -23,7 +23,7 @@ const errorCodes = {
     file_already_exists: 'FILE_ALREADY_EXISTS',
     folder_already_exists: 'FOLDER_ALREADY_EXISTS',
     totp_setup_success: 'TOTP_GENERATION_SUCCESS',
-    seed_already_generated : 'SEED_ALREADY_GENERATED'
+    seed_already_generated: 'SEED_ALREADY_GENERATED',
 };
 
 export default errorCodes;

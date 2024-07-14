@@ -16,51 +16,51 @@
 </template>
 
 <script lang="ts">
-const props = defineProps({
-    filename: {
-        type: String,
-        required: true,
-    },
-    extension: {
-        type: String,
-        required: true,
-    },
-    name_in_s3: {
-        type: Boolean,
-        required: true,
-    },
-    keyToDecrypt : {
-        type : String,
-        required : true
-    }
-});
-
-const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx','ag','ts','js','vue'];
-const fileSupported = ref(false);
-
-const loading = ref(true);
-const fileUrl = ref('');
-
-// need to decrypt
-
-async function getUrlToPreview() {
-    const url = await $fetch('/api/file/preview', {
-        body: JSON.stringify({ name_s3: name_in_s3 }),
+    const props = defineProps({
+        filename: {
+            type: String,
+            required: true,
+        },
+        extension: {
+            type: String,
+            required: true,
+        },
+        name_in_s3: {
+            type: Boolean,
+            required: true,
+        },
+        keyToDecrypt: {
+            type: String,
+            required: true,
+        },
     });
-    if (url) {
-        // need to decrypt
-        fileUrl.value = url;
-    }
-}
 
-if (supportedExtensions.includes(props.extension)) {
-    fileSupported.value = true;
-}
+    const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx', 'ag', 'ts', 'js', 'vue'];
+    const fileSupported = ref(false);
 
-onMounted(async () => {
-    if (fileSupported.value) {
-        await getUrlToPreview();
-        loading.value = false;
+    const loading = ref(true);
+    const fileUrl = ref('');
+
+    // need to decrypt
+
+    async function getUrlToPreview() {
+        const url = await $fetch('/api/file/preview', {
+            body: JSON.stringify({ name_s3: name_in_s3 }),
+        });
+        if (url) {
+            // need to decrypt
+            fileUrl.value = url;
+        }
     }
-});
+
+    if (supportedExtensions.includes(props.extension)) {
+        fileSupported.value = true;
+    }
+
+    onMounted(async () => {
+        if (fileSupported.value) {
+            await getUrlToPreview();
+            loading.value = false;
+        }
+    });
 </script>
