@@ -12,7 +12,7 @@ enum STATES {
     TOTP,
     SEED,
 }
-const currentState = ref(STATES.CREDENTIALS);
+const currentState = ref(STATES.SEED);
 
 const set2FATurn = (value: Boolean) => {
     if (value) {
@@ -66,7 +66,10 @@ const Password = (value: any) => {
                     :Password
                     :Email
                 />
-                <AuthRegisterSeed v-if="currentState == STATES.SEED" />
+                <AuthRegisterSeed 
+                v-if="currentState == STATES.SEED"
+                :Email
+                />
             </CardContent>
         </Card>
     </div>
