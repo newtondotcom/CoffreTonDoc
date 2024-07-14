@@ -38,7 +38,7 @@ export const allowedFileExtensions = [
     'mfl',
 ];
 
-export const iconMapping: { [key: string]: string } = {
+    export const iconMapping: { [key: string]: string } = {
     abell: 'abell.svg',
     actionscript: 'actionscript.png',
     android: 'android.svg',
