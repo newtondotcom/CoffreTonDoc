@@ -42,12 +42,14 @@
                     </ContextMenuItem>
                 </DialogTrigger>
 
+            <!--
                 <DialogTrigger asChild>
                     <ContextMenuItem @click="setState('access')">
                         {{ $t('access') }}
                         <ContextMenuShortcut>Shift + A</ContextMenuShortcut>
                     </ContextMenuItem>
                 </DialogTrigger>
+            -->
 
                 <DialogTrigger asChild>
                     <ContextMenuItem v-if="!file.isFolder" @click="setState('replace')">
@@ -329,7 +331,7 @@ async function handleNewFileInside(){
         });
         return;
     }
-    createNewFileInside(file.id ,newFileName, newFileExtension);
+    props.createNewFileInside(props.file.id , newFileName.value, newFileExtension.value);
 }
 
 async function handleNewFolderInside(){
@@ -341,7 +343,7 @@ async function handleNewFolderInside(){
         });
         return;
     }
-    createNewFolderInside(file.id, newFolderName);
+    props.createNewFolderInside(props.file.id, newFolderName.value);
 }
 
 async function handleFileRename(){
@@ -353,6 +355,6 @@ async function handleFileRename(){
         });
         return;
     }
-    renameFile(file.id, newName);
+    props.renameFile(props.file.id, newName.value);
 }
 </script>

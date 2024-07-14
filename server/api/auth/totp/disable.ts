@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 
     if (!user) {
         console.error(`Session references user that no longer exists.`);
-        return setFail(event, errorCodes.not_authentificated);
+        return setFail(event, errorCodes.not_authenticated);
     }
 
     if (!user.twoFactorEnabled) {

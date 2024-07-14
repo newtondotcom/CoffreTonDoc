@@ -105,6 +105,8 @@ export default defineI18nConfig(() => ({
             end_configuration: 'Complete my account configuration',
             seed_copied: 'Your phrase has successfully been copied to your clipboard ',
             key_seed_saved: 'Your key has been saved in your browser',
+            authenticated: 'Authentifcated',
+            unauthenticated: 'Unauthenticated',
         },
         fr: {
             welcome: 'Bienvenue 👋',

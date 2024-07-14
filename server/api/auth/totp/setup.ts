@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     const user = await prisma.User.findUnique({ where: { email: body.email } });
 
     if (!user) {
-        return setFail(event, errorCodes.not_authentificated);
+        return setFail(event, errorCodes.not_authenticated);
     }
 
     if (!user.password) {

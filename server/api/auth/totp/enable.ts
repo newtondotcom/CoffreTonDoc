@@ -23,7 +23,7 @@ export default defineEventHandler(async (event) => {
     });
 
     if (!user) {
-        return setFail(event, errorCodes.not_authentificated);
+        return setFail(event, errorCodes.not_authenticated);
     }
 
     if (!body.totpCode) {
