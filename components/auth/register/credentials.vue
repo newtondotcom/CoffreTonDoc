@@ -130,6 +130,15 @@ const register = async () => {
             props.setSeedTurn(true);
             break;
         }
+        case errorCodes.seed_already_generated: {
+            toast({
+                title: t('error'),
+                description: t('twofa_already_enabled'),
+                variant: 'destructive',
+            });
+            navigateTo('/auth/login')
+            break;
+        }
         case errorCodes.success_user_created: {
             toast({
                 title: t('success'),

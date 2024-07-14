@@ -13,7 +13,8 @@ export default defineEventHandler(async (event) => {
         if (user.twoFactorEnabled) {
             return setFail(event, errorCodes.two_factor_already_enabled);
         }
-        return setSuccess(event, errorCodes.user_already_exists);
+        if (user.seedCreated)
+        return setSuccess(event, errorCodes.seed_already_generated);
     }
 
     await prisma.user.create({
