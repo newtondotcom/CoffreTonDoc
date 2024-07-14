@@ -17,7 +17,7 @@
         >
             <div class="min-w-full text-center">
                 <ul class="items-center justify-center px-4 align-middle">
-                    <li class="mx-4 flex flex-row justify-between px-4 py-2 text-center">
+                    <li class="mx-4 flex flex-row justify-between px-4 py-2 text-center cursor-pointer">
                         <span>{{ $t('list_date') }}</span>
                         <span class="w-[60%]">{{ $t('list_name') }}</span>
                         <span>{{ $t('list_size') }}</span>
@@ -26,7 +26,7 @@
                     <li
                         v-if="fileLoading"
                         v-for="i in 10"
-                        class="mx-4 flex flex-row justify-between px-4 py-2 text-center"
+                        class="mx-4 flex flex-row justify-between px-4 py-2 text-center cursor-pointer"
                     >
                         <Skeleton class="h-10 w-[100%]" />
                     </li>
@@ -47,8 +47,8 @@
                                 :file
                                 :openItem
                                 :deleteItem
-                                :createNewFile
-                                :createNewFolder
+                                :createNewFileInside
+                                :createNewFolderInside
                                 :renameFile
                             />
                             <Separator />
@@ -67,9 +67,8 @@ import { ref, computed, watch } from 'vue';
 import type { File } from '@prisma/client';
 import { AccessStatus } from '@prisma/client';
 import errorCodes from '~/utils/codes';
-import { useToast } from '@/components/ui/toast/use-toast';
 
-import { ToastAction } from '@/components/ui/toast';
+import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
 
 const files = ref<File[]>([]);
@@ -108,17 +107,11 @@ async function getArborescence() {
     fileLoading.value = false;
 }
 
-function test() {
-    console.log('test');
-}
+function test() {console.log('test');}
 
-function navigateToRoot() {
-    selectedFolder.value = -1;
-}
+function navigateToRoot() {selectedFolder.value = -1;}
 
-function navigateToFolder(folderId: number) {
-    selectedFolder.value = folderId;
-}
+function navigateToFolder(folderId: number) {selectedFolder.value = folderId;}
 
 function updateBreadcrumb(folderId: number) {
     const newBreadcrumb: {
@@ -230,7 +223,7 @@ async function createNewFile(name: string, extension: string) {
         method: 'POST',
         body: JSON.stringify(body),
     });
-    if (data == errorCodes.file_already_exists) {
+    if (data.message == errorCodes.file_already_exists) {
         toast({
             title: 'Error',
             description: 'A file with the same name already exists',
@@ -263,6 +256,82 @@ async function createNewFolder(name: string) {
         method: 'POST',
         body: JSON.stringify(body),
     });
+    if (data.message == errorCodes.folder_already_exists) {
+        toast({
+            title: 'Error',
+            description: 'A folder with the same name already exists in this folder',
+            variant: 'destructive',
+        });
+        return;
+    }
+    toast({
+        title: 'Success',
+        description: 'Folder created successfully',
+    });
+    const newFolder: File = {
+        id: data,
+        name: name,
+        date: new Date().toISOString(),
+        isFolder: true,
+        extension: '',
+        idParent: idParent,
+        size: 0,
+        statut: 'you',
+    };
+    files.value.push(newFolder);
+}
+
+async function createNewFileInside(id : string, name: string, extension: string) {
+    const idParent = selectedFolder.value;
+    const size = 1000;
+    const statut = AccessStatus.USER;
+    const body = {
+        name,
+        extension,
+        idParent : id,
+        size,
+        statut,
+    };
+    const data = await $fetch('/api/file/create', {
+        method: 'POST',
+        body: JSON.stringify(body),
+    });
+    if (data.message == errorCodes.file_already_exists) {
+        toast({
+            title: 'Error',
+            description: 'A file with the same name already exists',
+            variant: 'destructive',
+        });
+        return;
+    }
+    toast({
+        title: 'Success',
+        description: 'File created successfully',
+    });
+    const newFile: File = {
+        id: data,
+        name: name,
+        date: new Date().toISOString(),
+        isFolder: false,
+        extension: extension,
+        idParent: id,
+        size: 0,
+        statut: 'you',
+    };
+    files.value.push(newFile);
+}
+
+async function createNewFolderInside(id : string, name: string) {
+    const statut = AccessStatus.USER;
+    const body = {
+        name,
+        idParent : id,
+        statut,
+    };
+    const data = await $fetch('/api/folder/create', {
+        method: 'POST',
+        body: JSON.stringify(body),
+    });
     if (data == errorCodes.folder_already_exists) {
         toast({
             title: 'Error',
@@ -271,13 +340,17 @@ async function createNewFolder(name: string) {
         });
         return;
     }
+    toast({
+        title: 'Success',
+        description: 'Folder created successfully',
+    });
     const newFolder: File = {
         id: data,
         name: name,
         date: new Date().toISOString(),
         isFolder: true,
         extension: '',
-        idParent: idParent,
+        idParent: id,
         size: 0,
         statut: 'you',
     };
