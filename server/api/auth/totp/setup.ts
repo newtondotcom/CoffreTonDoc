@@ -58,5 +58,5 @@ export default defineEventHandler(async (event) => {
     const dataUri = await qrcode.toDataURL(keyUri);
 
     event.res.statusCode = 200;
-    return { message: errorCodes.totp_setup_success, keyUri, dataUri };
+    return { message: errorCodes.totp_setup_success, keyUri, dataUri , key : secret};
 });

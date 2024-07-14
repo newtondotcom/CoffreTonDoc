@@ -92,11 +92,11 @@ export default defineI18nConfig(() => ({
             missing_2fa_account: 'Missing 2FA code',
             twofa_already_enabled: '2FA is already enabled on your account !',
             no_files: "Looks like you don't have any files yet !",
-            seed_phrase: 'Encryption phrase',
+            seed_phrase: 'Encryption phrase (save this carrefully !)',
             attention_seed:
                 'This phrase will be used to encrypt your datas to guarantee its unviolability !',
             save_seed:
-                'Do you want to crypt and store your key in your browser ? (a bit unsafe in case someone has access to your computer but still recommended to not type it at each operation)',
+                'Do you want to crypt and store your phrase in your browser ? (a bit unsafe in case someone has access to your computer but still recommended to not have to type it at each operation)',
             save_duration: 'How much time ?',
             seed_duration: 'Duration',
             select_duration: 'Select a duration',
@@ -107,6 +107,7 @@ export default defineI18nConfig(() => ({
             key_seed_saved: 'Your key has been saved in your browser',
             authenticated: 'Authentifcated',
             unauthenticated: 'Unauthenticated',
+            topt_by_hand : "Can't scan this ? In your TOPT app, you can also use 'CoffreTonDoc' as the account name and enter the following key manually: ",
         },
         fr: {
             welcome: 'Bienvenue 👋',
