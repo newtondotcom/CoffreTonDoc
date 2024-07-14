@@ -22,6 +22,7 @@ model User {
   sessions      Session[]
   twoFactorEnabled Boolean? @default(false) @map("two_factor_enabled")
   twoFactorSecret  String? @map("two_factor_secret")
+  seedCreated    Boolean? @default(false) @map("seed_created")
 
   @@map("users")
 }
