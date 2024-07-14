@@ -28,7 +28,7 @@
                 <Label class="my-2 mr-4" for="duration">{{ $t('save_duration') }}</Label>
                 <Select id="duration" v-model="userSaveSeedDuration">
                     <SelectTrigger class="w-[180px]">
-                        <SelectValue placeholder="Select a fruit" />
+                        <SelectValue placeholder="Select a duration" />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
@@ -54,9 +54,17 @@
 </template>
 
 <script setup lang="ts">
-import { Copy } from 'lucide-vue-next';
+const props = defineProps({
+    Email: {
+        type: Function,
+        required: true,
+    },
+});
+
 import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
+
+import { Copy } from 'lucide-vue-next';
 const { t } = useI18n();
 import { generateSeedPhrase, getMasterKeyFromSeed } from '~/utils/crypto';
 import type { BIP32Interface } from 'bip32';
@@ -79,7 +87,7 @@ const storeKey = () => {
     });
 };
 
-const proceedFinal = () => {
+const proceedFinal = async () => {
     if (userWantToSaveSeed.value) {
         if (userSaveSeedDuration.value !== '0') {
             storeKey();
@@ -90,6 +98,22 @@ const proceedFinal = () => {
             });
             return;
         }
+    }
+    const data = await $fetch('/api/auth/seed', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            email: props.Email()
+        }),
+    });
+    if (data.message != errorCodes.success_user_created) {
+        toast({
+            title: t('error'),
+            description: t('error_occurred'),
+        });
+        return;
     }
     navigateTo('/platform');
 };
