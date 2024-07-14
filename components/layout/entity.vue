@@ -94,7 +94,7 @@
                     <Label for="file-extension" class="my-2 text-right font-medium">
                         {{ $t('extension') }}
                     </Label>
-                    <Input id="file-extension" class="col-span-3" v-model="newFileExtension" />
+                    <Input id="file-extension" class="col-span-3" v-model="newFileExtension" @keyup.enter="handleNewFileInside"/>
                 </div>
             </div>
             <DialogFooter>
@@ -120,7 +120,7 @@
                     <Label for="newFolderName" class="my-2 text-right">
                         {{ $t('folder_name') }}
                     </Label>
-                    <Input id="newFolderName" v-model="newFolderName" class="col-span-3" />
+                    <Input id="newFolderName" v-model="newFolderName" class="col-span-3" @keyup.enter="handleNewFolderInside"/>
                 </div>
             </div>
             <DialogFooter>
@@ -146,7 +146,7 @@
                     <Label for="newName" class="my-2 text-right">
                         {{ $t('new_name') }}
                     </Label>
-                    <Input id="newName" v-model="newName" class="col-span-3" />
+                    <Input id="newName" v-model="newName" class="col-span-3" @keyup.enter="handleFileRename"/>
                 </div>
             </div>
             <DialogFooter>

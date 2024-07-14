@@ -28,6 +28,7 @@
                                 id="folder-picture"
                                 type="file"
                                 @change="handleFolderFileUpload"
+                                @keyup.enter="handleNewFolder"
                             />
                         </div>
                     </div>
@@ -66,7 +67,7 @@
                         <Label for="file-name" class="my-2 text-right font-medium">
                             {{ $t('file_name') }}
                         </Label>
-                        <Input id="file-name" class="col-span-3" v-model="fileName" />
+                        <Input id="file-name" class="col-span-3" v-model="fileName" @keyup.enter="uploadFile"/>
                     </div>
                     <div v-if="fileSelected" class="grid grid-cols-4 items-center gap-4">
                         <Label for="file-extension" class="my-2 text-right font-medium">
