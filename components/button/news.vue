@@ -74,10 +74,10 @@
 </template>
 
 <script setup lang="ts">
-defineProps({
-    createNewFile: Function,
-    createNewFolder: Function,
-    filteredFiles: Object,
+const props = defineProps({
+    createNewFileInside: Function,
+    createNewFolderInside: Function,
+    selectedFolder : Number,
 });
 
 import { useToast } from '@/components/ui/toast/use-toast';
@@ -108,7 +108,7 @@ async function handleNewFile() {
         });
         return;
     }
-    createNewFile(fileName.value, fileExtension.value);
+    props.createNewFileInside(props.selectedFolder,fileName.value, fileExtension.value);
 }
 
 async function handleNewFolder() {
@@ -120,7 +120,7 @@ async function handleNewFolder() {
         });
         return;
     }
-    createNewFolder(folderName.value);
+    props.createNewFolderInside(props.selectedFolder,folderName.value);
 }
 
 const folderName = ref('');

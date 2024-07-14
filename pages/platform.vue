@@ -8,8 +8,8 @@
                 :breadcrumb="breadcrumb"
             />
             <div class="flex flex-row">
-                <ButtonNews :createNewFile :createNewFolder :filteredFiles />
-                <ButtonUploads :createNewFile :createNewFolder :filteredFiles :selectedFolder />
+                <ButtonNews :createNewFileInside :createNewFolderInside :selectedFolder />
+                <ButtonUploads :createNewFileInside :createNewFolderInside :filteredFiles :selectedFolder />
             </div>
         </div>
         <div
@@ -206,79 +206,6 @@ async function deleteItem(fileId: string) {
             variant: 'destructive',
         });
     }
-}
-
-async function createNewFile(name: string, extension: string) {
-    const idParent = selectedFolder.value;
-    const size = 1000;
-    const statut = AccessStatus.USER;
-    const body = {
-        name,
-        extension,
-        idParent,
-        size,
-        statut,
-    };
-    const data = await $fetch('/api/file/create', {
-        method: 'POST',
-        body: JSON.stringify(body),
-    });
-    if (data.message == errorCodes.file_already_exists) {
-        toast({
-            title: 'Error',
-            description: 'A file with the same name already exists',
-            variant: 'destructive',
-        });
-        return;
-    }
-    const newFile: File = {
-        id: data,
-        name: name,
-        date: new Date().toISOString(),
-        isFolder: false,
-        extension: extension,
-        idParent: idParent,
-        size: 0,
-        statut: 'you',
-    };
-    files.value.push(newFile);
-}
-
-async function createNewFolder(name: string) {
-    const idParent = selectedFolder.value;
-    const statut = AccessStatus.USER;
-    const body = {
-        name,
-        idParent,
-        statut,
-    };
-    const data = await $fetch('/api/folder/create', {
-        method: 'POST',
-        body: JSON.stringify(body),
-    });
-    if (data.message == errorCodes.folder_already_exists) {
-        toast({
-            title: 'Error',
-            description: 'A folder with the same name already exists in this folder',
-            variant: 'destructive',
-        });
-        return;
-    }
-    toast({
-        title: 'Success',
-        description: 'Folder created successfully',
-    });
-    const newFolder: File = {
-        id: data,
-        name: name,
-        date: new Date().toISOString(),
-        isFolder: true,
-        extension: '',
-        idParent: idParent,
-        size: 0,
-        statut: 'you',
-    };
-    files.value.push(newFolder);
 }
 
 async function createNewFileInside(id : string, name: string, extension: string) {

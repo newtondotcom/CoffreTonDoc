@@ -35,7 +35,7 @@
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                     <AlertDialogAction>
-                        <Button @click="createNewFolder(folderName)">{{
+                        <Button @click="handleNewFolder">{{
                             $t('create_folder')
                         }}</Button>
                     </AlertDialogAction>
@@ -120,6 +120,16 @@
 </template>
 
 <script setup lang="ts">
+const props = defineProps({
+    createNewFileInside: Function,
+    createNewFolderInside: Function,
+    filteredFiles: Object,
+    selectedFolder: Number,
+});
+
+import { useToast } from '@/components/ui/toast/use-toast';
+const { toast } = useToast();
+
 import { FileUp, FolderUp } from 'lucide-vue-next';
 import { AccessStatus } from '@prisma/client';
 
@@ -131,12 +141,6 @@ const isLoading = ref(false);
 const fileToUpload = ref<File | null>(null);
 const fileCreated = ref(false);
 
-const props = defineProps({
-    createNewFile: Function,
-    createNewFolder: Function,
-    filteredFiles: Object,
-    selectedFolder: Number,
-});
 
 function handleFileUpload(event) {
     const file = event.target.files[0];
@@ -176,7 +180,7 @@ async function uploadFile() {
         });
 
         // Create the new file in your system
-        props.createNewFile(fileName.value, fileExtension.value);
+        props.createNewFileInside(props.fileSelected, fileName.value, fileExtension.value);
 
         const { id, url, fields } = await response.json();
         console.log('Presigned URL:', url);
@@ -201,5 +205,17 @@ async function uploadFile() {
         console.error('Error uploading file:', error);
     } finally {
     }
+}
+
+async function createNewFolderInside(folderName) {
+    if (!folder){
+        toast({
+            title: 'Please specify a folder name',
+            description: 'Folder name is required to create a new folder',
+            variant: 'destructive',
+        });
+        return;
+    }
+    props.createNewFolderInside(props.selectedFolder, props.selectedFolder, folderName.value);
 }
 </script>
