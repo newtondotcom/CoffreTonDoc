@@ -31,6 +31,8 @@ export default defineI18nConfig(() => ({
             replace_confirmation: 'Choose a file to replace the current one. 🔄',
             new_file_inside: 'New File Inside 📄',
             new_folder_inside: 'New Folder Inside 📁',
+            new_folder: 'New Folder 📁',
+            new_file: 'New File 📄',
             enter_new_folder_name: 'Enter the name for the new folder. 📂',
             create: 'Create 🔧',
             enter_new_file_name: 'Enter the name for the new file. 📄',

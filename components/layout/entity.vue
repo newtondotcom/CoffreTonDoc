@@ -76,7 +76,7 @@
 
         <DialogContent v-if="stateDialog == 'newFile'" class="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>{{ $t('rename_file') }}</DialogTitle>
+                <DialogTitle>{{ $t('new_file_inside') }}</DialogTitle>
                 <DialogDescription>
                     {{ $t('enter_new_file_name') }}
                 </DialogDescription>
@@ -97,7 +97,9 @@
             </div>
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button @click="createNewFile(newFileName, newFileExtension)">
+                    <Button 
+                    @click="handleNewFileInside"
+                    >
                         {{ $t('create') }}
                     </Button>
                 </DialogClose>
@@ -106,7 +108,7 @@
 
         <DialogContent v-if="stateDialog === 'newFolder'" class="sm:max-w-[425px]">
             <DialogHeader>
-                <DialogTitle>{{ $t('new_folder') }}</DialogTitle>
+                <DialogTitle>{{ $t('new_folder_inside') }}</DialogTitle>
                 <DialogDescription>
                     {{ $t('enter_new_folder_name') }}
                 </DialogDescription>
@@ -121,7 +123,9 @@
             </div>
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button @click="createNewFolder(file, 'folder', newFolderName)">
+                    <Button 
+                    @click="handleNewFolderInside"
+                    >
                         {{ $t('create') }}
                     </Button>
                 </DialogClose>
@@ -145,7 +149,9 @@
             </div>
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button @click="renameFile(file.id, newName)">
+                    <Button 
+                    @click="handleFileRename"
+                    >
                         {{ $t('save_changes') }}
                     </Button>
                 </DialogClose>
@@ -248,14 +254,16 @@ const props = defineProps({
     openItem: Function,
     renameFile: Function,
     deleteItem: Function,
-    createNewFile: Function,
-    createNewFolder: Function,
+    createNewFileInside: Function,
+    createNewFolderInside: Function,
     changeAccess: Function,
     replaceFile: Function,
 });
 
 import { useToast } from '@/components/ui/toast/use-toast';
 const { toast } = useToast();
+
+import {allowedFileExtensions} from '~/utils/extensions';
 
 const newName = ref('');
 const newFileName = ref('');
@@ -302,5 +310,49 @@ async function handleFileUpload(event) {
             await replace(props.file.id);
         }
     }
+}
+
+async function handleNewFileInside(){
+    if (!newFileName.value || !newFileExtension.value) {
+        toast({
+            title: 'Please specify a file name and extension',
+            description: 'File name and extension are required to create a new file',
+            variant: 'destructive',
+        });
+        return;
+    }
+    if (!allowedFileExtensions.includes(newFileExtension.value)) {
+        toast({
+            title: 'Invalid file extension',
+            description: 'Please specify a valid file extension',
+            variant: 'destructive',
+        });
+        return;
+    }
+    createNewFileInside(file.id ,newFileName, newFileExtension);
+}
+
+async function handleNewFolderInside(){
+    if (!newFolderName.value) {
+        toast({
+            title: 'Please specify a folder name',
+            description: 'Folder name is required to create a new folder',
+            variant: 'destructive',
+        });
+        return;
+    }
+    createNewFolderInside(file.id, newFolderName);
+}
+
+async function handleFileRename(){
+    if (!newName.value) {
+        toast({
+            title: 'Please specify a new name',
+            description: 'New name is required to rename the file',
+            variant: 'destructive',
+        });
+        return;
+    }
+    renameFile(file.id, newName);
 }
 </script>
