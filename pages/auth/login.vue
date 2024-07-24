@@ -3,8 +3,8 @@
     const { locale, setLocale } = useI18n();
     const { t } = useI18n();
     import { useToast } from '@/components/ui/toast/use-toast';
-    import errorCodes from '~/utils/codes';
     const { toast } = useToast();
+    import errorCodes from '~/utils/codes';
 
     definePageMeta({
         layout: false,

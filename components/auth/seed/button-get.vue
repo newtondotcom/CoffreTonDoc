@@ -78,6 +78,9 @@
         required : true
       }
     })
+    
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
 
     import { getKeyValue } from '@/utils/cookies';
 
@@ -108,4 +111,12 @@
       }
       props.provideKey()
     }
+
+    const copy = () => {
+        navigator.clipboard.writeText(plainSeed);
+        toast({
+            title: t('success'),
+            description: t('seed_copied'),
+        });
+    };
 </script>
