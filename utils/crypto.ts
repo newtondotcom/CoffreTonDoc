@@ -73,3 +73,60 @@ export const symmetricDecrypt = function (text: string, key: string): string {
         return '';
     }
 };
+
+
+/**
+ * Reads a file and returns its content as a Uint8Array.
+ * @param {File} file - The file to read.
+ * @returns {Promise<Uint8Array>} A promise that resolves to the file content as a Uint8Array.
+ */
+function readFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(new Uint8Array(reader.result));
+        reader.onerror = reject;
+        reader.readAsArrayBuffer(file);
+    });
+}
+
+/**
+ * Encrypts a file using a symmetric encryption algorithm and a key.
+ * @param {CryptoKey} key - The encryption key to use.
+ * @param {Uint8Array} data - The file content to encrypt.
+ * @returns {Promise<Uint8Array>} A promise that resolves to the encrypted file content as a Uint8Array.
+ */
+async function encryptFile(key, data) {
+    const iv = window.crypto.getRandomValues(new Uint8Array(12)); // Initialization vector
+    const algorithm = {
+        name: "AES-GCM",
+        iv: iv,
+    };
+
+    const encryptedData = await window.crypto.subtle.encrypt(algorithm, key, data);
+    const encryptedArrayBuffer = new Uint8Array(encryptedData);
+
+    // Combine the IV and the encrypted data for storage or transmission
+    const encryptedFile = new Uint8Array(iv.length + encryptedArrayBuffer.length);
+    encryptedFile.set(iv, 0);
+    encryptedFile.set(encryptedArrayBuffer, iv.length);
+
+    return encryptedFile;
+}
+
+/**
+ * Decrypts a file using a symmetric encryption algorithm and a key.
+ * @param {CryptoKey} key - The decryption key to use.
+ * @param {Uint8Array} encryptedData - The encrypted file content to decrypt.
+ * @returns {Promise<Uint8Array>} A promise that resolves to the decrypted file content as a Uint8Array.
+ */
+async function decryptFile(key, encryptedData) {
+    const iv = encryptedData.slice(0, 12); // Extract the IV from the encrypted data
+    const ciphertext = encryptedData.slice(12); // Extract the ciphertext from the encrypted data
+    const algorithm = {
+        name: "AES-GCM",
+        iv: iv,
+    };
+
+    const decryptedData = await window.crypto.subtle.decrypt(algorithm, key, ciphertext);
+    return new Uint8Array(decryptedData);
+}
