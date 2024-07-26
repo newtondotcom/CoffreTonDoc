@@ -79,64 +79,7 @@
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <div class="grid gap-4">
-                    <div class="grid gap-2">
-                        <Label class="my-2" for="email">{{ $t('email') }}</Label>
-                        <Input
-                            id="email"
-                            type="email"
-                            placeholder="m@example.com"
-                            required
-                            v-model="username"
-                        />
-                    </div>
-                    <div class="grid gap-2">
-                        <div class="flex items-center">
-                            <Label class="my-2" for="password">{{ $t('password') }}</Label>
-                            <NuxtLink
-                                to="/auth/reset"
-                                class="ml-auto inline-block text-sm underline"
-                            >
-                                Forgot your password?
-                            </NuxtLink>
-                        </div>
-                        <Input id="password" type="password" required v-model="password" />
-                    </div>
-                    <div class="grid gap-2">
-                        <Label class="my-2" for="email">{{ $t('twofa_code') }}</Label>
-                        <PinInput
-                            id="pin-input"
-                            v-model="value"
-                            placeholder="○"
-                            @complete="handleComplete"
-                        >
-                            <PinInputGroup>
-                                <PinInputInput v-for="(id, index) in 6" :key="id" :index="index" />
-                            </PinInputGroup>
-                        </PinInput>
-                    </div>
-
-                    <ButtonLoading :loading :text="t('login')" :execute="login" />
-                </div>
-                <div class="mt-4 text-center text-sm">
-                    {{ $t('allow_using') }}
-                    <NuxtLink class="text-gray-500 underline" to="/tos">{{ $t('tos') }}</NuxtLink>
-                    and
-                    <NuxtLink to="/privacy" class="text-gray-500 underline">
-                        {{ $t('privacy') }}
-                    </NuxtLink>
-                    <br />
-
-                    <span class="text-xs">
-                        {{ $t('data_collect') }}
-                    </span>
-                </div>
-                <div class="mt-4 text-center text-sm">
-                    {{ $t('no_account') }}
-                    <NuxtLink to="/auth/register" class="underline">
-                        {{ $t('register') }}
-                    </NuxtLink>
-                </div>
+                <AuthWallet />
             </CardContent>
         </Card>
     </div>
