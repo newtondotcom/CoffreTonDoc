@@ -1,8 +1,12 @@
-import { defineEventHandler, readBody, getSession } from 'h3';
+import { defineEventHandler, readBody, useSession } from 'h3';
 import { SiweMessage } from 'siwe';
 
 export default defineEventHandler(async (event) => {
-    const session = await getSession(event);
+    const config = useRuntimeConfig();
+    const session = await useSession(event, {
+        password: config.ENCRYPTION_KEY,
+    });
+
     const body = await readBody(event);
 
     if (!body.message) {
@@ -19,8 +23,10 @@ export default defineEventHandler(async (event) => {
             nonce: session.nonce,
         });
 
-        session.siwe = message;
-        session.cookie.expires = new Date(message.expirationTime);
+        await session.update({
+            siwe: message,
+        });
+
         return {
             status: 200,
             body: true,
@@ -30,18 +36,6 @@ export default defineEventHandler(async (event) => {
         session.nonce = null;
         console.error(e);
         switch (e) {
-            case ErrorTypes.EXPIRED_MESSAGE: {
-                return {
-                    status: 440,
-                    body: { message: e.message },
-                };
-            }
-            case ErrorTypes.INVALID_SIGNATURE: {
-                return {
-                    status: 422,
-                    body: { message: e.message },
-                };
-            }
             default: {
                 return {
                     status: 500,

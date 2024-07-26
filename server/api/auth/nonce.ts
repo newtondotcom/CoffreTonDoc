@@ -1,11 +1,17 @@
 import { defineEventHandler } from 'h3';
 import { generateNonce } from 'siwe';
-import { getSession } from 'h3';
+import { useSession } from 'h3';
 
 export default defineEventHandler(async (event) => {
-    const session = await getSession(event);
+    const config = useRuntimeConfig();
+    const session = await useSession(event, {
+        password: config.ENCRYPTION_KEY,
+        maxAge: 60 * 60 * 24 * 7,
+    });
     const nonce = generateNonce();
-    session.nonce = nonce;
+    await session.update({
+        nonce,
+    });
     return {
         status: 200,
         headers: {

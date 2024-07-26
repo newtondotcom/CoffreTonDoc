@@ -1,19 +1,27 @@
 <template>
     <div>
-        <button @click="connectWallet">Connect Wallet</button>
-        <button @click="signInWithEthereum">Sign In with Ethereum</button>
-        <button @click="getInformation">Get Information</button>
+        <Button @click="connectWallet">Connect Wallet</Button>
+        <Button @click="signInWithEthereum">Sign In with Ethereum</Button>
+        <Button @click="getInformation">Get Information</Button>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ethers } from 'ethers';
+    import { BrowserProvider } from 'ethers';
     import { SiweMessage } from 'siwe';
 
-    const scheme = window.location.protocol.slice(0, -1);
-    const domain = window.location.host;
-    const origin = window.location.origin;
-    const provider = new ethers.providers.BrowserProvider(window.ethereum);
+    let scheme: any;
+    let domain: any;
+    let origin: any;
+    let provider: any;
+
+    onMounted(() => {
+        scheme = window.location.protocol.slice(0, -1);
+        domain = window.location.host;
+        origin = window.location.origin;
+        provider = new BrowserProvider(window.ethereum);
+        //provider = window.ethereum;
+    });
 
     async function createSiweMessage(address: string, statement: string) {
         const res = await $fetch(`/api/auth/nonce`, {
@@ -27,13 +35,20 @@
             uri: origin,
             version: '1',
             chainId: '1',
-            nonce: await res.text(),
+            nonce: res.body,
         });
         return message.prepareMessage();
     }
 
     function connectWallet() {
-        provider.send('eth_requestAccounts', []).catch(() => console.log('user rejected request'));
+        provider
+            .send('eth_requestAccounts', [])
+            .catch(() => console.log('user rejected request'))
+            .then((data) => console.log('connected', data));
+    }
+
+    function getAddress() {
+        provider.send('eth_accounts', []).then((data) => console.log('addresses', data.result[0]));
     }
 
     async function signInWithEthereum() {
@@ -53,13 +68,12 @@
             body: JSON.stringify({ message, signature }),
             credentials: 'include',
         });
-        console.log(await res.text());
     }
 
     async function getInformation() {
         const res = await $fetch(`/api/auth/personal_information`, {
             credentials: 'include',
         });
-        console.log(await res.text());
+        console.log(res);
     }
 </script>

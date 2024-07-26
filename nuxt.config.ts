@@ -3,13 +3,7 @@ import wasm from 'vite-plugin-wasm';
 export default defineNuxtConfig({
     devtools: { enabled: false },
 
-    modules: [
-        '@nuxt/ui',
-        '@nuxtjs/tailwindcss',
-        'shadcn-nuxt',
-        '@nuxtjs/i18n',
-        '@sidebase/nuxt-auth',
-    ],
+    modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/i18n'],
 
     auth: {
         provider: {
