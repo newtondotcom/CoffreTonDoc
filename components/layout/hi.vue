@@ -30,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+    const status = 'authenticated';
     const initials_cookie = useCookie('initials');
     if (!initials_cookie.value) {
         initials_cookie.value = 'NI'; // EMOJI

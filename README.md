@@ -1,6 +1,6 @@
 # CoffreTonDoc 🔐
 
-CoffreTonDoc is a online vault which inludes MFA auth and files encryption.
+CoffreTonDoc is a online vault which includes client-side files encryption and connexion with etherum account.
 
 ## TODO LIST
 
