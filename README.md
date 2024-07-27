@@ -4,12 +4,11 @@ CoffreTonDoc is a online vault which includes client-side files encryption and c
 
 ## TODO LIST
 
--   Encrypt files before uploading to s3 using seed phrase (same as crypto wallet)
+-   Encrypt files before uploading to s3 using eth address (working in [test](pages/test2.vue))
 -   Add screenshots in the readme
 -   Optimize the arboresence loading
--   Make the research work using [this awesome thing](https://github.com/tantaraio/voy)
--   List current sessions (not possible using credentials and jwt)
--   In the share dialog, offer to share with a link ? Maybe not the spirit of this ...
+-   Try to make the research work using [this awesome thing](https://github.com/tantaraio/voy)
+-   List current sessions (not possible using credentials and jwt) or enhance with totp ?
 
 Test user credentials :
 

@@ -90,7 +90,6 @@
     import { allowedFileExtensions } from '~/utils/extensions';
 
     // Filter to see if the name is empty or already in use
-    // Manage access
     // Restrict allowed file extension
 
     async function handleNewFile() {

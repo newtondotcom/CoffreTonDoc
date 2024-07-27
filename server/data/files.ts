@@ -119,23 +119,6 @@ export async function deleteFile(fileId: number, user_id: string): Promise<File>
     }
 }
 
-// Change access level of a file or folder
-export async function changeAccess(fileId: number, accessLevel: string): Promise<File> {
-    try {
-        return await prisma.file.update({
-            where: {
-                id: fileId,
-            },
-            data: {
-                statut: accessLevel,
-            },
-        });
-    } catch (error) {
-        console.error('Error changing access level:', error);
-        throw new Error('Failed to change access level');
-    }
-}
-
 export async function replaceFile(user_id: string, fileId: number, uname: string, size: number) {
     try {
         assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);

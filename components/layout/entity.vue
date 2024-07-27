@@ -44,15 +44,6 @@
                     </ContextMenuItem>
                 </DialogTrigger>
 
-                <!--
-                <DialogTrigger asChild>
-                    <ContextMenuItem @click="setState('access')">
-                        {{ $t('access') }}
-                        <ContextMenuShortcut>Shift + A</ContextMenuShortcut>
-                    </ContextMenuItem>
-                </DialogTrigger>
-            -->
-
                 <DialogTrigger asChild>
                     <ContextMenuItem v-if="!file.isFolder" @click="setState('replace')">
                         {{ $t('replace') }}
@@ -171,30 +162,6 @@
             </DialogFooter>
         </DialogContent>
 
-        <DialogContent v-if="stateDialog === 'access'" class="sm:max-w-[425px]">
-            <DialogHeader>
-                <DialogTitle>{{ $t('change_access') }}</DialogTitle>
-                <DialogDescription>
-                    {{ $t('modify_access_permissions') }}
-                </DialogDescription>
-            </DialogHeader>
-            <div class="grid gap-4 py-4">
-                <div class="grid grid-cols-4 items-center gap-4">
-                    <Label for="accessLevel" class="my-2 text-right">
-                        {{ $t('access_level') }}
-                    </Label>
-                    <Input id="accessLevel" v-model="accessLevel" class="col-span-3" />
-                </div>
-            </div>
-            <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="changeAccess(file, accessLevel)">
-                        {{ $t('save_changes') }}
-                    </Button>
-                </DialogClose>
-            </DialogFooter>
-        </DialogContent>
-
         <DialogContent v-if="stateDialog === 'delete'" class="sm:max-w-[425px]">
             <DialogHeader>
                 <DialogTitle>{{ $t('delete_file') }}</DialogTitle>
@@ -269,7 +236,6 @@
         deleteItem: Function,
         createNewFileInside: Function,
         createNewFolderInside: Function,
-        changeAccess: Function,
         replaceFile: Function,
     });
 
@@ -282,7 +248,6 @@
     const newFileName = ref('');
     const newFileExtension = ref('');
     const newFolderName = ref('');
-    const accessLevel = ref('');
     const stateDialog = ref('');
     const uploadloading = ref(false);
     const fileLocal = ref(null);

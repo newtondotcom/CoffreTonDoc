@@ -28,9 +28,6 @@
                         <span>{{ $t('list_date') }}</span>
                         <span class="w-[60%]">{{ $t('list_name') }}</span>
                         <span>{{ $t('list_size') }}</span>
-                        <!--
-                        <span>{{ $t('list_access') }}</span>
-                        -->
                     </li>
                     <li
                         v-if="fileLoading"
