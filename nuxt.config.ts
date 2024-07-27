@@ -32,6 +32,10 @@ export default defineNuxtConfig({
         AUTH_ORIGIN: process.env.AUTH_ORIGIN,
         ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
         APP_NAME: process.env.APP_NAME,
+
+        public: {
+            ETH_ADDRESS: process.env.ETH_ADDRESS,
+        },
     },
 
     compatibilityDate: '2024-07-03',
