@@ -8,7 +8,9 @@
         >
             {{ $t('my_files') }}
         </div>
+        <!--
         <LayoutFilters :toogleSearch />
+        -->
     </div>
 
     <ButtonCommand :toogleSearch :isSearching />

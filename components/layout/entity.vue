@@ -20,7 +20,9 @@
                     </div>
                 </div>
                 <IconsSize :size="file.size" />
+                <!--
                 <IconsStatut :statut="file.statut" />
+                -->
             </ContextMenuTrigger>
             <ContextMenuContent class="w-64 bg-white">
                 <ContextMenuItem @click="openItem(file)">

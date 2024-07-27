@@ -6,16 +6,6 @@
             navigateAuthenticatedTo: '/',
         },
     });
-    const {
-        status,
-        data,
-        lastRefreshedAt,
-        getCsrfToken,
-        getProviders,
-        getSession,
-        signIn,
-        signOut,
-    } = useAuth();
 
     enum UploadState {
         STEP1 = 'STEP1',
@@ -46,9 +36,5 @@
 </script>
 
 <template>
-    {{ status }}
-    {{ data }}
-    {{ lastRefreshedAt }}
-
     <LayoutLoadingFullScreen :loading :currentStep />
 </template>
