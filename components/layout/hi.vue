@@ -1,12 +1,9 @@
 <template>
-    <div class="mb-4 mt-4 flex flex-col items-center justify-center gap-4">
+    <div class="my-4 flex flex-col items-center justify-center gap-4 px-4">
         <div class="flex flex-row items-center justify-center gap-4">
-            <Avatar class="hidden h-9 w-9 sm:flex">
-                <AvatarImage src="/avatars/01.png" alt="Avatar" />
-            </Avatar>
             <div class="grid gap-1">
+                <p class="text-sm text-muted-foreground">{{ $t('logged_in') }}</p>
                 <p class="truncate text-sm font-medium leading-none">{{ auth }}</p>
-                <p class="text-sm text-muted-foreground">EMAIL</p>
             </div>
         </div>
         <div v-if="status === 'authenticated'" class="flex flex-row items-center">
@@ -22,6 +19,11 @@
 </template>
 
 <script setup lang="ts">
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+    import { useI18n } from '#imports';
+    const { t } = useI18n();
+
     let status = ref('unauthenticated');
 
     const auth = useCookie('add', {
@@ -37,8 +39,27 @@
         status.value = 'authenticated';
     }
 
-    function logout() {
-        cookie.value = undefined;
-        status.value = 'unauthenticated';
+    async function logout() {
+        const data = await $fetch('/api/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            credentials: 'include',
+        });
+        if (data.status === 200) {
+            auth.value = undefined;
+            status.value = 'unauthenticated';
+            toast({
+                title: t('success'),
+                message: t('logout_success'),
+            });
+        } else {
+            toast({
+                title: t('error'),
+                message: t('logout_error'),
+                variant: 'destructive',
+            });
+        }
     }
 </script>

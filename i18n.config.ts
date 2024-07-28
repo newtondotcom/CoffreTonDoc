@@ -1,3 +1,5 @@
+import logout from './server/api/auth/logout';
+
 export default defineI18nConfig(() => ({
     legacy: false,
     locale: 'en',
@@ -105,6 +107,7 @@ export default defineI18nConfig(() => ({
             file_limit: 'File size should be less than 1.5GB (browser crypto limitation)',
             logged_in: 'Logged in as',
             login_success: 'Login successful',
+            logout_success: 'Logout successful',
             login_error: 'Error while logging in',
             logout_error: 'Error while logging out',
         },
