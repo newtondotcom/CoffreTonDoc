@@ -18,8 +18,16 @@
         },
     });
 
-    const config = useRuntimeConfig();
-    const ethAddress = config.public.ETH_ADDRESS;
+    const auth = useCookie('add', {
+        path: '/',
+        secure: true, // Only send cookie over HTTPS
+        httpOnly: false, // Allow JavaScript access to cookie
+        sameSite: 'strict', // Prevent CSRF attacks
+        signed: true, // Sign cookie to verify integrity
+        watch: true,
+    });
+
+    const ethAddress = auth.value;
     const file = ref<File | null>(null);
 
     async function change(e: Event) {
