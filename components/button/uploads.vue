@@ -131,6 +131,8 @@
         selectedFolder: Number,
     });
 
+    import { useI18n } from '#imports';
+    const { t } = useI18n();
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
 
@@ -148,6 +150,15 @@
     function handleFileUpload(event) {
         const file = event.target.files[0];
         if (file) {
+            if (file.size > 1500000000) {
+                // 1.5GB - limited by array buffer
+                toast({
+                    title: t('too_large'),
+                    description: t('file_limit'),
+                    variant: 'destructive',
+                });
+                return;
+            }
             const fullName = file.name;
             const lastDot = fullName.lastIndexOf('.');
             fileName.value = fullName.substring(0, lastDot);
