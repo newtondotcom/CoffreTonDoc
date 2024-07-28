@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="text-3xl font-bold">
         {{ $t('storage_quota') }}
         <Progress v-model="quota" class="w-3/5" />
     </div>
