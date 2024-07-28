@@ -32,8 +32,7 @@ export default defineEventHandler(async (event) => {
             body: true,
         };
     } catch (e) {
-        session.siwe = null;
-        session.nonce = null;
+        await session.clear();
         console.error(e);
         switch (e) {
             default: {
