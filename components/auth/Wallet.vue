@@ -9,6 +9,7 @@
 <script setup lang="ts">
     import { BrowserProvider } from 'ethers';
     import { SiweMessage } from 'siwe';
+    import { setAddValue, getAddValue } from '~/utils/cookie';
 
     let scheme: any;
     let domain: any;
@@ -68,6 +69,14 @@
             body: JSON.stringify({ message, signature }),
             credentials: 'include',
         });
+
+        if (res.status === 200) {
+            const address = await signer.getAddress();
+            setAddValue(address);
+            navigateTo('/platform');
+        } else {
+            console.log('failed');
+        }
     }
 
     async function getInformation() {

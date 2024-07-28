@@ -5,14 +5,9 @@
                 <AvatarImage src="/avatars/01.png" alt="Avatar" />
             </Avatar>
             <div class="grid gap-1">
-                <p class="text-sm font-medium leading-none">Olivia Martin</p>
+                <p class="truncate text-sm font-medium leading-none">{{ auth }}</p>
                 <p class="text-sm text-muted-foreground">EMAIL</p>
             </div>
-            <!-- 
-              <div class="ml-auto font-medium">
-                +$1,999.00
-              </div>
-                -->
         </div>
         <div v-if="status === 'authenticated'" class="flex flex-row items-center">
             <div class="mr-2 h-3 w-3 rounded-full bg-green-500"></div>
@@ -29,8 +24,16 @@
 <script setup lang="ts">
     let status = ref('unauthenticated');
 
-    // TODO : check if the user is authenticated
-    if (true) {
+    const auth = useCookie('add', {
+        path: '/',
+        secure: true, // Only send cookie over HTTPS
+        httpOnly: false, // Allow JavaScript access to cookie
+        sameSite: 'strict', // Prevent CSRF attacks
+        signed: true, // Sign cookie to verify integrity
+        watch: true,
+    });
+
+    if (auth.value) {
         status.value = 'authenticated';
     }
 
