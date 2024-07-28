@@ -101,6 +101,12 @@ export default defineI18nConfig(() => ({
             unauthenticated: 'Unauthenticated',
             topt_by_hand:
                 "Can't scan this ? In your TOPT app, you can also use 'CoffreTonDoc' as the account name and enter the following key manually: ",
+            too_large: 'File size too large',
+            file_limit: 'File size should be less than 1.5GB (browser crypto limitation)',
+            logged_in: 'Logged in as',
+            login_success: 'Login successful',
+            login_error: 'Error while logging in',
+            logout_error: 'Error while logging out',
         },
         fr: {
             welcome: 'Bienvenue 👋',
