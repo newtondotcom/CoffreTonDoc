@@ -1,6 +1,11 @@
 <template>
     <div v-if="icon" class="flex h-14 w-14 flex-col items-center justify-center">
-        <img :src="`/icons/${icon}`" :alt="extension" class="h-full w-full object-contain" />
+        <img
+            :src="`/icons/${icon}`"
+            draggable="false"
+            :alt="extension"
+            class="h-full w-full object-contain text-black dark:text-white"
+        />
     </div>
     <div
         v-else
