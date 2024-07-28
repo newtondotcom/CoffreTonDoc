@@ -7,6 +7,11 @@
 </template>
 
 <script setup lang="ts">
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
+    import { useI18n } from '#imports';
+    const { t } = useI18n();
+
     import { BrowserProvider } from 'ethers';
     import { SiweMessage } from 'siwe';
     import { setAddValue, getAddValue } from '~/utils/cookie';
@@ -73,8 +78,17 @@
         if (res.status === 200) {
             const address = await signer.getAddress();
             setAddValue(address);
+            toast({
+                title: t('success'),
+                message: t('login_success'),
+            });
             navigateTo('/platform');
         } else {
+            toast({
+                title: t('error'),
+                message: t('login_error'),
+                variant: 'destructive',
+            });
             console.log('failed');
         }
     }
