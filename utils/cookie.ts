@@ -1,3 +1,7 @@
+/**
+ * Retrieves the value of the 'add' cookie.
+ * @returns {string | undefined} The value of the 'add' cookie if it exists, otherwise undefined.
+ */
 export function getAddValue() {
     const keyCookie = useCookie('add', {
         path: '/',
@@ -9,7 +13,10 @@ export function getAddValue() {
     return keyCookie.value;
 }
 
-//userSaveSeedDuration in days
+/**
+ * Sets the value of the 'add' cookie.
+ * @param {string} value - The value to set for the 'add' cookie.
+ */
 export function setAddValue(value: string) {
     const keyCookie = useCookie('add', {
         path: '/',

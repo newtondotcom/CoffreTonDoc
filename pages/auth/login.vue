@@ -1,8 +1,9 @@
 <script setup lang="ts">
-    const { locale, setLocale } = useI18n();
-    const { t } = useI18n();
     import { useToast } from '@/components/ui/toast/use-toast';
     const toast = useToast();
+    const { locale, setLocale } = useI18n();
+    const { t } = useI18n();
+
     import errorCodes from '~/utils/codes';
 
     definePageMeta({
