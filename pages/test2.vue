@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue';
-    import { readFile, deriveKeyFromEthAddress, encryptFile, decryptFile } from '~/utils/crypto';
+    import { readFile, deriveKeyFromHashedAddress, encryptFile, decryptFile } from '~/utils/crypto';
 
     // Page metadata (optional)
     definePageMeta({
@@ -37,7 +37,7 @@
 
             try {
                 const data = await readFile(file.value);
-                const key = await deriveKeyFromEthAddress(ethAddress);
+                const key = await deriveKeyFromHashedAddress(ethAddress);
                 console.log('encrypting file');
                 const encryptedData = await encryptFile(key, data);
                 console.log('file is encrypted');
