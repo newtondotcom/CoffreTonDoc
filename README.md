@@ -13,3 +13,5 @@ CoffreTonDoc is an online vault that includes client-side file encryption and co
 -   Enhance with TOTP?
 
 Feel free to reach out if you have any questions or need further assistance!
+
+**Did you know that ...** `CoffreTonDoc` stands for the French `Coffre Ton Document`, which means `put your document in a safe`?
