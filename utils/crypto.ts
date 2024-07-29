@@ -55,24 +55,18 @@ export async function decryptFile(key: CryptoKey, encryptedData: Uint8Array): Pr
 }
 
 /**
- * Derives a symmetric key from an Ethereum address.
- * @param {string} ethAddress - The Ethereum address.
+ * Derives a symmetric key from a hashed Ethereum address.
+ * @param {string} hashedAddress - The hashed Ethereum address.
  * @returns {Promise<CryptoKey>} A promise that resolves to the derived key.
  */
-export async function deriveKeyFromEthAddress(ethAddress: string): Promise<CryptoKey> {
-    // Normalize the Ethereum address (remove the '0x' prefix and convert to lowercase)
-    const normalizedAddress = ethAddress.toLowerCase().replace(/^0x/, '');
-
-    // Convert the address to a byte array
-    const addressBytes = new TextEncoder().encode(normalizedAddress);
-
-    // Hash the address using SHA-256 to derive a 256-bit key
-    const hashBuffer = await crypto.subtle.digest('SHA-256', addressBytes);
+export async function deriveKeyFromHashedAddress(hashedAddress: string): Promise<CryptoKey> {
+    // Convert the hashed address (hex string) to a byte array
+    const addressBytes = Uint8Array.from(Buffer.from(hashedAddress, 'hex'));
 
     // Import the hash as a CryptoKey for AES-GCM encryption/decryption
     const key = await crypto.subtle.importKey(
         'raw',
-        hashBuffer,
+        addressBytes.buffer,
         { name: 'AES-GCM' },
         false, // Non-extractable
         ['encrypt', 'decrypt'],
