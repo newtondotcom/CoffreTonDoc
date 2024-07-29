@@ -8,9 +8,4 @@ CoffreTonDoc is a online vault which includes client-side files encryption and c
 -   Add screenshots in the readme
 -   Optimize the arboresence loading
 -   Try to make the research work using [this awesome thing](https://github.com/tantaraio/voy)
--   List current sessions (not possible using credentials and jwt) or enhance with totp ?
-
-Test user credentials :
-
--   testrandom2@gmail.com
--   test
+-   Enhance with totp ?

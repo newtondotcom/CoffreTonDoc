@@ -45,7 +45,7 @@
 
     async function getUrlToPreview() {
         const url = await $fetch('/api/file/preview', {
-            body: JSON.stringify({ name_s3: name_in_s3 }),
+            body: JSON.stringify({ name_s3: props.name_in_s3 }),
         });
         if (url) {
             // need to decrypt
