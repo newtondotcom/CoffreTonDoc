@@ -76,7 +76,7 @@
         });
 
         if (res.status === 200) {
-            const address = await signer.getAddress();
+            const address = res.body.hashedAddress;
             setAddValue(address);
             toast({
                 title: t('success'),
