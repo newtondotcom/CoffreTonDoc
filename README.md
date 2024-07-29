@@ -1,11 +1,15 @@
 # CoffreTonDoc 🔐
 
-CoffreTonDoc is a online vault which includes client-side files encryption and connexion with etherum account.
+CoffreTonDoc is an online vault that includes client-side file encryption and connection with Ethereum accounts. Authentication relies on your Ethereum wallet's security and [SIWE](https://github.com/spruceid/siwe). This platform is fully anonymous and free to use (once it is hosted somewhere... 😅).
+
+> Feel free to support me financially if you can to quickly provide a host 💰
 
 ## TODO LIST
 
--   Encrypt files before uploading to s3 using eth address (working in [test](pages/test2.vue))
--   Add screenshots in the readme
--   Optimize the arboresence loading
--   Try to make the research work using [this awesome thing](https://github.com/tantaraio/voy)
--   Enhance with totp ?
+-   Encrypt files before uploading to S3 using an Ethereum address (working in [test](pages/test2.vue) -> needs to be implemented)
+-   Add screenshots to the README
+-   Optimize the arborescence loading
+-   Try to make the search work using [this awesome thing](https://github.com/tantaraio/voy)
+-   Enhance with TOTP?
+
+Feel free to reach out if you have any questions or need further assistance!
