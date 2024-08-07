@@ -1,5 +1,3 @@
-import wasm from 'vite-plugin-wasm';
-
 export default defineNuxtConfig({
     devtools: { enabled: false },
 
@@ -39,8 +37,4 @@ export default defineNuxtConfig({
     },
 
     compatibilityDate: '2024-07-03',
-
-    vite: {
-        plugins: [wasm()],
-    },
 });
