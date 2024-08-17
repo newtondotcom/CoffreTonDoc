@@ -1,5 +1,3 @@
-import logout from './server/api/auth/logout';
-
 export default defineI18nConfig(() => ({
     legacy: false,
     locale: 'en',
