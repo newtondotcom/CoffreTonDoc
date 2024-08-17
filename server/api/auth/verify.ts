@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
 
         return {
             status: 200,
-            body: { hashedAddress },
+            body: { hashedAddress, address: message.address },
         };
     } catch (e) {
         await session.clear();

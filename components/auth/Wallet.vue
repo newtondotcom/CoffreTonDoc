@@ -14,7 +14,7 @@
 
     import { BrowserProvider } from 'ethers';
     import { SiweMessage } from 'siwe';
-    import { setAddValue, getAddValue } from '~/utils/cookie';
+    import { setAddValue, setHashAddValue } from '~/utils/cookie';
 
     let scheme: any;
     let domain: any;
@@ -76,8 +76,10 @@
         });
 
         if (res.status === 200) {
-            const address = res.body.hashedAddress;
+            const hasedhAddress = res.body.hashedAddress;
+            const address = res.body.address;
             setAddValue(address);
+            setHashAddValue(hasedhAddress);
             toast({
                 title: t('success'),
                 message: t('login_success'),

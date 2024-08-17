@@ -22,6 +22,7 @@
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
     import { useI18n } from '#imports';
+    import { setHashAddValue } from '~/utils/cookie';
     const { t } = useI18n();
 
     let status = ref('unauthenticated');
@@ -50,14 +51,16 @@
         if (data.status === 200) {
             auth.value = undefined;
             status.value = 'unauthenticated';
+            setAddValue('');
+            setHashAddValue('');
             toast({
                 title: t('success'),
-                message: t('logout_success'),
+                description: t('logout_success'),
             });
         } else {
             toast({
                 title: t('error'),
-                message: t('logout_error'),
+                description: t('logout_error'),
                 variant: 'destructive',
             });
         }
