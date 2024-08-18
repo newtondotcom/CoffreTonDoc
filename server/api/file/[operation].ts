@@ -1,5 +1,5 @@
 import errorCodes, { setSuccess, setFail } from '~/utils/codes';
-import { createFile, fileExists, replaceFile } from '~/server/data/files';
+import { createFile, fileExists, getFileById, replaceFile } from '~/server/data/files';
 import {
     createPresignedUrlDownload,
     createPresignedUrlUpload,
@@ -17,6 +17,8 @@ export default defineEventHandler(async (event) => {
             return replace(event);
         case 'upload':
             return upload(event);
+        case 'download':
+            return download(event);
         default:
             return setFail(event, errorCodes.method_not_allowed);
     }
@@ -41,6 +43,7 @@ async function create(event) {
 
 async function preview(event) {
     const user_id = event.context.user_id;
+    // check for ownership
     const body = await readBody(event);
     const name_s3 = body.name_s3;
     const url = await createPresignedUrlDownload(name_s3);
@@ -77,4 +80,16 @@ async function upload(event) {
     const idfinal = id.id;
     event.res.statusCode = 200;
     return { idfinal, url, objectName };
+}
+
+async function download(event) {
+    const user_id = event.context.user_id;
+    const body = await readBody(event);
+    const fileId = body.fileId;
+    const file = await getFileById(fileId, user_id);
+    const name_s3 = file?.file_name_on_s3;
+    // const link = await createPresignedUrlDownload(name_s3);
+    const link = 'icons.json';
+    event.res.statusCode = 200;
+    return link;
 }
