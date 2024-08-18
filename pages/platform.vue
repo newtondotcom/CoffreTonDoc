@@ -54,7 +54,7 @@
                                 :openItem
                                 :createNewFileInside
                                 :createNewFolderInside
-                                v-model="files"
+                                v-model:files="files"
                             />
                             <Separator />
                         </li>

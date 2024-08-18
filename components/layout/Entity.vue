@@ -241,7 +241,7 @@
         createNewFolderInside: Function;
     }
     const props = defineProps<EntityProps>();
-    const files = defineModel();
+    const files = defineModel('files', { required: true });
 
     import { useToast } from '@/components/ui/toast/use-toast';
     import errorCodes from '~/utils/codes';
