@@ -38,8 +38,9 @@
 <script setup lang="ts">
     import { Search, Filter, Upload, SquareCheckBig, FolderKanban } from 'lucide-vue-next';
     import { MagnifyingGlassIcon } from '@radix-icons/vue';
-    defineProps({
-        toogleSearch: Function,
-        isSearching: Boolean,
-    });
+    interface FiltersProps {
+        toogleSearch: Function;
+        isSearching: Boolean;
+    }
+    const props = defineProps<FiltersProps>();
 </script>

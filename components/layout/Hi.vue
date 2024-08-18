@@ -27,42 +27,34 @@
 
     let status = ref('unauthenticated');
 
-    const auth = useCookie('add', {
-        path: '/',
-        secure: true, // Only send cookie over HTTPS
-        httpOnly: false, // Allow JavaScript access to cookie
-        sameSite: 'strict', // Prevent CSRF attacks
-        signed: true, // Sign cookie to verify integrity
-        watch: true,
-    });
+    const auth = getAddValue();
 
-    if (auth.value) {
+    if (auth) {
         status.value = 'authenticated';
     }
 
     async function logout() {
-        const data = await $fetch('/api/logout', {
+        await $fetch('/api/logout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             credentials: 'include',
-        });
-        if (data.status === 200) {
-            auth.value = undefined;
-            status.value = 'unauthenticated';
-            setAddValue('');
-            setHashAddValue('');
-            toast({
-                title: t('success'),
-                description: t('logout_success'),
-            });
-        } else {
+        }).catch((e) => {
             toast({
                 title: t('error'),
                 description: t('logout_error'),
                 variant: 'destructive',
             });
-        }
+            return;
+        });
+        auth.value = undefined;
+        status.value = 'unauthenticated';
+        setAddValue('');
+        setHashAddValue('');
+        toast({
+            title: t('success'),
+            description: t('logout_success'),
+        });
     }
 </script>

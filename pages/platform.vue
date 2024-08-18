@@ -68,8 +68,6 @@
 </template>
 
 <script setup lang="ts">
-    import { generateFakeFiles } from '~/lib/utils';
-    import { ref, computed, watch } from 'vue';
     import type { File } from '@prisma/client';
     import { AccessStatus } from '@prisma/client';
     import errorCodes from '~/utils/codes';
@@ -173,28 +171,28 @@
             fileId,
             newName,
         };
-        const data: string = await $fetch('/api/both/rename', {
+        await $fetch('/api/both/rename', {
             method: 'POST',
             body: JSON.stringify(body),
-        });
-        if (data.message == errorCodes.success) {
-            files.value = files.value.map((f) => {
-                if (f.id === fileId) {
-                    f.name = newName;
-                }
-                return f;
-            });
-            toast({
-                title: 'Success',
-                description: 'File renamed successfully',
-            });
-        } else {
+        }).catch((e) => {
+            console.error(e);
             toast({
                 title: 'Error',
                 description: 'An error occured while renaming the file',
                 variant: 'destructive',
             });
-        }
+            return;
+        });
+        files.value = files.value.map((f) => {
+            if (f.id === fileId) {
+                f.name = newName;
+            }
+            return f;
+        });
+        toast({
+            title: 'Success',
+            description: 'File renamed successfully',
+        });
     }
 
     async function deleteItem(fileId: string) {
@@ -260,18 +258,18 @@
         return errorCodes.success;
     }
 
-    async function createNewFolderInside(id: string, name: string) {
+    async function createNewFolderInside(idParent: string, name: string) {
         const statut = AccessStatus.USER;
         const body = {
             name,
-            idParent: id,
+            idParent: idParent,
             statut,
         };
         const data = await $fetch('/api/folder/create', {
             method: 'POST',
             body: JSON.stringify(body),
         });
-        if (data == errorCodes.folder_already_exists) {
+        if (data.message == errorCodes.folder_already_exists) {
             toast({
                 title: 'Error',
                 description: 'A folder with the same name already exists in this folder',
@@ -286,10 +284,10 @@
         const newFolder: File = {
             id: data,
             name: name,
-            date: new Date().toISOString(),
+            date: new Date(),
             isFolder: true,
             extension: '',
-            idParent: id,
+            idParent: idParent,
             size: 0,
             statut: 'you',
         };

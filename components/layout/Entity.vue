@@ -258,7 +258,7 @@
     const fileLocal = ref(null);
     const fileValid = ref(false);
 
-    function setState(newState) {
+    function setState(newState: string) {
         stateDialog.value = newState;
     }
 

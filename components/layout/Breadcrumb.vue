@@ -6,11 +6,11 @@
         <Breadcrumb class="ml-2">
             <BreadcrumbList>
                 <BreadcrumbItem>
-                    <BreadcrumbLink @click="navigateToRoot" class="cursor-pointer">
+                    <BreadcrumbLink @click="() => navigateToRoot" class="cursor-pointer">
                         {{ $t('breadcrumb_home') }}
                     </BreadcrumbLink>
                 </BreadcrumbItem>
-                <BreadcrumbSeparator v-if="breadcrumb.length" />
+                <BreadcrumbSeparator v-if="breadcrumb?.length" />
                 <BreadcrumbItem
                     v-for="(crumb, index) in breadcrumb"
                     :key="index"
@@ -27,23 +27,13 @@
 </template>
 
 <script setup lang="ts">
-    import {
-        Breadcrumb,
-        BreadcrumbItem,
-        BreadcrumbLink,
-        BreadcrumbList,
-        BreadcrumbSeparator,
-    } from '@/components/ui/breadcrumb';
-    import {
-        DropdownMenu,
-        DropdownMenuContent,
-        DropdownMenuItem,
-        DropdownMenuTrigger,
-    } from '@/components/ui/dropdown-menu';
-
-    defineProps({
-        navigateToFolder: Function,
-        navigateToRoot: Function,
-        breadcrumb: Array,
-    });
+    interface BreadcrumbProps {
+        navigateToFolder: Function;
+        navigateToRoot: Function;
+        breadcrumb: Array<{
+            id: number;
+            name: string;
+        }>;
+    }
+    const props = defineProps<BreadcrumbProps>();
 </script>
