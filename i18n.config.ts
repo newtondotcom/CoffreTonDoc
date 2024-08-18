@@ -22,6 +22,7 @@ export default defineI18nConfig(() => ({
             open: 'Open 🔓',
             rename: 'Rename 📛',
             delete: 'Delete 🗑️',
+            download: 'Download 📥',
             replace: 'Replace 🔄',
             replace_confirmation: 'Choose a file to replace the current one. 🔄',
             new_file_inside: 'New File Inside 📄',
