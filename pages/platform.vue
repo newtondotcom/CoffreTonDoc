@@ -221,7 +221,6 @@
     }
 
     async function createNewFileInside(id: string, name: string, extension: string) {
-        const idParent = selectedFolder.value;
         const size = 1000;
         const statut = AccessStatus.USER;
         const body = {
@@ -241,7 +240,7 @@
                 description: 'A file with the same name already exists',
                 variant: 'destructive',
             });
-            return;
+            return errorCodes.file_already_exists;
         }
         toast({
             title: 'Success',
@@ -258,6 +257,7 @@
             statut: 'you',
         };
         files.value.push(newFile);
+        return errorCodes.success;
     }
 
     async function createNewFolderInside(id: string, name: string) {
