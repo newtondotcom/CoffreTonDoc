@@ -24,7 +24,7 @@
                 <IconsStatut :statut="file.statut" />
                 -->
             </ContextMenuTrigger>
-            <ContextMenuContent class="w-64 bg-white">
+            <ContextMenuContent class="w-64">
                 <ContextMenuItem @click="openItem(file)">
                     {{ $t('open') }}
                     <ContextMenuShortcut>Enter</ContextMenuShortcut>
@@ -340,28 +340,34 @@
     }
 
     async function download(file) {
-        const data = await $fetch('/api/file/download', {
+        const url_download = await $fetch('/api/file/download', {
             method: 'POST',
             body: {
                 fileId: file.id,
             },
-        });
-        if (data.status === 200) {
-            const blob = new Blob([data.file], { type: 'application/octet-stream' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = file.name;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        } else {
+        }).catch((error) => {
             toast({
                 title: 'Error',
                 description: 'Error downloading file',
                 variant: 'destructive',
             });
-        }
+        });
+        const fileFetch = await fetch(url_download);
+        const encryptedData: Uint8Array = new Uint8Array(await fileFetch.arrayBuffer());
+        const ethAddress = getAddValue();
+        const key = await deriveKeyFromEthAddress(ethAddress);
+        console.log('start decrypting');
+        const decryptedData = await decryptFile(key, encryptedData);
+        console.log('finish decrypting');
+
+        const blob = new Blob([decryptedData], { type: file.value.type });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = file.value.name;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
     }
 </script>
