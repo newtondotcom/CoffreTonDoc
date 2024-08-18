@@ -30,6 +30,11 @@
                     <ContextMenuShortcut>Enter</ContextMenuShortcut>
                 </ContextMenuItem>
 
+                <ContextMenuItem @click="download(file)">
+                    {{ $t('download') }}
+                    <ContextMenuShortcut>Enter</ContextMenuShortcut>
+                </ContextMenuItem>
+
                 <DialogTrigger asChild>
                     <ContextMenuItem @click="setState('rename')">
                         {{ $t('rename') }}
@@ -229,15 +234,15 @@
 </template>
 
 <script setup lang="ts">
-    const props = defineProps({
-        file: Object,
-        openItem: Function,
-        renameFile: Function,
-        deleteItem: Function,
-        createNewFileInside: Function,
-        createNewFolderInside: Function,
-        replaceFile: Function,
-    });
+    interface EntityProps {
+        file: Object;
+        openItem: Function;
+        renameFile: Function;
+        deleteItem: Function;
+        createNewFileInside: Function;
+        createNewFolderInside: Function;
+    }
+    const props = defineProps<EntityProps>();
 
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
@@ -332,5 +337,31 @@
             return;
         }
         props.renameFile(props.file.id, newName.value);
+    }
+
+    async function download(file) {
+        const data = await $fetch('/api/file/download', {
+            method: 'POST',
+            body: {
+                fileId: file.id,
+            },
+        });
+        if (data.status === 200) {
+            const blob = new Blob([data.file], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = file.name;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        } else {
+            toast({
+                title: 'Error',
+                description: 'Error downloading file',
+                variant: 'destructive',
+            });
+        }
     }
 </script>
