@@ -52,10 +52,9 @@
                             <LayoutEntity
                                 :file
                                 :openItem
-                                :deleteItem
                                 :createNewFileInside
                                 :createNewFolderInside
-                                :renameFile
+                                v-model="files"
                             />
                             <Separator />
                         </li>
@@ -85,10 +84,6 @@
     >([]);
     const fileLoading = ref(true);
 
-    const isRenameModalOpen = ref(false);
-    const fileToRename = ref<File | null>(null);
-    const newFileName = ref<string>('');
-
     const filteredFiles = computed(() => {
         return files.value.filter((file) => file.idParent === selectedFolder.value);
     });
@@ -109,10 +104,6 @@
         });
         files.value = data;
         fileLoading.value = false;
-    }
-
-    function test() {
-        console.log('test');
     }
 
     function navigateToRoot() {
@@ -157,64 +148,6 @@
             selectedFolder.value = file.id;
         } else {
             console.log('Opening file:', file);
-        }
-    }
-
-    function openRenameModal(file: File) {
-        fileToRename.value = file;
-        newFileName.value = file.name;
-        isRenameModalOpen.value = true;
-    }
-
-    async function renameFile(fileId: string, newName: string) {
-        const body = {
-            fileId,
-            newName,
-        };
-        await $fetch('/api/both/rename', {
-            method: 'POST',
-            body: JSON.stringify(body),
-        }).catch((e) => {
-            console.error(e);
-            toast({
-                title: 'Error',
-                description: 'An error occured while renaming the file',
-                variant: 'destructive',
-            });
-            return;
-        });
-        files.value = files.value.map((f) => {
-            if (f.id === fileId) {
-                f.name = newName;
-            }
-            return f;
-        });
-        toast({
-            title: 'Success',
-            description: 'File renamed successfully',
-        });
-    }
-
-    async function deleteItem(fileId: string) {
-        const body = {
-            fileId,
-        };
-        const data = await $fetch('/api/both/delete', {
-            method: 'POST',
-            body: JSON.stringify(body),
-        });
-        if (data.message == errorCodes.success) {
-            files.value = files.value.filter((f) => f.id !== fileId);
-            toast({
-                title: 'Success',
-                description: 'File deleted successfully',
-            });
-        } else {
-            toast({
-                title: 'Error',
-                description: 'An error occured while deleting the file',
-                variant: 'destructive',
-            });
         }
     }
 

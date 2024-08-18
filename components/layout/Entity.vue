@@ -237,14 +237,14 @@
     interface EntityProps {
         file: Object;
         openItem: Function;
-        renameFile: Function;
-        deleteItem: Function;
         createNewFileInside: Function;
         createNewFolderInside: Function;
     }
     const props = defineProps<EntityProps>();
+    const files = defineModel();
 
     import { useToast } from '@/components/ui/toast/use-toast';
+    import errorCodes from '~/utils/codes';
     const { toast } = useToast();
 
     import { allowedFileExtensions } from '~/utils/extensions';
@@ -336,7 +336,7 @@
             });
             return;
         }
-        props.renameFile(props.file.id, newName.value);
+        renameFile(props.file.id, newName.value);
     }
 
     async function download(file) {
@@ -369,5 +369,57 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+    }
+
+    async function deleteItem(fileId: string) {
+        const body = {
+            fileId,
+        };
+        await $fetch('/api/both/delete', {
+            method: 'POST',
+            body: JSON.stringify(body),
+        }).catch((e) => {
+            console.error(e);
+            toast({
+                title: 'Error',
+                description: 'An error occured while deleting the file',
+                variant: 'destructive',
+            });
+            return;
+        });
+        files.value = files.value.filter((f) => f.id !== fileId);
+        toast({
+            title: 'Success',
+            description: 'File deleted successfully',
+        });
+    }
+
+    async function renameFile(fileId: string, newName: string) {
+        const body = {
+            fileId,
+            newName,
+        };
+        await $fetch('/api/both/rename', {
+            method: 'POST',
+            body: JSON.stringify(body),
+        }).catch((e) => {
+            console.error(e);
+            toast({
+                title: 'Error',
+                description: 'An error occured while renaming the file',
+                variant: 'destructive',
+            });
+            return;
+        });
+        files.value = files.value.map((f) => {
+            if (f.id === fileId) {
+                f.name = newName;
+            }
+            return f;
+        });
+        toast({
+            title: 'Success',
+            description: 'File renamed successfully',
+        });
     }
 </script>
