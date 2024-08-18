@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
     import { ref } from 'vue';
-    import { readFile, deriveKeyFromHashedAddress, encryptFile, decryptFile } from '~/utils/crypto';
+    import { readFile, encryptFile, decryptFile } from '~/utils/crypto';
 
     // Page metadata (optional)
     definePageMeta({
@@ -18,16 +18,7 @@
         },
     });
 
-    const auth = useCookie('add', {
-        path: '/',
-        secure: true, // Only send cookie over HTTPS
-        httpOnly: false, // Allow JavaScript access to cookie
-        sameSite: 'strict', // Prevent CSRF attacks
-        signed: true, // Sign cookie to verify integrity
-        watch: true,
-    });
-
-    const ethAddress = auth.value;
+    const ethAddress = getAddValue();
     const file = ref<File | null>(null);
 
     async function change(e: Event) {
@@ -37,7 +28,7 @@
 
             try {
                 const data = await readFile(file.value);
-                const key = await deriveKeyFromHashedAddress(ethAddress);
+                const key = await deriveKeyFromEthAddress(ethAddress);
                 console.log('encrypting file');
                 const encryptedData = await encryptFile(key, data);
                 console.log('file is encrypted');
