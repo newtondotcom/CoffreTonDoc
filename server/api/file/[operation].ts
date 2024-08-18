@@ -71,7 +71,9 @@ async function upload(event) {
     const extension = body.extension;
     const id = await createFile(name, extension, idParent, size, statut, user_id);
     const uname = generateUniqueName();
-    const { url, objectName } = await createPresignedUrlUpload(uname);
+    //const { url, objectName } = await createPresignedUrlUpload(uname);
+    const url = '';
+    const objectName = 'temp';
     const idfinal = id.id;
     event.res.statusCode = 200;
     return { idfinal, url, objectName };
