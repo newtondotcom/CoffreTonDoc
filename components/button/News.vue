@@ -5,7 +5,7 @@
             <DialogTrigger as-child>
                 <Button variant="secondary" class="mx-2"><FolderPlus /></Button>
             </DialogTrigger>
-            <DialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
+            <DialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle class="text-lg font-semibold">
                         {{ $t('create_folder') }}
@@ -40,7 +40,7 @@
             <DialogTrigger as-child>
                 <Button variant="secondary" class="mx-2"><FilePlus /></Button>
             </DialogTrigger>
-            <DialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
+            <DialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
                 <DialogHeader>
                     <DialogTitle class="text-lg font-semibold">{{ $t('create_file') }}</DialogTitle>
                     <DialogDescription class="text-sm text-gray-500">

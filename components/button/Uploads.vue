@@ -5,7 +5,7 @@
             <AlertDialogTrigger as-child>
                 <Button variant="secondary" class="mx-2" disabled><FolderUp /></Button>
             </AlertDialogTrigger>
-            <AlertDialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
+            <AlertDialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
                 <AlertDialogHeader>
                     <AlertDialogTitle class="text-lg font-semibold">
                         {{ $t('create_folder') }}
@@ -47,7 +47,7 @@
             <AlertDialogTrigger as-child>
                 <Button variant="secondary" class="mx-2"><FileUp /></Button>
             </AlertDialogTrigger>
-            <AlertDialogContent class="rounded-lg bg-white p-6 shadow-lg sm:max-w-[425px]">
+            <AlertDialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
                 <AlertDialogHeader>
                     <AlertDialogTitle class="text-lg font-semibold">
                         {{ $t('create_file') }}
@@ -69,7 +69,7 @@
                             id="file-name"
                             class="col-span-3"
                             v-model="fileName"
-                            @keyup.enter="uploadFile"
+                            @keyup.enter="encryptAndUpload"
                         />
                     </div>
                     <div v-if="fileSelected" class="grid grid-cols-4 items-center gap-4">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
                 <AlertDialogFooter>
-                    <Button v-if="!fileCreated" @click="uploadFile">
+                    <Button v-if="!fileCreated" @click="encryptAndUpload">
                         {{ $t('create_file') }}
                         <div v-if="isLoading" class="ml-1 flex">
                             <svg
@@ -124,12 +124,13 @@
 </template>
 
 <script setup lang="ts">
-    const props = defineProps({
-        createNewFileInside: Function,
-        createNewFolderInside: Function,
-        filteredFiles: Object,
-        selectedFolder: Number,
-    });
+    interface UploadsProps {
+        createNewFileInside: Function;
+        createNewFolderInside: Function;
+        filteredFiles: Object;
+        selectedFolder: Number;
+    }
+    const props = defineProps<UploadsProps>();
 
     import { useI18n } from '#imports';
     const { t } = useI18n();
@@ -138,6 +139,7 @@
 
     import { FileUp, FolderUp } from 'lucide-vue-next';
     import { AccessStatus } from '@prisma/client';
+    import errorCodes from '~/utils/codes';
 
     const folderName = ref('');
     const fileName = ref('');
@@ -146,12 +148,17 @@
     const isLoading = ref(false);
     const fileToUpload = ref<File | null>(null);
     const fileCreated = ref(false);
+    const uploadInfos = ref({
+        id: 0,
+        url: '',
+        nameS3: '',
+    });
 
     function handleFileUpload(event) {
-        const file = event.target.files[0];
+        const file = event?.target?.files[0];
         if (file) {
-            if (file.size > 1500000000) {
-                // 1.5GB - limited by array buffer
+            if (file.size > 1000000000) {
+                // 1.0GB - limited by array buffer
                 toast({
                     title: t('too_large'),
                     description: t('file_limit'),
@@ -168,18 +175,10 @@
         }
     }
 
-    function handleFolderFileUpload(event) {
-        // Handle folder file upload if needed
-    }
-
-    async function uploadFile() {
-        if (!fileToUpload.value) return;
-
-        isLoading.value = true;
-
+    async function fetchUploadInfos() {
         try {
             // Query for the presigned URL
-            const response = await $fetch('/api/file/upload', {
+            const data = await $fetch('/api/file/upload', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: fileName.value,
@@ -192,37 +191,65 @@
                     'Content-Type': 'application/json',
                 },
             });
-
-            // Create the new file in your system
-            props.createNewFileInside(props.fileSelected, fileName.value, fileExtension.value);
-
-            const { id, url, fields } = await response.json();
-            console.log('Presigned URL:', url);
-
-            // Upload the file to S3
-            const formData = new FormData();
-            formData.append('file', fileToUpload.value);
-
-            /*
-        await fetch(url, {
-          method: 'POST',
-          body: formData
-        });
-        */
-            await setTimeout(function () {
-                console.log('THIS IS');
-            }, 2000);
-
-            isLoading.value = false;
-            fileCreated.value = true;
+            uploadInfos.value = data;
         } catch (error) {
             console.error('Error uploading file:', error);
         } finally {
         }
     }
 
-    async function createNewFolderInside(folderName) {
-        if (!folder) {
+    async function uploadFile(dataToUpload: Uint8Array) {
+        isLoading.value = true;
+        if (uploadInfos.value.url === '') {
+            await fetchUploadInfos();
+        }
+        try {
+            // Upload the file to S3
+            const formData = new FormData();
+            formData.append('file', fileToUpload.value);
+
+            /*
+            await fetch(uploadInfos.value.url, {
+            method: 'POST',
+            body: formData
+            });
+            */
+
+            await setTimeout(function () {
+                console.log('THIS IS');
+            }, 2000);
+            fileCreated.value = true;
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        } finally {
+            isLoading.value = false;
+        }
+    }
+
+    async function encryptAndUpload() {
+        const result: string = await props.createNewFileInside(
+            props.selectedFolder,
+            fileName.value,
+            fileExtension.value,
+        );
+        if (result.includes(errorCodes.file_already_exists)) {
+            return;
+        }
+        try {
+            await fetchUploadInfos();
+            const ethAddress = getAddValue();
+            const data = await readFile(fileToUpload.value);
+            const key = await deriveKeyFromEthAddress(ethAddress);
+            const encryptedData: Uint8Array = await encryptFile(key, data);
+            await uploadFile(encryptedData);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred.');
+        }
+    }
+
+    async function createNewFolderInside() {
+        if (!folderName.value) {
             toast({
                 title: 'Please specify a folder name',
                 description: 'Folder name is required to create a new folder',
@@ -230,6 +257,10 @@
             });
             return;
         }
-        props.createNewFolderInside(props.selectedFolder, props.selectedFolder, folderName.value);
+        props.createNewFolderInside(props.selectedFolder, folderName.value);
+    }
+
+    function handleFolderFileUpload(event) {
+        // Handle folder file upload if needed
     }
 </script>
