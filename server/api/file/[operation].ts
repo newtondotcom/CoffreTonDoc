@@ -8,19 +8,23 @@ import {
 
 export default defineEventHandler(async (event) => {
     const operation = getRouterParam(event, 'operation');
-    switch (operation) {
-        case 'create':
-            return create(event);
-        case 'preview':
-            return preview(event);
-        case 'replace':
-            return replace(event);
-        case 'upload':
-            return upload(event);
-        case 'download':
-            return download(event);
-        default:
-            return setFail(event, errorCodes.method_not_allowed);
+    try {
+        switch (operation) {
+            case 'create':
+                return create(event);
+            case 'preview':
+                return preview(event);
+            case 'replace':
+                return replace(event);
+            case 'upload':
+                return upload(event);
+            case 'download':
+                return download(event);
+            default:
+                return setFail(event, errorCodes.method_not_allowed);
+        }
+    } catch (e) {
+        setFail(event, errorCodes.internal_server_error);
     }
 });
 
