@@ -346,6 +346,7 @@
                 fileId: file.id,
             },
         }).catch((error) => {
+            console.error(error);
             toast({
                 title: 'Error',
                 description: 'Error downloading file',
@@ -356,7 +357,7 @@
         const encryptedData: Uint8Array = new Uint8Array(await fileFetch.arrayBuffer());
         const ethAddress = getAddValue();
         const key = await deriveKeyFromEthAddress(ethAddress);
-        console.log('start decrypting');
+        console.log('start decrypting', encryptedData);
         const decryptedData = await decryptFile(key, encryptedData);
         console.log('finish decrypting');
 
