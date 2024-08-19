@@ -74,8 +74,7 @@ async function upload(event) {
     const extension = body.extension;
     const id = await createFile(name, extension, idParent, size, statut, user_id);
     const uname = generateUniqueName();
-    //const { url, objectName } = await createPresignedUrlUpload(uname);
-    const url = '';
+    const url = await createPresignedUrlUpload(uname);
     const objectName = 'temp';
     const idfinal = id.id;
     event.res.statusCode = 200;
@@ -88,8 +87,7 @@ async function download(event) {
     const fileId = body.fileId;
     const file = await getFileById(fileId, user_id);
     const name_s3 = file?.file_name_on_s3;
-    // const link = await createPresignedUrlDownload(name_s3);
-    const link = 'icons.json';
+    const link = await createPresignedUrlDownload(name_s3);
     event.res.statusCode = 200;
     return link;
 }
