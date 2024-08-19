@@ -1,7 +1,7 @@
 import { Client } from 'minio';
 import prisma from './prisma';
-import constants from '~/lib/constants';
-import { assert } from '@vueuse/core';
+
+const name_s3_vault = 'vault';
 
 export function generateUniqueName() {
     const date = new Date();
@@ -11,82 +11,10 @@ export function generateUniqueName() {
     return uniqueName;
 }
 
-export async function removeVideo(user_id: string, videoId: string) {
-    try {
-        // get video object from database
-        const video = await prisma.video.findUnique({
-            where: {
-                id: videoId,
-            },
-            select: {
-                name_s3: true,
-                user_id: true,
-                stored: true,
-            },
-        });
-
-        assert(video?.user_id == user_id);
-
-        //const s3Name = video?.stored;
-        const s3Name = constants.NAME_S3_DOWNLOADS;
-        const config = await prisma.s3.findUnique({
-            where: {
-                name: s3Name,
-            },
-        });
-
-        const MINIO_ENDPOINT = config.endpoint;
-        const MINIO_PORT = config.port;
-        const MINIO_ACCESS_KEY = config.access_key;
-        const MINIO_SECRET_KEY = config.secret_key;
-        const MINIO_SSL = config.ssl;
-        const bucketName = config.bucket;
-
-        // remove video object from MinIO
-        const minioClient = new Client({
-            endPoint: MINIO_ENDPOINT,
-            port: parseInt(MINIO_PORT),
-            useSSL: MINIO_SSL,
-            accessKey: MINIO_ACCESS_KEY,
-            secretKey: MINIO_SECRET_KEY,
-        });
-
-        const objectName = video.name_s3;
-        minioClient.removeObject(bucketName, objectName, (err) => {
-            if (err) {
-                console.error('Error removing video object:', err);
-            } else {
-                console.log('Video object removed successfully:', objectName);
-            }
-        });
-
-        // remove 1 videos for the current number of videos stored
-        await prisma.account.update({
-            where: { user_id: video.user_id },
-            data: {
-                videos_stored: {
-                    decrement: 1,
-                },
-            },
-        });
-
-        // mark the video as deleted
-        await prisma.video.update({
-            where: { id: videoId },
-            data: {
-                deleted: true,
-            },
-        });
-    } catch (error) {
-        console.error('Error removing video:', error);
-    }
-}
-
-export async function createPresignedUrlUpload() {
-    const s3Name = constants.NAME_S3_UPLOADS;
+export async function createPresignedUrlUpload(uname: string) {
     const config = await prisma.s3.findUnique({
         where: {
-            name: s3Name,
+            name: name_s3_vault,
         },
     });
 
@@ -104,14 +32,17 @@ export async function createPresignedUrlUpload() {
         accessKey: MINIO_ACCESS_KEY,
         secretKey: MINIO_SECRET_KEY,
     });
-    const objectName = generateUniqueName() + '.mp4';
     const expiryInSeconds = 3600;
-    const url = await minioClient.presignedPutObject(bucketName, objectName, expiryInSeconds);
-    return { url, objectName };
+    const url = await minioClient.presignedPutObject(bucketName, uname, expiryInSeconds);
+    return url;
 }
 
 export async function createPresignedUrlDownload(objectName: any) {
-    const config = useRuntimeConfig();
+    const config = await prisma.s3.findUnique({
+        where: {
+            name: name_s3_vault,
+        },
+    });
     const MINIO_ENDPOINT = config.endpoint;
     const MINIO_PORT = config.port;
     const MINIO_ACCESS_KEY = config.access_key;
@@ -127,8 +58,7 @@ export async function createPresignedUrlDownload(objectName: any) {
         secretKey: MINIO_SECRET_KEY,
     });
     const expiryInSeconds = 3600;
-    //const url = await minioClient.presignedGetObject(bucketName, objectName, expiryInSeconds);
-    const url = 'test';
+    const url = await minioClient.presignedGetObject(bucketName, objectName, expiryInSeconds);
     return url;
 }
 

@@ -23,7 +23,7 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
         return await prisma.file.findUnique({
             where: {
                 id: fileId,
-                user_id: user_id, // Filter by user_id
+                user_id: user_id,
             },
         });
     } catch (error) {
