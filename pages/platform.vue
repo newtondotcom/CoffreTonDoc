@@ -1,12 +1,4 @@
 <template>
-    <Preview
-        :filename="`test`"
-        :extension="`test`"
-        :name_in_s3="`test`"
-        :keyToDecrypt="`test`"
-        :open="false"
-    />
-
     <div class="flex w-[85%] flex-col">
         <LayoutTop />
         <div class="z-1 flex flex-row justify-between px-2 pl-8">

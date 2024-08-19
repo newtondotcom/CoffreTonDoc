@@ -1,4 +1,12 @@
 <template>
+    <Preview
+        :filename="`test`"
+        :extension="`test`"
+        :name_in_s3="`test`"
+        :keyToDecrypt="`test`"
+        :open="false"
+    />
+
     <Dialog>
         <ContextMenu>
             <ContextMenuTrigger
