@@ -1,21 +1,40 @@
 <template>
-    <div class="h-[90%] w-[90%]">
-        <PreviewNop v-if="!fileSupported" />
-        <div v-else>
-            <div v-if="loading"></div>
-            <div v-else>
+    <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
+        v-if="open"
+    >
+        <Card class="h-[90vh] w-[92vw]">
+            <CardHeader>
+                <CardTitle>Message Edition</CardTitle>
+                <CardDescription>Deploy your new project in one-click.</CardDescription>
+            </CardHeader>
+            <CardContent>
+                <PreviewNop v-if="!fileSupported" />
+                <div v-else>
+                    <div v-if="loading">Loading</div>
+                    <div v-else>
+                        <!--
                 <PreviewDocx v-if="extension == 'docx'" />
-                <PreviewPdf v-if="extension == 'pdf'" />
-                <PreviewPptx v-if="extension == 'pptx'" />
-                <!-- ko -->
+                -->
+                        <PreviewPdf v-if="extension == 'pdf'" />
+                        <PreviewPptx v-if="extension == 'pptx'" />
+                        <!-- ko 
                 <PreviewTxt v-if="extension == 'txt' || extension == 'vue'" />
+                <!--
                 <PreviewXlsx v-if="extension == 'xlsx'" />
-            </div>
-        </div>
+                -->
+                    </div>
+                </div>
+            </CardContent>
+            <CardFooter class="flex justify-between px-6 pb-6">
+                <Button variant="outline">Cancel</Button>
+                <Button type="button" class="ml-1" size="sm">Send</Button>
+            </CardFooter>
+        </Card>
     </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
     const props = defineProps({
         filename: {
             type: String,
@@ -31,6 +50,10 @@
         },
         keyToDecrypt: {
             type: String,
+            required: true,
+        },
+        open: {
+            type: Boolean,
             required: true,
         },
     });
