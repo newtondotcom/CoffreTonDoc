@@ -199,34 +199,25 @@
     }
 
     async function uploadFile(dataToUpload: Uint8Array) {
-        isLoading.value = true;
         if (uploadInfos.value.url === '') {
             await fetchUploadInfos();
         }
         try {
-            // Upload the file to S3
             const formData = new FormData();
-            formData.append('file', fileToUpload.value);
-
-            /*
+            formData.append('file', dataToUpload);
             await fetch(uploadInfos.value.url, {
-            method: 'POST',
-            body: formData
+                method: 'PUT',
+                body: formData,
             });
-            */
 
-            await setTimeout(function () {
-                console.log('THIS IS');
-            }, 2000);
             fileCreated.value = true;
         } catch (error) {
             console.error('Error uploading file:', error);
-        } finally {
-            isLoading.value = false;
         }
     }
 
     async function encryptAndUpload() {
+        isLoading.value = true;
         const result: string = await props.createNewFileInside(
             props.selectedFolder,
             fileName.value,
@@ -245,6 +236,8 @@
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred.');
+        } finally {
+            isLoading.value = false;
         }
     }
 
