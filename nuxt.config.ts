@@ -3,12 +3,6 @@ export default defineNuxtConfig({
 
     modules: ['@nuxt/ui', '@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/i18n'],
 
-    auth: {
-        provider: {
-            type: 'authjs',
-        },
-    },
-
     shadcn: {
         prefix: '',
         componentDir: './components/ui',
@@ -26,8 +20,6 @@ export default defineNuxtConfig({
     ssr: false,
 
     runtimeConfig: {
-        AUTH_SECRET: process.env.AUTH_SECRET,
-        AUTH_ORIGIN: process.env.AUTH_ORIGIN,
         ENCRYPTION_KEY: process.env.ENCRYPTION_KEY,
         APP_NAME: process.env.APP_NAME,
 
