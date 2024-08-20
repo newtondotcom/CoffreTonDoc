@@ -2,7 +2,13 @@ import { assert } from '@vueuse/core';
 import prisma from './prisma';
 import { File, AccessStatus } from '@prisma/client';
 
-// Get all files within a folder for a specific user
+/**
+ * Get all files within a folder for a specific user.
+ * @param {number} folderId - The ID of the parent folder.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File[]>} - A promise that resolves to an array of files.
+ * @throws {Error} - If an error occurs while fetching the files.
+ */
 export async function getFilesInFolder(folderId: number, user_id: string): Promise<File[]> {
     try {
         return await prisma.file.findMany({
@@ -17,7 +23,13 @@ export async function getFilesInFolder(folderId: number, user_id: string): Promi
     }
 }
 
-// Get a specific file by ID for a specific user
+/**
+ * Get a specific file by ID for a specific user.
+ * @param {number} fileId - The ID of the file.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File | null>} - A promise that resolves to the file or null if not found.
+ * @throws {Error} - If an error occurs while fetching the file.
+ */
 export async function getFileById(fileId: number, user_id: string): Promise<File | null> {
     try {
         return await prisma.file.findUnique({
@@ -32,7 +44,18 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
     }
 }
 
-// Create a new file
+/**
+ * Create a new file.
+ * @param {string} name - The name of the file.
+ * @param {string} extension - The extension of the file.
+ * @param {number} idParent - The ID of the parent folder.
+ * @param {number} size - The size of the file.
+ * @param {AccessStatus} statut - The access status of the file.
+ * @param {string} user_id - The ID of the user.
+ * @param {string} name_on_s3 - The name of the file on S3.
+ * @returns {Promise<File>} - A promise that resolves to the created file.
+ * @throws {Error} - If an error occurs while creating the file.
+ */
 export async function createFile(
     name: string,
     extension: string,
@@ -40,6 +63,7 @@ export async function createFile(
     size: number,
     statut: AccessStatus,
     user_id: string,
+    name_on_s3: string,
 ): Promise<File> {
     try {
         return await prisma.file.create({
@@ -50,7 +74,8 @@ export async function createFile(
                 statut,
                 idParent,
                 isFolder: false,
-                user_id: user_id, // Set user_id
+                user_id: user_id,
+                file_name_on_s3: name_on_s3,
             },
         });
     } catch (error) {
@@ -59,11 +84,19 @@ export async function createFile(
     }
 }
 
-// Create a new folder
+/**
+ * Create a new folder.
+ * @param {string} name - The name of the folder.
+ * @param {number} idParent - The ID of the parent folder.
+ * @param {string} statut - The access status of the folder.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File>} - A promise that resolves to the created folder.
+ * @throws {Error} - If an error occurs while creating the folder.
+ */
 export async function createFolder(
     name: string,
     idParent: number,
-    statut: string,
+    statut: AccessStatus,
     user_id: string,
 ): Promise<File> {
     try {
@@ -86,7 +119,14 @@ export async function createFolder(
     }
 }
 
-// Rename a file or folder
+/**
+ * Rename a file or folder.
+ * @param {number} fileId - The ID of the file or folder to rename.
+ * @param {string} newName - The new name.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File>} - A promise that resolves to the updated file or folder.
+ * @throws {Error} - If an error occurs while renaming the file or folder.
+ */
 export async function renameFile(fileId: number, newName: string, user_id: string): Promise<File> {
     try {
         assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);
@@ -104,7 +144,13 @@ export async function renameFile(fileId: number, newName: string, user_id: strin
     }
 }
 
-// Delete a file or folder
+/**
+ * Delete a file or folder.
+ * @param {number} fileId - The ID of the file or folder to delete.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File>} - A promise that resolves to the deleted file or folder.
+ * @throws {Error} - If an error occurs while deleting the file or folder.
+ */
 export async function deleteFile(fileId: number, user_id: string): Promise<File> {
     try {
         assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);
@@ -119,6 +165,15 @@ export async function deleteFile(fileId: number, user_id: string): Promise<File>
     }
 }
 
+/**
+ * Replace a file's data by updating its associated S3 name and size.
+ * @param {string} user_id - The ID of the user.
+ * @param {number} fileId - The ID of the file to replace.
+ * @param {string} uname - The new unique name for the file on S3.
+ * @param {number} size - The new size of the file.
+ * @returns {Promise<File>} - A promise that resolves to the updated file.
+ * @throws {Error} - If an error occurs while replacing the file.
+ */
 export async function replaceFile(user_id: string, fileId: number, uname: string, size: number) {
     try {
         assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);
@@ -132,12 +187,26 @@ export async function replaceFile(user_id: string, fileId: number, uname: string
             },
         });
     } catch (error) {
-        console.error('Error creating file:', error);
-        throw new Error('Failed to create file');
+        console.error('Error replacing file:', error);
+        throw new Error('Failed to replace file');
     }
 }
 
-export async function fileExists(name, extension, idParent, user_id) {
+/**
+ * Check if a file already exists in a specific folder for a user.
+ * @param {string} name - The name of the file.
+ * @param {string} extension - The extension of the file.
+ * @param {number} idParent - The ID of the parent folder.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File | null>} - A promise that resolves to the file if it exists, otherwise null.
+ * @throws {Error} - If an error occurs while checking for the file.
+ */
+export async function fileExists(
+    name: string,
+    extension: string,
+    idParent: number,
+    user_id: string,
+) {
     try {
         return await prisma.file.findFirst({
             where: {
@@ -150,11 +219,19 @@ export async function fileExists(name, extension, idParent, user_id) {
         });
     } catch (error) {
         console.error('Error finding file:', error);
-        throw new Error('Failed to finding file');
+        throw new Error('Failed to find file');
     }
 }
 
-export async function folderExists(name, idParent, user_id) {
+/**
+ * Check if a folder already exists in a specific folder for a user.
+ * @param {string} name - The name of the folder.
+ * @param {number} idParent - The ID of the parent folder.
+ * @param {string} user_id - The ID of the user.
+ * @returns {Promise<File | null>} - A promise that resolves to the folder if it exists, otherwise null.
+ * @throws {Error} - If an error occurs while checking for the folder.
+ */
+export async function folderExists(name: string, idParent: number, user_id: string) {
     try {
         return await prisma.file.findFirst({
             where: {
@@ -166,6 +243,6 @@ export async function folderExists(name, idParent, user_id) {
         });
     } catch (error) {
         console.error('Error finding folder:', error);
-        throw new Error('Failed to finding folder');
+        throw new Error('Failed to find folder');
     }
 }
