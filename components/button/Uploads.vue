@@ -131,8 +131,9 @@
         name_in_s3: '',
     });
 
-    function handleFileUpload(event) {
-        const file = event?.target?.files[0];
+    function handleFileUpload(event: Event) {
+        const element = event.target as HTMLInputElement;
+        const file = element?.files[0];
         if (file) {
             if (file.size > 1000000000) {
                 // 1.0GB - limited by array buffer

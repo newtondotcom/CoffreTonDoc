@@ -27,7 +27,7 @@ export async function createPresignedUrlUpload(uname: string) {
 
     const minioClient = new Client({
         endPoint: MINIO_ENDPOINT,
-        port: parseInt(MINIO_PORT),
+        port: MINIO_PORT,
         useSSL: MINIO_SSL,
         accessKey: MINIO_ACCESS_KEY,
         secretKey: MINIO_SECRET_KEY,
@@ -89,13 +89,13 @@ export async function deleteFile(name: string) {
 }
 
 export async function insertS3Server(
-    name: any,
-    endpoint: any,
-    port: any,
-    ssl: Boolean,
-    accessKey: any,
-    secretKey: any,
-    bucketName: any,
+    name: string,
+    endpoint: string,
+    port: number,
+    ssl: boolean,
+    accessKey: string,
+    secretKey: string,
+    bucketName: string,
 ) {
     await prisma.s3.create({
         data: {
