@@ -96,7 +96,6 @@
 
 <script setup lang="ts">
     interface UploadsProps {
-        createNewFileInside: Function;
         createNewFolderInside: Function;
         filteredFiles: Object;
         selectedFolder: Number;
@@ -119,10 +118,14 @@
     const dialogOpened = ref(false);
     const fileToUpload = ref<File | null>(null);
     const fileCreated = ref(false);
-    const uploadInfos = ref({
+    const uploadInfos = ref<{
+        id: number;
+        url: string;
+        name_in_s3: string;
+    }>({
         id: 0,
         url: '',
-        nameS3: '',
+        name_in_s3: '',
     });
 
     function handleFileUpload(event) {
@@ -189,22 +192,33 @@
 
     async function encryptAndUpload() {
         isLoading.value = true;
-        const result: string = await props.createNewFileInside(
-            props.selectedFolder,
-            fileName.value,
-            fileExtension.value,
-        );
-        if (result.includes(errorCodes.file_already_exists)) {
-            isLoading.value = false;
-            return;
-        }
         try {
             await fetchUploadInfos();
             const ethAddress = getAddValue();
             const data = await readFile(fileToUpload.value);
             const key = await deriveKeyFromEthAddress(ethAddress);
             const encryptedData: Uint8Array = await encryptFile(key, data);
+            console.log('Encrypted data:', encryptedData);
             await uploadFile(encryptedData);
+            const result: string = createNewFileInside(
+                props.selectedFolder,
+                fileName.value,
+                fileExtension.value,
+                fileToUpload.value.size,
+            );
+            if (result == errorCodes.file_already_exists) {
+                toast({
+                    title: t('file_exists'),
+                    description: t('file_exists_desc'),
+                    variant: 'destructive',
+                });
+            } else {
+                toast({
+                    title: t('success'),
+                    description: t('file_created'),
+                });
+            }
+            isLoading.value = false;
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred.');
@@ -212,5 +226,26 @@
             isLoading.value = false;
             dialogOpened.value = false;
         }
+    }
+
+    const files = defineModel('files');
+
+    async function createNewFileInside(id: Number, name: string, extension: string, size: number) {
+        if (files.value.find((file) => file.name === name)) {
+            return errorCodes.file_already_exists;
+        }
+        const newFile: File = {
+            id: uploadInfos.value.id,
+            name: name,
+            date: new Date().toISOString(),
+            isFolder: false,
+            extension: extension,
+            idParent: id,
+            size: 0,
+            statut: 'you',
+            name_in_s3: uploadInfos.value.name_in_s3,
+        };
+        files.value.push(newFile);
+        return errorCodes.success;
     }
 </script>
