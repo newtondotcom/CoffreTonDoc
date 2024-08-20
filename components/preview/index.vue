@@ -1,8 +1,5 @@
 <template>
-    <div
-        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50"
-        v-if="open"
-    >
+    <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <Card class="h-[90vh] w-[92vw]">
             <CardHeader>
                 <CardTitle>Message Edition</CardTitle>
@@ -40,9 +37,10 @@
         extension: string;
         name_in_s3: string;
         keyToDecrypt: string;
-        open: boolean;
     }
     const props = defineProps<PreviewProps>();
+
+    const open = defineModel('open');
 
     const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx', 'ag', 'ts', 'js', 'vue'];
     const fileSupported = ref(false);
