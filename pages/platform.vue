@@ -9,12 +9,7 @@
             />
             <div class="flex flex-row">
                 <ButtonNews :createNewFileInside :createNewFolderInside :selectedFolder />
-                <ButtonUploads
-                    :createNewFileInside
-                    :createNewFolderInside
-                    :filteredFiles
-                    :selectedFolder
-                />
+                <ButtonUploads :selectedFolder v-model:files="files" />
             </div>
         </div>
         <div
@@ -42,7 +37,7 @@
                             <span>{{ $t('no_files') }}</span>
                         </div>
                     </li>
-                    <ScrollArea v-else class="h-[70vh]">
+                    <ScrollArea v-else class="h-[75vh]">
                         <li
                             v-for="(file, index) in filteredFiles"
                             :key="index"
@@ -83,7 +78,6 @@
         }[]
     >([]);
     const fileLoading = ref(true);
-    const previewingFile = ref(false);
 
     const filteredFiles = computed(() => {
         return files.value.filter((file) => file.idParent === selectedFolder.value);
