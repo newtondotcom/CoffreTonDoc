@@ -4,13 +4,18 @@
         :extension="`test`"
         :name_in_s3="`test`"
         :keyToDecrypt="`test`"
-        :open="false"
+        :open="previewingFile"
     />
 
     <Dialog>
         <ContextMenu>
             <ContextMenuTrigger
                 class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between px-2.5 py-2 hover:bg-secondary"
+                @click="
+                    () => {
+                        console.log('click');
+                    }
+                "
             >
                 <IconsDate :date="file.date" />
                 <div class="flex w-[60%] flex-row items-center">
@@ -243,7 +248,7 @@
 
 <script setup lang="ts">
     interface EntityProps {
-        file: Object;
+        file: File;
         openItem: Function;
         createNewFileInside: Function;
         createNewFolderInside: Function;
@@ -265,6 +270,7 @@
     const uploadloading = ref(false);
     const fileLocal = ref(null);
     const fileValid = ref(false);
+    const previewingFile = ref(false);
 
     function setState(newState: string) {
         stateDialog.value = newState;
