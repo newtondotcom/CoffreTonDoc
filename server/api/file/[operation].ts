@@ -1,5 +1,11 @@
-import errorCodes, { setFail } from '~/utils/codes';
-import { createFile, fileExists, getFileById, replaceFile } from '~/server/data/files';
+import errorCodes, { setFail, setSuccess } from '~/utils/codes';
+import {
+    createFile,
+    createRecordFileToDelete,
+    fileExists,
+    getFileById,
+    replaceFile,
+} from '~/server/data/files';
 import {
     createPresignedUrlDownload,
     createPresignedUrlUpload,
@@ -63,12 +69,11 @@ async function replace(event: H3Event) {
     const fileId = body.fileId;
     const size = body.size;
     const file = await getFileById(fileId, user_id);
-    const uname: string = file.file_name_on_s3;
-    const urlUpload = await createPresignedUrlDownload(user_id, uname);
-    const id = await replaceFile(user_id, fileId, uname, size);
-    const idfinal = id.id;
+    const uname: string = file?.file_name_on_s3;
+    const urlUpload = await createPresignedUrlDownload(uname);
+    await replaceFile(user_id, fileId, size, uname);
     event.res.statusCode = 200;
-    return { idfinal, urlUpload };
+    return urlUpload;
 }
 
 async function upload(event: H3Event) {
@@ -82,9 +87,8 @@ async function upload(event: H3Event) {
     const uname = generateUniqueName();
     const url = await createPresignedUrlUpload(uname);
     const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
-    const idfinal = id.id;
     event.res.statusCode = 200;
-    return { idfinal, url, uname };
+    return { id, url, name_in_s3: uname };
 }
 
 async function download(event: H3Event) {
