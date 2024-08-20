@@ -1,7 +1,8 @@
-import { getFilesInFolder } from '~/server/data/files';
+import { createRecordFileToDelete, getFileById, getFilesInFolder } from '~/server/data/files';
 import errorCodes, { setSuccess, setFail } from '~/utils/codes';
-import { deleteFile, renameFile } from '~/server/data/files';
+import { renameFile } from '~/server/data/files';
 import { H3Event } from 'h3';
+import { deleteFile } from '~/server/data/s3';
 
 export default defineEventHandler(async (event: H3Event) => {
     const operation = getRouterParam(event, 'operation');
@@ -30,7 +31,12 @@ async function delete_(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;
-    await deleteFile(fileId, user_id);
+    const file = await getFileById(fileId, user_id);
+    if (!file.isFolder) {
+        await createRecordFileToDelete(fileId);
+        const uname = file.file_name_on_s3;
+        deleteFile(uname);
+    }
     return setSuccess(event, errorCodes.success);
 }
 
