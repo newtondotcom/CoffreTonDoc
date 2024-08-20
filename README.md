@@ -6,6 +6,9 @@ CoffreTonDoc is an online vault that includes client-side file encryption and co
 
 ## TODO LIST
 
+> This is a WIP
+
+-   Make the uncrypt working when download the file from s3
 -   Add screenshots to the README
 -   Optimize the arborescence loading
 -   Try to make the search work using [this awesome thing](https://github.com/tantaraio/voy)
