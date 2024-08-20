@@ -31,12 +31,10 @@
 </style>
 
 <script setup lang="ts">
-    const props = defineProps({
-        extension: {
-            type: String,
-            required: true,
-        },
-    });
+    interface ThumbnailProps {
+        extension: string;
+    }
+    const props = defineProps<ThumbnailProps>();
 
     import { iconMapping } from '~/utils/extensions';
 

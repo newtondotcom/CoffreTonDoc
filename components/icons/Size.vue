@@ -13,10 +13,8 @@
 </template>
 
 <script setup lang="ts">
-    defineProps({
-        size: {
-            type: Number,
-            required: true,
-        },
-    });
+    interface SizeProps {
+        size: Number;
+    }
+    const props = defineProps<SizeProps>();
 </script>

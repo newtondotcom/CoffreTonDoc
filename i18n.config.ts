@@ -81,7 +81,7 @@ export default defineI18nConfig(() => ({
             no_account: "Don't have an account?",
             already_account: 'Already have an account ?',
             account_created: "Account created successfully, now let's set up 2FA !",
-            success: 'Sucess,',
+            success: 'Sucess',
             missing_2fa_account: 'Missing 2FA code',
             twofa_already_enabled: '2FA is already enabled on your account !',
             no_files: "Looks like you don't have any files yet !",
@@ -109,6 +109,7 @@ export default defineI18nConfig(() => ({
             logout_success: 'Logout successful',
             login_error: 'Error while logging in',
             logout_error: 'Error while logging out',
+            file_created: 'File created successfully',
         },
         fr: {
             welcome: 'Welcome 👋',
@@ -193,6 +194,7 @@ export default defineI18nConfig(() => ({
             missing_2fa_account: 'Missing 2FA code',
             twofa_already_enabled: '2FA is already enabled on your account !',
             no_files: "Looks like you don't have any files yet !",
+            file_created: 'File created successfully',
             seed_phrase: 'Encryption phrase (save this carrefully !)',
             attention_seed:
                 'This phrase will be used to encrypt your datas to guarantee its unviolability !',

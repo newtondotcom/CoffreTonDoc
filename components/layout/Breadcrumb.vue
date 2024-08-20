@@ -1,6 +1,6 @@
 <template>
     <div
-        class="b-1 my-4 flex flex-row items-center justify-between rounded-xl border px-4 py-2 text-sm"
+        class="b-1 my-2 flex flex-row items-center justify-between rounded-xl border px-4 py-1 text-sm"
     >
         <!-- <span class="opacity-50">{{ $t('breadcrumb_path') }} :</span> -->
         <Breadcrumb class="ml-2">
