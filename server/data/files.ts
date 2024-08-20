@@ -1,6 +1,7 @@
 import { assert } from '@vueuse/core';
 import prisma from './prisma';
 import { File, AccessStatus } from '@prisma/client';
+import constants from '~/lib/constants';
 
 /**
  * Get all files within a folder for a specific user.
@@ -53,7 +54,7 @@ export async function getFileById(fileId: number, user_id: string): Promise<File
  * @param {AccessStatus} statut - The access status of the file.
  * @param {string} user_id - The ID of the user.
  * @param {string} name_on_s3 - The name of the file on S3.
- * @returns {Promise<File>} - A promise that resolves to the created file.
+ * @returns {Promise<number>} - A promise that resolves to the created file.
  * @throws {Error} - If an error occurs while creating the file.
  */
 export async function createFile(
@@ -64,9 +65,9 @@ export async function createFile(
     statut: AccessStatus,
     user_id: string,
     name_on_s3: string,
-): Promise<File> {
+): Promise<number> {
     try {
-        return await prisma.file.create({
+        const file = await prisma.file.create({
             data: {
                 name,
                 extension,
@@ -76,8 +77,10 @@ export async function createFile(
                 isFolder: false,
                 user_id: user_id,
                 file_name_on_s3: name_on_s3,
+                s3_server_name: constants.name_s3_vault,
             },
         });
+        return file.id;
     } catch (error) {
         console.error('Error creating file:', error);
         throw new Error('Failed to create file');
@@ -145,27 +148,6 @@ export async function renameFile(fileId: number, newName: string, user_id: strin
 }
 
 /**
- * Delete a file or folder.
- * @param {number} fileId - The ID of the file or folder to delete.
- * @param {string} user_id - The ID of the user.
- * @returns {Promise<File>} - A promise that resolves to the deleted file or folder.
- * @throws {Error} - If an error occurs while deleting the file or folder.
- */
-export async function deleteFile(fileId: number, user_id: string): Promise<File> {
-    try {
-        assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);
-        return await prisma.file.delete({
-            where: {
-                id: fileId,
-            },
-        });
-    } catch (error) {
-        console.error('Error deleting file/folder:', error);
-        throw new Error('Failed to delete file/folder');
-    }
-}
-
-/**
  * Replace a file's data by updating its associated S3 name and size.
  * @param {string} user_id - The ID of the user.
  * @param {number} fileId - The ID of the file to replace.
@@ -174,16 +156,22 @@ export async function deleteFile(fileId: number, user_id: string): Promise<File>
  * @returns {Promise<File>} - A promise that resolves to the updated file.
  * @throws {Error} - If an error occurs while replacing the file.
  */
-export async function replaceFile(user_id: string, fileId: number, uname: string, size: number) {
+export async function replaceFile(
+    user_id: string,
+    fileId: number,
+    size: number,
+    name_on_s3: string,
+) {
     try {
         assert(user_id == (await prisma.file.findUnique({ where: { id: fileId } })).user_id);
-        return await prisma.file.update({
+        await prisma.file.update({
             where: {
                 id: fileId,
             },
             data: {
-                file_name_on_s3: uname,
                 size: size,
+                date: new Date(),
+                file_name_on_s3: name_on_s3,
             },
         });
     } catch (error) {
@@ -244,5 +232,38 @@ export async function folderExists(name: string, idParent: number, user_id: stri
     } catch (error) {
         console.error('Error finding folder:', error);
         throw new Error('Failed to find folder');
+    }
+}
+
+export async function createRecordFileToDelete(fileId: number) {
+    try {
+        const file = await prisma.file.findUnique({ where: { id: fileId } });
+        await prisma.fileToDelete.create({
+            data: {
+                file_id: fileId,
+                file_name_on_s3: file?.file_name_on_s3,
+                s3_server_name: file?.s3_server_name,
+            },
+        });
+    } catch (error) {
+        console.error('Error creating record file to delete:', error);
+        throw new Error('Failed to create record file to delete');
+    }
+}
+
+export async function setFileRecordDeleted(name: string) {
+    const file = await prisma.fileToDelete.findFirst({ where: { file_name_on_s3: name } });
+    try {
+        await prisma.fileToDelete.update({
+            where: {
+                file_id: file.id,
+            },
+            data: {
+                deleted_at: new Date(),
+            },
+        });
+    } catch (error) {
+        console.error('Error setting file record deleted:', error);
+        throw new Error('Failed to set file record deleted');
     }
 }
