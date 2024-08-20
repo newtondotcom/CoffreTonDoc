@@ -1,61 +1,29 @@
 <template>
     <div class="p-4">
-        <!-- AlertDialog for Creating Folder -->
-        <AlertDialog>
-            <AlertDialogTrigger as-child>
-                <Button variant="secondary" class="mx-2" disabled><FolderUp /></Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle class="text-lg font-semibold">
-                        {{ $t('create_folder') }}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription class="text-sm text-gray-500">
-                        {{ $t('specify_names') }}
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
-                <div class="grid gap-4 py-4">
-                    <div class="grid grid-cols-4 items-center gap-4">
-                        <Label for="folder-name" class="my-2 text-right font-medium">
-                            {{ $t('folder_name') }}
-                        </Label>
-                        <Input id="folder-name" class="col-span-3" v-model="folderName" />
-                    </div>
-                    <div class="grid grid-cols-4 items-center gap-4">
-                        <div class="grid w-full max-w-sm items-center gap-1.5">
-                            <Label class="my-2" for="folder-picture">Folder</Label>
-                            <Input
-                                id="folder-picture"
-                                type="file"
-                                @change="handleFolderFileUpload"
-                                @keyup.enter="handleNewFolder"
-                            />
-                        </div>
-                    </div>
-                </div>
-                <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>
-                        <Button @click="handleNewFolder">{{ $t('create_folder') }}</Button>
-                    </AlertDialogAction>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+        <Button variant="secondary" class="mx-2" disabled><FolderUp /></Button>
+        <Button
+            variant="secondary"
+            class="mx-2"
+            @click="
+                () => {
+                    dialogOpened = true;
+                }
+            "
+        >
+            <FileUp />
+        </Button>
+    </div>
 
-        <!-- AlertDialog for Creating File -->
-        <AlertDialog>
-            <AlertDialogTrigger as-child>
-                <Button variant="secondary" class="mx-2"><FileUp /></Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent class="rounded-lg p-6 shadow-lg sm:max-w-[425px]">
-                <AlertDialogHeader>
-                    <AlertDialogTitle class="text-lg font-semibold">
-                        {{ $t('create_file') }}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription class="text-sm text-gray-500">
-                        {{ $t('specify_file_name') }}
-                    </AlertDialogDescription>
-                </AlertDialogHeader>
+    <div
+        class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-80"
+        v-if="dialogOpened"
+    >
+        <Card class="w-[350px]">
+            <CardHeader>
+                <CardTitle>{{ $t('create_file') }}</CardTitle>
+                <CardDescription>{{ $t('specify_file_name') }}</CardDescription>
+            </CardHeader>
+            <CardContent>
                 <div class="grid gap-4 py-4">
                     <div v-if="!fileSelected" class="grid w-full max-w-sm items-center gap-1.5">
                         <Label class="my-2" for="file-picture">File</Label>
@@ -84,42 +52,45 @@
                         />
                     </div>
                 </div>
-                <AlertDialogFooter>
-                    <Button v-if="!fileCreated" @click="encryptAndUpload">
-                        {{ $t('create_file') }}
-                        <div v-if="isLoading" class="ml-1 flex">
-                            <svg
-                                class="m-1 h-4 w-4 animate-spin"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    class="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    stroke-width="4"
-                                ></circle>
-                                <path
-                                    class="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                ></path>
-                            </svg>
-                        </div>
-                    </Button>
-                    <Button
-                        v-else
-                        class="bg-transparent hover:bg-transparent"
-                        @click="console.log('test')"
-                    >
-                        <AlertDialogAction>ok</AlertDialogAction>
-                    </Button>
-                </AlertDialogFooter>
-            </AlertDialogContent>
-        </AlertDialog>
+            </CardContent>
+            <CardFooter class="flex justify-between px-6 pb-6">
+                <Button
+                    variant="outline"
+                    @click="
+                        () => {
+                            dialogOpened = false;
+                        }
+                    "
+                >
+                    Cancel
+                </Button>
+                <Button type="button" @click="encryptAndUpload">
+                    {{ $t('create_file') }}
+                    <div v-if="isLoading" class="ml-1 flex">
+                        <svg
+                            class="m-1 h-4 w-4 animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                            ></circle>
+                            <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                            ></path>
+                        </svg>
+                    </div>
+                </Button>
+            </CardFooter>
+        </Card>
     </div>
 </template>
 
@@ -141,11 +112,11 @@
     import { AccessStatus } from '@prisma/client';
     import errorCodes from '~/utils/codes';
 
-    const folderName = ref('');
     const fileName = ref('');
     const fileExtension = ref('');
     const fileSelected = ref(false);
     const isLoading = ref(false);
+    const dialogOpened = ref(false);
     const fileToUpload = ref<File | null>(null);
     const fileCreated = ref(false);
     const uploadInfos = ref({
@@ -224,6 +195,7 @@
             fileExtension.value,
         );
         if (result.includes(errorCodes.file_already_exists)) {
+            isLoading.value = false;
             return;
         }
         try {
@@ -238,22 +210,7 @@
             alert('An error occurred.');
         } finally {
             isLoading.value = false;
+            dialogOpened.value = false;
         }
-    }
-
-    async function createNewFolderInside() {
-        if (!folderName.value) {
-            toast({
-                title: 'Please specify a folder name',
-                description: 'Folder name is required to create a new folder',
-                variant: 'destructive',
-            });
-            return;
-        }
-        props.createNewFolderInside(props.selectedFolder, folderName.value);
-    }
-
-    function handleFolderFileUpload(event) {
-        // Handle folder file upload if needed
     }
 </script>
