@@ -35,7 +35,6 @@ export function setSuccess(event: any, message: string) {
 
 export function setFail(event: any, message: string) {
     console.error(message);
-    //setResponseStatus(event, 401);
-    setResponseStatus(event, 300);
+    setResponseStatus(event, 300, message);
     return { message };
 }
