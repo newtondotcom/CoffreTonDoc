@@ -6,7 +6,6 @@ CoffreTonDoc is an online vault that includes client-side file encryption and co
 
 ## TODO LIST
 
--   Encrypt files before uploading to S3 using an Ethereum address (working in [test](pages/test2.vue) -> needs to be implemented)
 -   Add screenshots to the README
 -   Optimize the arborescence loading
 -   Try to make the search work using [this awesome thing](https://github.com/tantaraio/voy)
