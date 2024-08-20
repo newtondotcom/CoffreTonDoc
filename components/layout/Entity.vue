@@ -1,10 +1,11 @@
 <template>
     <Preview
-        :filename="`test`"
-        :extension="`test`"
-        :name_in_s3="`test`"
-        :keyToDecrypt="`test`"
-        :open="previewingFile"
+        v-if="previewingFile"
+        :filename="file.name"
+        :extension="file.extension"
+        :name_in_s3="file.name_in_s3"
+        :keyToDecrypt="keyToDecrypt"
+        v-model:open="previewingFile"
     />
 
     <Dialog>
@@ -204,8 +205,8 @@
                 </DialogDescription>
             </DialogHeader>
 
-            <div class="grid grid-cols-4 items-center gap-4">
-                <Label for="file-name" class="my-2 text-right font-medium">
+            <div class="grid w-full max-w-sm items-center gap-1.5">
+                <Label for="file-name" class="my-2 text-left font-medium">
                     {{ $t('file') }}
                 </Label>
                 <Input id="file-picture" type="file" @change="handleFileUpload" />
@@ -261,6 +262,8 @@
     const { toast } = useToast();
 
     import { allowedFileExtensions } from '~/utils/extensions';
+
+    const keyToDecrypt = getAddValue();
 
     const newName = ref('');
     const newFileName = ref('');
