@@ -35,28 +35,14 @@
 </template>
 
 <script setup lang="ts">
-    const props = defineProps({
-        filename: {
-            type: String,
-            required: true,
-        },
-        extension: {
-            type: String,
-            required: true,
-        },
-        name_in_s3: {
-            type: Boolean,
-            required: true,
-        },
-        keyToDecrypt: {
-            type: String,
-            required: true,
-        },
-        open: {
-            type: Boolean,
-            required: true,
-        },
-    });
+    interface PreviewProps {
+        filename: string;
+        extension: string;
+        name_in_s3: string;
+        keyToDecrypt: string;
+        open: boolean;
+    }
+    const props = defineProps<PreviewProps>();
 
     const supportedExtensions = ['docx', 'pdf', 'pptx', 'txt', 'xlsx', 'ag', 'ts', 'js', 'vue'];
     const fileSupported = ref(false);
