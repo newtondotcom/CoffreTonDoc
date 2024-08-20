@@ -18,6 +18,7 @@
         date: String;
     }
     const props = defineProps<DateProps>();
+    const { locale } = useI18n();
 
     import { formatDistanceToNow } from 'date-fns';
 </script>
