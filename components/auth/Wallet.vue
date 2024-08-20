@@ -1,8 +1,20 @@
 <template>
     <div>
-        <Button @click="connectWallet">Connect Wallet</Button>
-        <Button @click="signInWithEthereum">Sign In with Ethereum</Button>
-        <Button @click="getInformation">Get Information</Button>
+        <Button @click="signInWithEthereum">
+            <svg
+                role="img"
+                viewBox="0 0 24 24"
+                class="mr-1 h-4 w-4"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <title>Ethereum</title>
+                <path
+                    fill="currentColor"
+                    d="M11.944 17.97L4.58 13.62 11.943 24l7.37-10.38-7.372 4.35h.003zM12.056 0L4.69 12.223l7.365 4.354 7.365-4.35L12.056 0z"
+                />
+            </svg>
+            Sign In with Ethereum
+        </Button>
     </div>
 </template>
 
@@ -46,17 +58,6 @@
         return message.prepareMessage();
     }
 
-    function connectWallet() {
-        provider
-            .send('eth_requestAccounts', [])
-            .catch(() => console.log('user rejected request'))
-            .then((data) => console.log('connected', data));
-    }
-
-    function getAddress() {
-        provider.send('eth_accounts', []).then((data) => console.log('addresses', data.result[0]));
-    }
-
     async function signInWithEthereum() {
         const signer = await provider.getSigner();
 
@@ -93,12 +94,5 @@
             });
             console.log('failed');
         }
-    }
-
-    async function getInformation() {
-        const res = await $fetch(`/api/auth/personal_information`, {
-            credentials: 'include',
-        });
-        console.log(res);
     }
 </script>
