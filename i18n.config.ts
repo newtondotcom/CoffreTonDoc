@@ -110,6 +110,7 @@ export default defineI18nConfig(() => ({
             login_error: 'Error while logging in',
             logout_error: 'Error while logging out',
             file_created: 'File created successfully',
+            file: 'File',
         },
         fr: {
             welcome: 'Welcome 👋',
@@ -219,6 +220,7 @@ export default defineI18nConfig(() => ({
             logout_success: 'Logout successful',
             login_error: 'Error while logging in',
             logout_error: 'Error while logging out',
+            file: 'File',
         },
     },
 }));
