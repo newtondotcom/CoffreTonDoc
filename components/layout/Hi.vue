@@ -57,4 +57,11 @@
             description: t('logout_success'),
         });
     }
+
+    async function doubtAuth() {
+        const res = await $fetch(`/api/auth/personal_information`, {
+            credentials: 'include',
+        });
+        console.log(res);
+    }
 </script>
