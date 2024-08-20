@@ -45,3 +45,11 @@ model S3 {
   bucket      String
   name        String @id @default(cuid())
 }
+
+model fileToDelete {
+  file_id   Int @id
+  date      DateTime    @default(now())
+  file_name_on_s3 String
+  s3_server_name String
+  deleted_at DateTime?
+}
