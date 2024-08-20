@@ -1,6 +1,4 @@
 export default defineI18nConfig(() => ({
-    legacy: false,
-    locale: 'en',
     messages: {
         en: {
             welcome: 'Welcome 👋',
@@ -13,7 +11,7 @@ export default defineI18nConfig(() => ({
             extension: 'Extension 📋',
             list_date: 'Date 📅',
             list_name: 'Name 📝',
-            list_size: 'Size 📏',
+            list_size: 'Size',
             spotlight: 'Spotlight 🔍',
             my_files: 'My Files 📁',
             upload_create: 'Upload / Create ☁️',
@@ -113,7 +111,7 @@ export default defineI18nConfig(() => ({
             file: 'File',
         },
         fr: {
-            welcome: 'Welcome 👋',
+            welcome: 'HI Gyus 👋',
             specify_names: 'Specify the name of the new folder. 📂',
             create_folder: 'Create Folder 📁',
             folder_name: 'Folder Name 📁',
@@ -125,7 +123,7 @@ export default defineI18nConfig(() => ({
             list_name: 'Name 📝',
             list_size: 'Size 📏',
             spotlight: 'Spotlight 🔍',
-            my_files: 'My Files 📁',
+            my_files: 'Mes fichiers 📁',
             upload_create: 'Upload / Create ☁️',
             select: 'Select 👇',
             view: 'View 👁️',
