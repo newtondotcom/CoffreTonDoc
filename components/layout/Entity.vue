@@ -206,14 +206,14 @@
 
             <div class="grid grid-cols-4 items-center gap-4">
                 <Label for="file-name" class="my-2 text-right font-medium">
-                    {{ $t('file_name') }}
+                    {{ $t('file') }}
                 </Label>
                 <Input id="file-picture" type="file" @change="handleFileUpload" />
             </div>
 
             <DialogFooter>
                 <DialogClose as-child>
-                    <Button @click="replace(file.id)">
+                    <Button @click="replace()">
                         <div :disabled="fileValid || uploadloading" v-if="!uploadloading">
                             {{ $t('submit') }}
                         </div>
@@ -276,21 +276,37 @@
         stateDialog.value = newState;
     }
 
-    async function replace(file) {
+    async function replace() {
         uploadloading.value = true;
-        const { idfinal, urlUpload } = await $fetch('/api/file/replace', {
+        const urlUpload = await $fetch('/api/file/replace', {
             method: 'POST',
             body: {
                 fileId: props.file.id,
                 size: fileLocal.value.size,
             },
         });
-        // Upload file
+        console.log('urlUpload', urlUpload);
+
+        const ethAddress = getAddValue();
+        const data = await readFile(fileLocal.value);
+        const key = await deriveKeyFromEthAddress(ethAddress);
+        const encryptedData: Uint8Array = await encryptFile(key, data);
+        console.log('Encrypted data:', encryptedData);
+        await uploadFile(encryptedData, urlUpload);
+
+        files.value = files.value.map((f) => {
+            if (f.id === props.file.id) {
+                f.size = fileLocal.value.size;
+                f.date = new Date().toISOString();
+            }
+            return f;
+        });
         uploadloading.value = false;
     }
 
-    async function handleFileUpload(event) {
-        fileLocal.value = event.target.files[0];
+    async function handleFileUpload(event: Event) {
+        const element = event.target as HTMLInputElement;
+        fileLocal.value = element.files[0];
         if (fileLocal.value) {
             const fullName = fileLocal.value.name;
             const lastDot = fullName.lastIndexOf('.');

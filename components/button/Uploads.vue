@@ -175,24 +175,6 @@
         }
     }
 
-    async function uploadFile(dataToUpload: Uint8Array) {
-        if (uploadInfos.value.url === '') {
-            await fetchUploadInfos();
-        }
-        try {
-            const formData = new FormData();
-            formData.append('file', dataToUpload);
-            await fetch(uploadInfos.value.url, {
-                method: 'PUT',
-                body: formData,
-            });
-
-            fileCreated.value = true;
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        }
-    }
-
     async function encryptAndUpload() {
         isLoading.value = true;
         try {
@@ -202,7 +184,8 @@
             const key = await deriveKeyFromEthAddress(ethAddress);
             const encryptedData: Uint8Array = await encryptFile(key, data);
             console.log('Encrypted data:', encryptedData);
-            await uploadFile(encryptedData);
+            await uploadFile(encryptedData, uploadInfos.value.url);
+            fileCreated.value = true;
             const result: string = createNewFileInside(
                 props.selectedFolder,
                 fileName.value,
