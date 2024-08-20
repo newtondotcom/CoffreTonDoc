@@ -1,10 +1,23 @@
 <template>
-    <!-- Display the formatted date string -->
-    <span class="flex items-center justify-center">{{ new Date(date).toLocaleString() }}</span>
+    <TooltipProvider>
+        <Tooltip>
+            <TooltipTrigger as-child>
+                <Button variant="ghost">
+                    {{ formatDistanceToNow(new Date(date), { addSuffix: true }) }}
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>{{ new Date(date).toLocaleDateString() }}</p>
+            </TooltipContent>
+        </Tooltip>
+    </TooltipProvider>
 </template>
 
 <script setup lang="ts">
-    defineProps({
-        date: String,
-    });
+    interface DateProps {
+        date: String;
+    }
+    const props = defineProps<DateProps>();
+
+    import { formatDistanceToNow } from 'date-fns';
 </script>
