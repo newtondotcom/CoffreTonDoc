@@ -17,6 +17,11 @@
     <div
         class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-80"
         v-if="dialogOpened"
+        @keyup.esc="
+            () => {
+                dialogOpened = false;
+            }
+        "
     >
         <Card class="w-[350px]">
             <CardHeader>
