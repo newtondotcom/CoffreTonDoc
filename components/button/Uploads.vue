@@ -101,8 +101,6 @@
 
 <script setup lang="ts">
     interface UploadsProps {
-        createNewFolderInside: Function;
-        filteredFiles: Object;
         selectedFolder: Number;
     }
     const props = defineProps<UploadsProps>();
@@ -236,7 +234,7 @@
     const files = defineModel('files');
 
     async function createNewFileInside(id: Number, name: string, extension: string, size: number) {
-        if (files.value.find((file) => file.name === name)) {
+        if (files.value.find((file) => file.idParent == id && file.name === name)) {
             return errorCodes.file_already_exists;
         }
         const newFile: File = {
