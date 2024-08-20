@@ -97,7 +97,9 @@
             method: 'POST',
             body: JSON.stringify(body),
         });
-        files.value = data;
+        files.value = data.sort(
+            (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+        );
         fileLoading.value = false;
     }
 
