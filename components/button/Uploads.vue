@@ -136,7 +136,7 @@
         const file = element?.files[0];
         if (file) {
             if (file.size > 1000000000) {
-                // 1.0GB - limited by array buffer
+                // 1.0GB - limited by array buffer, so by memory
                 toast({
                     title: t('too_large'),
                     description: t('file_limit'),

@@ -1,3 +1,7 @@
+/**
+ * A collection of error codes used throughout the application.
+ * These codes represent various success and error states.
+ */
 const errorCodes = {
     success: 'SUCCESS',
     method_not_allowed: 'METHOD_NOT_ALLOWED',
@@ -28,12 +32,26 @@ const errorCodes = {
 
 export default errorCodes;
 
-export function setSuccess(event: any, message: string) {
+/**
+ * Sets a successful response status and returns a success message.
+ *
+ * @param {any} event - The event object representing the request.
+ * @param {string} message - The success message to return.
+ * @returns {{ message: string }} The response object containing the success message.
+ */
+export function setSuccess(event: any, message: string): { message: string } {
     setResponseStatus(event, 200);
     return { message };
 }
 
-export function setFail(event: any, message: string) {
+/**
+ * Sets a failure response status, logs the error, and returns an error message.
+ *
+ * @param {any} event - The event object representing the request.
+ * @param {string} message - The error message to return.
+ * @returns {{ message: string }} The response object containing the error message.
+ */
+export function setFail(event: any, message: string): { message: string } {
     console.error(message);
     setResponseStatus(event, 300, message);
     return { message };

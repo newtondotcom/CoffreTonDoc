@@ -3,7 +3,11 @@ import prisma from './prisma';
 import constants from '~/lib/constants';
 import { setFileRecordDeleted } from './files';
 
-export function generateUniqueName() {
+/**
+ * Generates a unique name based on the current timestamp and a random string.
+ * @returns {string} The generated unique name.
+ */
+export function generateUniqueName(): string {
     const date = new Date();
     const timestamp = date.getTime();
     const randomString = Math.random().toString(36).substring(2, 8);
@@ -11,83 +15,91 @@ export function generateUniqueName() {
     return uniqueName;
 }
 
-export async function createPresignedUrlUpload(uname: string) {
+/**
+ * Creates a presigned URL for uploading a file to MinIO.
+ * @param {string} uname - The unique name for the file to be uploaded.
+ * @returns {Promise<string>} The presigned URL for uploading the file.
+ */
+export async function createPresignedUrlUpload(uname: string): Promise<string> {
     const config = await prisma.s3.findUnique({
         where: {
             name: constants.name_s3_vault,
         },
     });
 
-    const MINIO_ENDPOINT = config.endpoint;
-    const MINIO_PORT = config.port;
-    const MINIO_ACCESS_KEY = config.access_key;
-    const MINIO_SECRET_KEY = config.secret_key;
-    const MINIO_SSL = config.ssl;
-    const bucketName = config.bucket;
-
     const minioClient = new Client({
-        endPoint: MINIO_ENDPOINT,
-        port: MINIO_PORT,
-        useSSL: MINIO_SSL,
-        accessKey: MINIO_ACCESS_KEY,
-        secretKey: MINIO_SECRET_KEY,
+        endPoint: config.endpoint,
+        port: config.port,
+        useSSL: config.ssl,
+        accessKey: config.access_key,
+        secretKey: config.secret_key,
     });
+
     const expiryInSeconds = 3600;
-    const url = await minioClient.presignedPutObject(bucketName, uname, expiryInSeconds);
+    const url = await minioClient.presignedPutObject(config.bucket, uname, expiryInSeconds);
     return url;
 }
 
-export async function createPresignedUrlDownload(objectName: any) {
-    console.log('objectName', objectName);
+/**
+ * Creates a presigned URL for downloading a file from MinIO.
+ * @param {string} objectName - The name of the object to be downloaded.
+ * @returns {Promise<string>} The presigned URL for downloading the file.
+ */
+export async function createPresignedUrlDownload(objectName: string): Promise<string> {
     const config = await prisma.s3.findUnique({
         where: {
             name: constants.name_s3_vault,
         },
     });
-    const MINIO_ENDPOINT = config.endpoint;
-    const MINIO_PORT = config.port;
-    const MINIO_ACCESS_KEY = config.access_key;
-    const MINIO_SECRET_KEY = config.secret_key;
-    const MINIO_SSL = config.ssl;
-    const bucketName = config.bucket;
 
     const minioClient = new Client({
-        endPoint: MINIO_ENDPOINT,
-        port: parseInt(MINIO_PORT),
-        useSSL: MINIO_SSL,
-        accessKey: MINIO_ACCESS_KEY,
-        secretKey: MINIO_SECRET_KEY,
+        endPoint: config.endpoint,
+        port: parseInt(config.port),
+        useSSL: config.ssl,
+        accessKey: config.access_key,
+        secretKey: config.secret_key,
     });
+
     const expiryInSeconds = 3600;
-    const url = await minioClient.presignedGetObject(bucketName, objectName, expiryInSeconds);
+    const url = await minioClient.presignedGetObject(config.bucket, objectName, expiryInSeconds);
     return url;
 }
 
-export async function deleteFile(name: string) {
+/**
+ * Deletes a file from MinIO and marks the file record as deleted in the database.
+ * @param {string} name - The name of the file to be deleted.
+ * @returns {Promise<void>}
+ */
+export async function deleteFile(name: string): Promise<void> {
     const config = await prisma.s3.findUnique({
         where: {
             name: constants.name_s3_vault,
         },
     });
-    const MINIO_ENDPOINT = config.endpoint;
-    const MINIO_PORT = config.port;
-    const MINIO_ACCESS_KEY = config.access_key;
-    const MINIO_SECRET_KEY = config.secret_key;
-    const MINIO_SSL = config.ssl;
-    const bucketName = config.bucket;
 
     const minioClient = new Client({
-        endPoint: MINIO_ENDPOINT,
-        port: MINIO_PORT,
-        useSSL: MINIO_SSL,
-        accessKey: MINIO_ACCESS_KEY,
-        secretKey: MINIO_SECRET_KEY,
+        endPoint: config.endpoint,
+        port: config.port,
+        useSSL: config.ssl,
+        accessKey: config.access_key,
+        secretKey: config.secret_key,
     });
 
-    await minioClient.removeObject(bucketName, name);
+    await minioClient.removeObject(config.bucket, name);
     await setFileRecordDeleted(name);
 }
 
+/**
+ * Inserts a new S3 server configuration into the database.
+ * @param {string} name - The name of the S3 server.
+ * @param {string} endpoint - The endpoint URL of the S3 server.
+ * @param {number} port - The port number for the S3 server.
+ * @param {boolean} ssl - Whether to use SSL for the S3 server.
+ * @param {string} accessKey - The access key for the S3 server.
+ * @param {string} secretKey - The secret key for the S3 server.
+ * @param {string} bucketName - The name of the bucket on the S3 server.
+ * @returns {Promise<void>}
+ */
 export async function insertS3Server(
     name: string,
     endpoint: string,
@@ -96,7 +108,7 @@ export async function insertS3Server(
     accessKey: string,
     secretKey: string,
     bucketName: string,
-) {
+): Promise<void> {
     await prisma.s3.create({
         data: {
             name: name,

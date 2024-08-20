@@ -235,7 +235,15 @@ export async function folderExists(name: string, idParent: number, user_id: stri
     }
 }
 
-export async function createRecordFileToDelete(fileId: number) {
+/**
+ * Creates a record of a file that needs to be deleted.
+ * The record includes the file ID, the file name on S3, and the S3 server name.
+ *
+ * @param {number} fileId - The ID of the file to be recorded for deletion.
+ * @returns {Promise<void>}
+ * @throws Will throw an error if the record creation fails.
+ */
+export async function createRecordFileToDelete(fileId: number): Promise<void> {
     try {
         const file = await prisma.file.findUnique({ where: { id: fileId } });
         await prisma.fileToDelete.create({
@@ -251,7 +259,14 @@ export async function createRecordFileToDelete(fileId: number) {
     }
 }
 
-export async function setFileRecordDeleted(name: string) {
+/**
+ * Marks a file record as deleted in the database by setting the `deleted_at` timestamp.
+ *
+ * @param {string} name - The name of the file on S3 to mark as deleted.
+ * @returns {Promise<void>}
+ * @throws Will throw an error if the update fails.
+ */
+export async function setFileRecordDeleted(name: string): Promise<void> {
     const file = await prisma.fileToDelete.findFirst({ where: { file_name_on_s3: name } });
     try {
         await prisma.fileToDelete.update({

@@ -44,7 +44,7 @@ async function create(event: H3Event) {
     const uname = generateUniqueName();
     const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
     event.res.statusCode = 200;
-    return id.id;
+    return id;
 }
 
 async function preview(event: H3Event) {
@@ -53,8 +53,7 @@ async function preview(event: H3Event) {
     const body = await readBody(event);
     const name_s3 = body.name_s3;
     const url = await createPresignedUrlDownload(name_s3);
-    event.res.statusCode = 200;
-    return { url };
+    return setSuccess(event, url);
 }
 
 async function replace(event: H3Event) {
@@ -66,8 +65,7 @@ async function replace(event: H3Event) {
     const uname: string = file?.file_name_on_s3;
     const urlUpload = await createPresignedUrlDownload(uname);
     await replaceFile(user_id, fileId, size, uname);
-    event.res.statusCode = 200;
-    return urlUpload;
+    return setSuccess(event, urlUpload);
 }
 
 async function upload(event: H3Event) {
@@ -92,6 +90,5 @@ async function download(event: H3Event) {
     const file = await getFileById(fileId, user_id);
     const name_s3 = file?.file_name_on_s3;
     const link = await createPresignedUrlDownload(name_s3);
-    event.res.statusCode = 200;
-    return link;
+    return setSuccess(event, link);
 }
