@@ -1,8 +1,9 @@
 import { getFilesInFolder } from '~/server/data/files';
 import errorCodes, { setSuccess, setFail } from '~/utils/codes';
 import { deleteFile, renameFile } from '~/server/data/files';
+import { H3Event } from 'h3';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: H3Event) => {
     const operation = getRouterParam(event, 'operation');
     switch (operation) {
         case 'arborescence':
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-async function arborescence(event) {
+async function arborescence(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;
@@ -25,7 +26,7 @@ async function arborescence(event) {
     return files;
 }
 
-async function delete_(event) {
+async function delete_(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;
@@ -33,7 +34,7 @@ async function delete_(event) {
     return setSuccess(event, errorCodes.success);
 }
 
-async function rename(event) {
+async function rename(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;

@@ -1,12 +1,13 @@
-import errorCodes, { setSuccess, setFail } from '~/utils/codes';
+import errorCodes, { setFail } from '~/utils/codes';
 import { createFile, fileExists, getFileById, replaceFile } from '~/server/data/files';
 import {
     createPresignedUrlDownload,
     createPresignedUrlUpload,
     generateUniqueName,
 } from '~/server/data/s3';
+import { H3Event } from 'h3';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: H3Event) => {
     const operation = getRouterParam(event, 'operation');
     try {
         switch (operation) {
@@ -28,7 +29,7 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-async function create(event) {
+async function create(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const name = body.name;
@@ -40,12 +41,13 @@ async function create(event) {
     if (exists) {
         return setFail(event, errorCodes.file_already_exists);
     }
-    const id = await createFile(name, extension, idParent, size, statut, user_id);
+    const uname = generateUniqueName();
+    const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
     event.res.statusCode = 200;
     return id.id;
 }
 
-async function preview(event) {
+async function preview(event: H3Event) {
     const user_id = event.context.user_id;
     // check for ownership
     const body = await readBody(event);
@@ -55,12 +57,13 @@ async function preview(event) {
     return { url };
 }
 
-async function replace(event) {
+async function replace(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;
     const size = body.size;
-    const uname = generateUniqueName();
+    const file = await getFileById(fileId, user_id);
+    const uname: string = file.file_name_on_s3;
     const urlUpload = await createPresignedUrlDownload(user_id, uname);
     const id = await replaceFile(user_id, fileId, uname, size);
     const idfinal = id.id;
@@ -68,7 +71,7 @@ async function replace(event) {
     return { idfinal, urlUpload };
 }
 
-async function upload(event) {
+async function upload(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const name = body.name;
@@ -76,16 +79,15 @@ async function upload(event) {
     const statut = body.statut;
     const size = body.size;
     const extension = body.extension;
-    const id = await createFile(name, extension, idParent, size, statut, user_id);
     const uname = generateUniqueName();
     const url = await createPresignedUrlUpload(uname);
-    const objectName = 'temp';
+    const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
     const idfinal = id.id;
     event.res.statusCode = 200;
-    return { idfinal, url, objectName };
+    return { idfinal, url, uname };
 }
 
-async function download(event) {
+async function download(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;

@@ -1,7 +1,8 @@
 import { createFolder, folderExists } from '~/server/data/files';
-import errorCodes, { setSuccess, setFail } from '~/utils/codes';
+import errorCodes, { setFail } from '~/utils/codes';
+import { H3Event } from 'h3';
 
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event: H3Event) => {
     const operation = getRouterParam(event, 'operation');
     switch (operation) {
         case 'create':
@@ -11,7 +12,7 @@ export default defineEventHandler(async (event) => {
     }
 });
 
-export async function create(event) {
+export async function create(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const name = body.name;
