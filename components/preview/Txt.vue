@@ -13,4 +13,6 @@
 
 <script setup lang="ts">
     const text = ref<string>('');
+
+    const props = defineProps<PreviewFileProps>();
 </script>

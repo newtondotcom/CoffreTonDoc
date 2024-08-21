@@ -6,6 +6,8 @@
     const url = 'https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx';
 
     // convert to pdf and display pdf
+
+    const props = defineProps<PreviewFileProps>();
 </script>
 
 <style scoped>
