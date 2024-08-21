@@ -25,7 +25,7 @@
                 </CardDescription>
             </CardHeader>
             <CardContent>
-                <AuthWallet />
+                <AuthEtherum />
             </CardContent>
         </Card>
     </div>
