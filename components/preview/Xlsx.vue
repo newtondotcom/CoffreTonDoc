@@ -9,6 +9,7 @@
 </template>
 
 <script setup lang="ts">
+    import type { PreviewFileProps } from '@/types/props';
     import VueOfficeExcel from '@vue-office/excel';
     const excel = 'http://static.shanhuxueyuan.com/demo/excel.xlsx'; // Set the Excel URL
 

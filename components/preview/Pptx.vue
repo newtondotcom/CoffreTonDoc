@@ -3,6 +3,7 @@
 </template>
 
 <script setup lang="ts">
+    import type { PreviewFileProps } from '@/types/props';
     const url = 'https://scholar.harvard.edu/files/torman_personal/files/samplepptx.pptx';
 
     // convert to pdf and display pdf

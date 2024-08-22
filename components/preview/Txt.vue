@@ -12,6 +12,7 @@
 </template>
 
 <script setup lang="ts">
+    import type { PreviewFileProps } from '@/types/props';
     const text = ref<string>('');
 
     const props = defineProps<PreviewFileProps>();
