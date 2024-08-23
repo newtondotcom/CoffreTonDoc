@@ -30,6 +30,7 @@
         "clsx": "^2.1.1",
         "crypto": "^1.0.1",
         "date-fns": "^3.6.0",
+        "filesize": "^10.1.4",
         "lucide-vue-next": "^0.383.0",
         "minio": "^8.0.1",
         "nuxt": "^3.12.3",
