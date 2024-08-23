@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
     interface SizeProps {
-        size: Number;
+        size: number;
     }
     const props = defineProps<SizeProps>();
     import { filesize } from 'filesize';
