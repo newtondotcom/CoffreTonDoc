@@ -26,7 +26,7 @@
                     </li>
                     <li
                         v-if="fileLoading"
-                        v-for="i in 10"
+                        v-for="i in 5"
                         class="mx-4 flex cursor-pointer flex-row justify-between px-4 py-2 text-center"
                     >
                         <Skeleton class="h-10 w-[100%]" />
