@@ -67,10 +67,10 @@ export async function deriveKeyFromEthAddress(ethAddress: string): Promise<Crypt
     const addressBytes = new TextEncoder().encode(normalizedAddress);
 
     // Hash the address using SHA-256 to derive a 256-bit key
-    const hashBuffer = await crypto.subtle.digest('SHA-256', addressBytes);
+    const hashBuffer = await window.crypto.subtle.digest('SHA-256', addressBytes);
 
     // Import the hash as a CryptoKey for AES-GCM encryption/decryption
-    const key = await crypto.subtle.importKey(
+    const key = await window.crypto.subtle.importKey(
         'raw',
         hashBuffer,
         { name: 'AES-GCM' },
@@ -91,7 +91,7 @@ export async function deriveKeyFromHashedAddress(hashedAddress: string): Promise
     const addressBytes = Uint8Array.from(Buffer.from(hashedAddress, 'hex'));
 
     // Import the hash as a CryptoKey for AES-GCM encryption/decryption
-    const key = await crypto.subtle.importKey(
+    const key = await window.crypto.subtle.importKey(
         'raw',
         addressBytes.buffer,
         { name: 'AES-GCM' },
