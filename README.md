@@ -8,10 +8,10 @@ CoffreTonDoc is an online vault that includes client-side file encryption and co
 
 > This is a WIP
 
--   Make the uncrypt working when download the file from s3
+-   Make the uncrypt working when download the file from s3 : for now, I can upload a crypted file to S3 but when i Download it back, it is not the same size, looks like Minio corrupts file ...
 -   Add screenshots to the README
--   Optimize the arborescence loading
--   Try to make the search work using [this awesome thing](https://github.com/tantaraio/voy)
+-   Optimize the arborescence loading by prefetching the next layer
+-   Try to make the search work using [this awesome thing](https://github.com/tantaraio/voy) or much simplier [this](https://github.com/krisk/Fuse)
 -   Enhance with TOTP?
 
 Feel free to reach out if you have any questions or need further assistance!
