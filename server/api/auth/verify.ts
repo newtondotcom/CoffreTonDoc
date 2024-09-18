@@ -39,14 +39,10 @@ export default defineEventHandler(async (event) => {
     } catch (e) {
         await session.clear();
         console.error(e);
-        switch (e) {
-            default: {
-                return {
-                    status: 500,
-                    body: { message: e.message },
-                };
-            }
-        }
+        return {
+            status: 500,
+            body: { message: e.message },
+        };
     }
 });
 
