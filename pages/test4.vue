@@ -19,16 +19,27 @@
         return true;
     };
 
+    function readFile(file: File): Promise<Uint8Array> {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(new Uint8Array(reader.result as ArrayBuffer));
+            reader.onerror = reject;
+            reader.readAsArrayBuffer(file);
+        });
+    }
+
     const up = async (event) => {
         const file = event.target.files[0];
         const ethAddress = getAddValue();
         const data = await readFile(file);
-        console.log('File read:', data.length);
+        console.log('File read:', data.length); // 1500066
+        /*
         const key = await deriveKeyFromEthAddress(ethAddress);
         encryptedData.value = await encryptFile(key, data);
         console.log('Encrypted data:', encryptedData.value.length);
         length.value = encryptedData.value.length;
-        await uploadFile(encryptedData, link);
+        */
+        await uploadFile(data, link);
         console.log('File uploaded');
         await dl();
     };
@@ -37,10 +48,12 @@
         const ethAddress = getAddValue();
         const key = await deriveKeyFromEthAddress(ethAddress);
         const fileFetch = await fetch(download);
-        const encryptedData: Uint8Array = new Uint8Array(await fileFetch.arrayBuffer());
-        console.log('Downloaded data:', encryptedData.length);
+        const data: Uint8Array = new Uint8Array(await fileFetch.arrayBuffer());
+        console.log('Downloaded data:', data.length); // 5300707
+        /*
         //console.log(arraysEqual(local, encryptedData.value));
         const decryptedData = await decryptFile(key, encryptedData);
         console.log('Decrypted data:', decryptedData.length);
+        */
     };
 </script>
