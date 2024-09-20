@@ -373,7 +373,7 @@
     }
 
     async function download(file) {
-        const url_download = await $fetch('/api/file/download', {
+        const base64File = await $fetch('/api/file/download', {
             method: 'POST',
             body: {
                 fileId: file.id,
@@ -386,19 +386,19 @@
                 variant: 'destructive',
             });
         });
-        const fileFetch = await fetch(url_download);
-        const encryptedData: Uint8Array = new Uint8Array(await fileFetch.arrayBuffer());
+        console.log('fileData', base64File);
+        const fileData: Uint8Array = base64ToUint8Array(base64File);
         const ethAddress = getAddValue();
         const key = await deriveKeyFromEthAddress(ethAddress);
-        console.log('start decrypting', encryptedData);
-        const decryptedData = await decryptFile(key, encryptedData);
+        console.log('start decrypting', file);
+        const decryptedData = await decryptFile(key, fileData);
         console.log('finish decrypting');
 
-        const blob = new Blob([decryptedData], { type: file.value.type });
+        const blob = new Blob([decryptedData], { type: file.extension });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = file.value.name;
+        a.download = file.name + '.' + file.extension;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

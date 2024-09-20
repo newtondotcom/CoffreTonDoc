@@ -87,5 +87,6 @@ async function download(event: H3Event) {
     const ref = await getFileById(fileId, user_id);
     const name_s3 = ref?.file_name_on_s3 || '';
     const file = await downloadFile(name_s3);
-    return setSuccess(event, file);
+    setResponseStatus(event, 200);
+    return file;
 }
