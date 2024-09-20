@@ -1,3 +1,3 @@
 export interface PreviewFileProps {
-    url: string;
+    blob: Blob;
 }

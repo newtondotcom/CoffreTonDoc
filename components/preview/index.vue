@@ -2,8 +2,10 @@
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
         <Card class="h-[90vh] w-[92vw]">
             <CardHeader>
-                <CardTitle>Message Edition</CardTitle>
-                <CardDescription>Deploy your new project in one-click.</CardDescription>
+                <CardTitle>Preview</CardTitle>
+                <CardDescription>
+                    Have a look at {{ props.file.name }}.{{ props.file.extension }}
+                </CardDescription>
             </CardHeader>
             <CardContent>
                 <PreviewNop v-if="!fileSupported" />
@@ -11,14 +13,14 @@
                     <div v-if="loading">Loading</div>
                     <div v-else>
                         <!--
-                <PreviewDocx v-if="extension == 'docx'" />
+                <PreviewDocx v-if="props.file.extension == 'docx'" />
                 -->
-                        <PreviewPdf v-if="extension == 'pdf'" />
-                        <PreviewPptx v-if="extension == 'pptx'" />
+                        <PreviewPdf v-if="props.file.extension == 'pdf'" :blob="fileBlob" />
+                        <PreviewPptx v-if="props.file.extension == 'pptx'" />
                         <!-- ko 
-                <PreviewTxt v-if="extension == 'txt' || extension == 'vue'" />
+                <PreviewTxt v-if="props.file.extension == 'txt' || props.file.extension == 'vue'" />
                 <!--
-                <PreviewXlsx v-if="extension == 'xlsx'" />
+                <PreviewXlsx v-if="props.file.extension == 'xlsx'" />
                 -->
                     </div>
                 </div>
@@ -33,12 +35,13 @@
 
 <script setup lang="ts">
     interface PreviewProps {
-        filename: string;
-        extension: string;
-        name_in_s3: string;
-        keyToDecrypt: string;
+        file: Object;
+        keyToDecrypt: CryptoKey;
     }
     const props = defineProps<PreviewProps>();
+
+    import { useToast } from '@/components/ui/toast/use-toast';
+    const { toast } = useToast();
 
     const open = defineModel('open');
 
@@ -47,26 +50,46 @@
 
     const loading = ref(true);
     const fileUrl = ref('');
+    const fileBlob = ref<Blob | null>(null);
 
     // need to decrypt
 
     async function getUrlToPreview() {
-        const url = await $fetch('/api/file/preview', {
-            body: JSON.stringify({ name_s3: props.name_in_s3 }),
+        // Download the file from the server
+        const base64File = await $fetch('/api/file/download', {
+            method: 'POST',
+            body: {
+                fileId: props.file.id,
+            },
+        }).catch((error) => {
+            console.error(error);
+            toast({
+                title: 'Error',
+                description: 'Error downloading file',
+                variant: 'destructive',
+            });
         });
-        if (url) {
-            // need to decrypt
-            fileUrl.value = url;
-        }
+        const fileData: Uint8Array = base64ToUint8Array(base64File);
+        const decryptedData = await decryptFile(props.keyToDecrypt, fileData);
+
+        // Download the file to the user's device
+        fileBlob.value = new Blob([decryptedData], { type: props.file.extension });
     }
 
-    if (supportedExtensions.includes(props.extension)) {
+    if (supportedExtensions.includes(props.file.extension)) {
         fileSupported.value = true;
     }
 
     onMounted(async () => {
         if (fileSupported.value) {
             await getUrlToPreview();
+            loading.value = false;
+        } else {
+            toast({
+                title: 'Error',
+                description: 'File type not supported',
+                variant: 'destructive',
+            });
             loading.value = false;
         }
     });
