@@ -130,13 +130,10 @@
         isLoading.value = true;
         try {
             const fileData = await readFile(fileToUpload.value);
-            console.log('File read:', fileData.length);
             const ethAddress = getAddValue();
-            const key = await deriveKeyFromEthAddress(ethAddress); // Ensure this function is defined and returns a valid value
-            const encryptedData: Uint8Array = await encryptFile(key, fileData); // Ensure this function is defined and returns a valid value
-            console.log('File read:', encryptedData.length);
+            const key = await deriveKeyFromEthAddress(ethAddress);
+            const encryptedData: Uint8Array = await encryptFile(key, fileData);
             const base64String = uint8ArrayToBase64(encryptedData);
-            // Query for the presigned URL
             const data = await $fetch('/api/file/upload', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -151,7 +148,6 @@
                     'Content-Type': 'application/json',
                 },
             });
-            console.log('Data:', data);
             id.value = data.id;
             name_in_s3.value = data.name_in_s3;
             await createNewFileInside(

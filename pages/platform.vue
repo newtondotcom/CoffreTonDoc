@@ -164,15 +164,15 @@
         });
         if (data.message == errorCodes.file_already_exists) {
             toast({
-                title: 'Error',
-                description: 'A file with the same name already exists',
+                title: t('file_exists'),
+                description: t('file_exists_desc'),
                 variant: 'destructive',
             });
             return errorCodes.file_already_exists;
         }
         toast({
-            title: 'Success',
-            description: 'File created successfully',
+            title: t('success'),
+            description: t('file_created'),
         });
         const newFile: File = {
             id: data,
