@@ -1,4 +1,6 @@
 <template>
+    <Preview v-if="previewingFile" :file="previewedFile" :keyToDecrypt="key" />
+
     <div class="flex w-[85%] flex-col">
         <LayoutTop />
         <div class="z-1 flex flex-row justify-between px-2 pl-8">
@@ -53,7 +55,6 @@
                             />
                             <Separator />
                         </li>
-                        <Separator />
                     </ScrollArea>
                 </ul>
             </div>
@@ -68,6 +69,8 @@
 
     import { useToast } from '@/components/ui/toast/use-toast';
     const { toast } = useToast();
+    const previewingFile = ref(false);
+    const previewedFile = ref(null);
 
     const files = ref<File[]>([]);
     const selectedFolder = ref<number>(-1);
@@ -78,6 +81,9 @@
         }[]
     >([]);
     const fileLoading = ref(true);
+
+    const ethAddress = getAddValue();
+    const key = await deriveKeyFromEthAddress(ethAddress);
 
     const filteredFiles = computed(() => {
         return files.value
@@ -146,7 +152,8 @@
         if (file.isFolder) {
             selectedFolder.value = file.id;
         } else {
-            console.log('Opening file:', file);
+            previewedFile.value = file;
+            previewingFile.value = true;
         }
     }
 

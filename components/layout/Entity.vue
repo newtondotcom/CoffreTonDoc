@@ -1,22 +1,9 @@
 <template>
-    <Preview
-        v-if="previewingFile"
-        :filename="file.name"
-        :extension="file.extension"
-        :name_in_s3="file.name_in_s3"
-        :keyToDecrypt="keyToDecrypt"
-        v-model:open="previewingFile"
-    />
-
     <Dialog v-model:open="dialogOpened">
         <ContextMenu>
             <ContextMenuTrigger
                 class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between px-2.5 py-2 hover:bg-secondary"
-                @click="
-                    () => {
-                        console.log('click');
-                    }
-                "
+                @click="() => {}"
             >
                 <span class="min-w-[15%]"><IconsDate :date="file.date" /></span>
                 <div class="flex min-w-[60%] flex-row items-center">
@@ -254,7 +241,8 @@
 
     import { allowedFileExtensions } from '~/utils/extensions';
 
-    const keyToDecrypt = getAddValue();
+    const ethAddress = getAddValue();
+    const key = deriveKeyFromEthAddress(ethAddress);
 
     const newName = ref('');
     const newFileName = ref('');
@@ -264,7 +252,6 @@
     const uploadloading = ref(false);
     const fileLocal = ref(null);
     const fileValid = ref(false);
-    const previewingFile = ref(false);
 
     function setState(newState: string) {
         stateDialog.value = newState;
@@ -273,8 +260,6 @@
     async function replace() {
         uploadloading.value = true;
         const fileData = await readFile(fileLocal.value);
-        const ethAddress = getAddValue();
-        const key = await deriveKeyFromEthAddress(ethAddress);
         const encryptedData: Uint8Array = await encryptFile(key, fileData);
         const base64String = uint8ArrayToBase64(encryptedData);
         const urlUpload = await $fetch('/api/file/replace', {
@@ -380,8 +365,6 @@
             });
         });
         const fileData: Uint8Array = base64ToUint8Array(base64File);
-        const ethAddress = getAddValue();
-        const key = await deriveKeyFromEthAddress(ethAddress);
         const decryptedData = await decryptFile(key, fileData);
 
         // Download the file to the user's device
