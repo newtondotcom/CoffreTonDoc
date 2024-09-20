@@ -1,10 +1,11 @@
-import { defineEventHandler } from 'h3';
-import prisma from '../data/prisma';
-import { createPresignedUrlDownload, createPresignedUrlUpload } from '../data/s3';
+import { defineEventHandler, readBody } from 'h3';
+import { downloadFile, uploadFile } from '../data/s3';
 
 export default defineEventHandler(async (event) => {
-    const objectName = 'test';
-    const link = await createPresignedUrlUpload(objectName);
-    const download = await createPresignedUrlDownload(objectName);
-    return { link, download };
+    const body = await readBody(event);
+    const base64File = body.file;
+
+    await uploadFile(base64File, 'test');
+    const file = await downloadFile('test');
+    return file;
 });

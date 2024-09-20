@@ -2,6 +2,8 @@ import { Client } from 'minio';
 import prisma from './prisma';
 import constants from '~/lib/constants';
 import { setFileRecordDeleted } from './files';
+import { Readable } from 'stream';
+import { base64ToUint8Array, uint8ArrayToBase64 } from '~/utils/crypto';
 
 /**
  * Generates a unique name based on the current timestamp and a random string.
@@ -120,4 +122,72 @@ export async function insertS3Server(
             ssl: ssl,
         },
     });
+}
+
+export async function uploadFile(base64File: string, name: string) {
+    const file: Uint8Array = base64ToUint8Array(base64File);
+
+    const config = await prisma.s3.findUnique({
+        where: {
+            name: constants.name_s3_vault,
+        },
+    });
+
+    const minioClient = new Client({
+        endPoint: config.endpoint,
+        port: config.port,
+        useSSL: config.ssl,
+        accessKey: config.access_key,
+        secretKey: config.secret_key,
+    });
+
+    // Create a readable stream from the Uint8Array
+    const stream = new Readable();
+    stream.push(Buffer.from(file));
+    stream.push(null);
+
+    // Upload the file to MinIO
+    await minioClient.putObject(config.bucket, name, stream, file.length);
+    console.log('File uploaded successfully.');
+}
+
+export async function downloadFile(name: string) {
+    const config = await prisma.s3.findUnique({
+        where: {
+            name: constants.name_s3_vault,
+        },
+    });
+
+    const minioClient = new Client({
+        endPoint: config.endpoint,
+        port: config.port,
+        useSSL: config.ssl,
+        accessKey: config.access_key,
+        secretKey: config.secret_key,
+    });
+
+    let returnFile = '';
+    const dataStream = await minioClient.getObject(config.bucket, name);
+    let size = 0;
+    const chunks: string[] = [];
+
+    dataStream.on('data', function (chunk) {
+        size += chunk.length;
+        chunks.push(chunk);
+    });
+
+    await new Promise((resolve, reject) => {
+        dataStream.on('end', function () {
+            console.log('End. Total size = ' + size);
+            const buffer = Buffer.concat(chunks);
+            returnFile = uint8ArrayToBase64(new Uint8Array(buffer));
+            resolve();
+        });
+
+        dataStream.on('error', function (err) {
+            console.log('Error downloading file:', err);
+            reject(err);
+        });
+    });
+    return returnFile;
 }
