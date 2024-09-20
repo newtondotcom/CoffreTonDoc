@@ -15,7 +15,8 @@ export async function getFilesInFolder(folderId: number, user_id: string): Promi
         return await prisma.file.findMany({
             where: {
                 idParent: folderId,
-                user_id: user_id, // Filter by user_id
+                user_id: user_id,
+                deleted_at: null,
             },
         });
     } catch (error) {
@@ -246,6 +247,14 @@ export async function folderExists(name: string, idParent: number, user_id: stri
 export async function createRecordFileToDelete(fileId: number): Promise<void> {
     try {
         const file = await prisma.file.findUnique({ where: { id: fileId } });
+        await prisma.file.update({
+            where: {
+                id: fileId,
+            },
+            data: {
+                deleted_at: new Date(),
+            },
+        });
         await prisma.fileToDelete.create({
             data: {
                 file_id: fileId,
