@@ -8,7 +8,7 @@
         v-model:open="previewingFile"
     />
 
-    <Dialog>
+    <Dialog v-model:open="dialogOpened">
         <ContextMenu>
             <ContextMenuTrigger
                 class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between px-2.5 py-2 hover:bg-secondary"
@@ -115,11 +115,9 @@
                 </div>
             </div>
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="handleNewFileInside">
-                        {{ $t('create') }}
-                    </Button>
-                </DialogClose>
+                <Button @click="handleNewFileInside">
+                    {{ $t('create') }}
+                </Button>
             </DialogFooter>
         </DialogContent>
 
@@ -144,11 +142,9 @@
                 </div>
             </div>
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="handleNewFolderInside">
-                        {{ $t('create') }}
-                    </Button>
-                </DialogClose>
+                <Button @click="handleNewFolderInside">
+                    {{ $t('create') }}
+                </Button>
             </DialogFooter>
         </DialogContent>
 
@@ -173,11 +169,9 @@
                 </div>
             </div>
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="handleFileRename">
-                        {{ $t('save_changes') }}
-                    </Button>
-                </DialogClose>
+                <Button @click="handleFileRename">
+                    {{ $t('save_changes') }}
+                </Button>
             </DialogFooter>
         </DialogContent>
 
@@ -189,11 +183,9 @@
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="deleteItem(file.id)">
-                        {{ $t('delete') }}
-                    </Button>
-                </DialogClose>
+                <Button @click="deleteItem(file.id)">
+                    {{ $t('delete') }}
+                </Button>
             </DialogFooter>
         </DialogContent>
 
@@ -213,35 +205,33 @@
             </div>
 
             <DialogFooter>
-                <DialogClose as-child>
-                    <Button @click="replace()">
-                        <div :disabled="fileValid || uploadloading" v-if="!uploadloading">
-                            {{ $t('submit') }}
-                        </div>
-                        <div v-else class="ml-1 flex">
-                            <svg
-                                class="m-1 h-4 w-4 animate-spin"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <circle
-                                    class="opacity-25"
-                                    cx="12"
-                                    cy="12"
-                                    r="10"
-                                    stroke="currentColor"
-                                    stroke-width="4"
-                                ></circle>
-                                <path
-                                    class="opacity-75"
-                                    fill="currentColor"
-                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                                ></path>
-                            </svg>
-                        </div>
-                    </Button>
-                </DialogClose>
+                <Button @click="replace()">
+                    <div :disabled="fileValid || uploadloading" v-if="!uploadloading">
+                        {{ $t('submit') }}
+                    </div>
+                    <div v-else class="ml-1 flex">
+                        <svg
+                            class="m-1 h-4 w-4 animate-spin"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                        >
+                            <circle
+                                class="opacity-25"
+                                cx="12"
+                                cy="12"
+                                r="10"
+                                stroke="currentColor"
+                                stroke-width="4"
+                            ></circle>
+                            <path
+                                class="opacity-75"
+                                fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                            ></path>
+                        </svg>
+                    </div>
+                </Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
@@ -256,6 +246,7 @@
     }
     const props = defineProps<EntityProps>();
     const files = defineModel('files', { required: true });
+    const dialogOpened = ref(false);
 
     import { useToast } from '@/components/ui/toast/use-toast';
     import errorCodes from '~/utils/codes';
@@ -281,21 +272,19 @@
 
     async function replace() {
         uploadloading.value = true;
+        const fileData = await readFile(fileLocal.value);
+        const ethAddress = getAddValue();
+        const key = await deriveKeyFromEthAddress(ethAddress);
+        const encryptedData: Uint8Array = await encryptFile(key, fileData);
+        const base64String = uint8ArrayToBase64(encryptedData);
         const urlUpload = await $fetch('/api/file/replace', {
             method: 'POST',
             body: {
                 fileId: props.file.id,
                 size: fileLocal.value.size,
+                file: base64String,
             },
         });
-        console.log('urlUpload', urlUpload);
-
-        const ethAddress = getAddValue();
-        const data = await readFile(fileLocal.value);
-        const key = await deriveKeyFromEthAddress(ethAddress);
-        const encryptedData: Uint8Array = await encryptFile(key, data);
-        console.log('Encrypted data:', encryptedData);
-        await uploadFile(encryptedData, urlUpload);
 
         files.value = files.value.map((f) => {
             if (f.id === props.file.id) {
@@ -305,6 +294,7 @@
             return f;
         });
         uploadloading.value = false;
+        dialogOpened.value = false;
     }
 
     async function handleFileUpload(event: Event) {
@@ -346,6 +336,7 @@
             return;
         }
         props.createNewFileInside(props.file.id, newFileName.value, newFileExtension.value);
+        dialogOpened.value = false;
     }
 
     async function handleNewFolderInside() {
@@ -358,6 +349,7 @@
             return;
         }
         props.createNewFolderInside(props.file.id, newFolderName.value);
+        dialogOpened.value = false;
     }
 
     async function handleFileRename() {
@@ -373,6 +365,7 @@
     }
 
     async function download(file) {
+        // Download the file from the server
         const base64File = await $fetch('/api/file/download', {
             method: 'POST',
             body: {
@@ -386,14 +379,12 @@
                 variant: 'destructive',
             });
         });
-        console.log('fileData', base64File);
         const fileData: Uint8Array = base64ToUint8Array(base64File);
         const ethAddress = getAddValue();
         const key = await deriveKeyFromEthAddress(ethAddress);
-        console.log('start decrypting', file);
         const decryptedData = await decryptFile(key, fileData);
-        console.log('finish decrypting');
 
+        // Download the file to the user's device
         const blob = new Blob([decryptedData], { type: file.extension });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -403,6 +394,7 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
+        dialogOpened.value = false;
     }
 
     async function deleteItem(fileId: string) {
@@ -426,6 +418,7 @@
             title: 'Success',
             description: 'File deleted successfully',
         });
+        dialogOpened.value = false;
     }
 
     async function renameFile(fileId: string, newName: string) {
@@ -455,5 +448,6 @@
             title: 'Success',
             description: 'File renamed successfully',
         });
+        dialogOpened.value = false;
     }
 </script>
