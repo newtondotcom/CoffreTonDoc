@@ -80,7 +80,9 @@
     const fileLoading = ref(true);
 
     const filteredFiles = computed(() => {
-        return files.value.filter((file) => file.idParent === selectedFolder.value);
+        return files.value
+            .filter((file) => file.idParent === selectedFolder.value)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
     });
 
     watch(selectedFolder, (newFolder) => {

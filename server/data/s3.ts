@@ -178,7 +178,6 @@ export async function downloadFile(name: string) {
 
     await new Promise((resolve, reject) => {
         dataStream.on('end', function () {
-            console.log('End. Total size = ' + size);
             const buffer = Buffer.concat(chunks);
             returnFile = uint8ArrayToBase64(new Uint8Array(buffer));
             resolve();

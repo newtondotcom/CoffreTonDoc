@@ -154,12 +154,7 @@
             });
             id.value = data.id;
             name_in_s3.value = data.name_in_s3;
-            await createNewFileInside(
-                props.selectedFolder,
-                fileName.value,
-                fileExtension.value,
-                fileToUpload.value.size,
-            );
+            await createNewFileInside(fileName.value, fileExtension.value, fileToUpload.value.size);
             fileCreated.value = true;
             isLoading.value = false;
         } catch (error) {
@@ -172,7 +167,7 @@
 
     const files = defineModel('files');
 
-    async function createNewFileInside(id: Number, name: string, extension: string, size: number) {
+    async function createNewFileInside(name: string, extension: string, size: number) {
         if (files.value.find((file) => file.idParent == id && file.name === name)) {
             toast({
                 title: t('file_exists'),
@@ -186,8 +181,8 @@
             date: new Date().toISOString(),
             isFolder: false,
             extension: extension,
-            idParent: id,
-            size: 0,
+            idParent: props.selectedFolder,
+            size: size,
             statut: 'you',
             name_in_s3: name_in_s3.value,
         };
