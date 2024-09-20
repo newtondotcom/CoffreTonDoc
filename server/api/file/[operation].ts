@@ -9,8 +9,6 @@ export default defineEventHandler(async (event: H3Event) => {
         switch (operation) {
             case 'create':
                 return create(event);
-            case 'preview':
-                return preview(event);
             case 'replace':
                 return replace(event);
             case 'upload':
@@ -40,15 +38,6 @@ async function create(event: H3Event) {
     const uname = generateUniqueName();
     const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
     return setSuccess(event, id.toString());
-}
-
-async function preview(event: H3Event) {
-    const user_id = event.context.user_id;
-    // check for ownership
-    const body = await readBody(event);
-    const name_s3 = body.name_s3;
-    const file = await downloadFile(name_s3);
-    return setSuccess(event, file);
 }
 
 async function replace(event: H3Event) {
