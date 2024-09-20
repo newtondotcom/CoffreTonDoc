@@ -54,7 +54,7 @@ async function preview(event: H3Event) {
 async function replace(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
-    const fileId = body.fileId;
+    const fileId = parseInt(body.fileId);
     const size = body.size;
     const file = body.file;
     const ref = await getFileById(fileId, user_id);
@@ -83,7 +83,7 @@ async function upload(event: H3Event) {
 async function download(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
-    const fileId = body.fileId;
+    const fileId = parseInt(body.fileId);
     const ref = await getFileById(fileId, user_id);
     const name_s3 = ref?.file_name_on_s3 || '';
     const file = await downloadFile(name_s3);

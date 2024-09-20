@@ -30,7 +30,7 @@ async function arborescence(event: H3Event) {
 async function delete_(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
-    const fileId = body.fileId;
+    const fileId = parseInt(body.fileId);
     const file = await getFileById(fileId, user_id);
     if (!file.isFolder) {
         await createRecordFileToDelete(fileId);
