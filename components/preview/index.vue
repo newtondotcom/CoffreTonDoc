@@ -1,6 +1,6 @@
 <template>
     <div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
-        <Card class="h-[90vh] w-[92vw]">
+        <Card>
             <CardHeader>
                 <CardTitle>Preview</CardTitle>
                 <CardDescription>
@@ -26,8 +26,7 @@
                 </div>
             </CardContent>
             <CardFooter class="flex justify-between px-6 pb-6">
-                <Button variant="outline">Cancel</Button>
-                <Button type="button" class="ml-1" size="sm">Send</Button>
+                <Button variant="outline" @click="close">Cancel</Button>
             </CardFooter>
         </Card>
     </div>
@@ -37,6 +36,7 @@
     interface PreviewProps {
         file: Object;
         keyToDecrypt: CryptoKey;
+        close: () => void;
     }
     const props = defineProps<PreviewProps>();
 
