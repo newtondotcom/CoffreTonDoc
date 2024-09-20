@@ -1,5 +1,10 @@
 <template>
-    <Preview v-if="previewingFile" :file="previewedFile" :keyToDecrypt="key" />
+    <Preview
+        v-if="previewingFile"
+        :file="previewedFile"
+        :keyToDecrypt="key"
+        :close="closePreview"
+    />
 
     <div class="flex w-[85%] flex-col">
         <LayoutTop />
@@ -117,6 +122,10 @@
 
     function navigateToFolder(folderId: number) {
         selectedFolder.value = folderId;
+    }
+
+    function closePreview() {
+        previewingFile.value = false;
     }
 
     function updateBreadcrumb(folderId: number) {

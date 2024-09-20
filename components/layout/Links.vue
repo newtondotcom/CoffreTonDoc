@@ -17,7 +17,7 @@
                 <Badge
                     class="ml-auto flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-secondary"
                 >
-                    6
+                    <!-- 6 -->
                 </Badge>
             </NuxtLink>
         </div>
