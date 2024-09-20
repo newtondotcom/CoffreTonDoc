@@ -18,8 +18,8 @@
                     }
                 "
             >
-                <IconsDate :date="file.date" />
-                <div class="flex w-[60%] flex-row items-center">
+                <span class="min-w-[15%]"><IconsDate :date="file.date" /></span>
+                <div class="flex min-w-[60%] flex-row items-center">
                     <div class="relative w-16 shrink-0">
                         <IconsFolder v-if="file.isFolder" />
                         <IconsThumbnail :extension="file.extension" v-else />
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <IconsSize :size="file.size" />
+                <span class="min-w-[15%]"><IconsSize :size="file.size" /></span>
                 <!--
                 <IconsStatut :statut="file.statut" />
                 -->

@@ -58,7 +58,7 @@
                     </div>
                 </div>
             </CardContent>
-            <CardFooter class="flex justify-between px-6 pb-6">
+            <CardFooter class="flex justify-between space-x-8 px-6 pb-6">
                 <Button
                     variant="outline"
                     @click="
@@ -127,6 +127,10 @@
     }
 
     async function uploadFileAndInfos() {
+        if (!fileToUpload.value) {
+            dialogOpened.value = false;
+            return;
+        }
         isLoading.value = true;
         try {
             const fileData = await readFile(fileToUpload.value);

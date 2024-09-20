@@ -20,9 +20,9 @@
                     <li
                         class="mx-4 flex cursor-pointer flex-row justify-between px-4 py-2 text-center"
                     >
-                        <span>{{ $t('list_date') }}</span>
-                        <span class="w-[60%]">{{ $t('list_name') }}</span>
-                        <span>{{ $t('list_size') }}</span>
+                        <span class="min-w-[15%]">{{ $t('list_date') }}</span>
+                        <span class="min-w-[60%]">{{ $t('list_name') }}</span>
+                        <span class="min-w-[15%]">{{ $t('list_size') }}</span>
                     </li>
                     <li
                         v-if="fileLoading"

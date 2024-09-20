@@ -1,5 +1,5 @@
 <template>
-    <span class="flex h-auto w-20 items-center justify-center text-center">
+    <span class="flex h-auto w-full items-center justify-center text-center">
         {{ formatted }}
     </span>
 </template>
