@@ -42,7 +42,7 @@
                             id="file-name"
                             class="col-span-3"
                             v-model="fileName"
-                            @keyup.enter="encryptAndUpload"
+                            @keyup.enter="uploadFileAndInfos"
                         />
                     </div>
                     <div v-if="fileSelected" class="grid grid-cols-4 items-center gap-4">
@@ -69,31 +69,11 @@
                 >
                     Cancel
                 </Button>
-                <Button type="button" @click="encryptAndUpload">
-                    {{ $t('create_file') }}
-                    <div v-if="isLoading" class="ml-1 flex">
-                        <svg
-                            class="m-1 h-4 w-4 animate-spin"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                        >
-                            <circle
-                                class="opacity-25"
-                                cx="12"
-                                cy="12"
-                                r="10"
-                                stroke="currentColor"
-                                stroke-width="4"
-                            ></circle>
-                            <path
-                                class="opacity-75"
-                                fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                            ></path>
-                        </svg>
-                    </div>
-                </Button>
+                <ButtonLoading
+                    :loading="isLoading"
+                    :text="t('create_file')"
+                    :execute="uploadFileAndInfos"
+                />
             </CardFooter>
         </Card>
     </div>
@@ -121,15 +101,8 @@
     const dialogOpened = ref(false);
     const fileToUpload = ref<File | null>(null);
     const fileCreated = ref(false);
-    const uploadInfos = ref<{
-        id: number;
-        url: string;
-        name_in_s3: string;
-    }>({
-        id: 0,
-        url: '',
-        name_in_s3: '',
-    });
+    const id = ref(-1);
+    const name_in_s3 = ref('');
 
     function handleFileUpload(event: Event) {
         const element = event.target as HTMLInputElement;
@@ -153,8 +126,16 @@
         }
     }
 
-    async function fetchUploadInfos() {
+    async function uploadFileAndInfos() {
+        isLoading.value = true;
         try {
+            const fileData = await readFile(fileToUpload.value);
+            console.log('File read:', fileData.length);
+            const ethAddress = getAddValue();
+            const key = await deriveKeyFromEthAddress(ethAddress); // Ensure this function is defined and returns a valid value
+            const encryptedData: Uint8Array = await encryptFile(key, fileData); // Ensure this function is defined and returns a valid value
+            console.log('File read:', encryptedData.length);
+            const base64String = uint8ArrayToBase64(encryptedData);
             // Query for the presigned URL
             const data = await $fetch('/api/file/upload', {
                 method: 'POST',
@@ -164,51 +145,25 @@
                     statut: AccessStatus.USER,
                     size: fileToUpload.value.size,
                     extension: fileExtension.value,
+                    file: base64String,
                 }),
                 headers: {
                     'Content-Type': 'application/json',
                 },
             });
-            uploadInfos.value = data;
-        } catch (error) {
-            console.error('Error uploading file:', error);
-        } finally {
-        }
-    }
-
-    async function encryptAndUpload() {
-        isLoading.value = true;
-        try {
-            await fetchUploadInfos();
-            const ethAddress = getAddValue();
-            const data = await readFile(fileToUpload.value);
-            const key = await deriveKeyFromEthAddress(ethAddress);
-            const encryptedData: Uint8Array = await encryptFile(key, data);
-            console.log('Encrypted data:', encryptedData);
-            await uploadFile(encryptedData, uploadInfos.value.url);
-            fileCreated.value = true;
-            const result: string = createNewFileInside(
+            console.log('Data:', data);
+            id.value = data.id;
+            name_in_s3.value = data.name_in_s3;
+            await createNewFileInside(
                 props.selectedFolder,
                 fileName.value,
                 fileExtension.value,
                 fileToUpload.value.size,
             );
-            if (result == errorCodes.file_already_exists) {
-                toast({
-                    title: t('file_exists'),
-                    description: t('file_exists_desc'),
-                    variant: 'destructive',
-                });
-            } else {
-                toast({
-                    title: t('success'),
-                    description: t('file_created'),
-                });
-            }
+            fileCreated.value = true;
             isLoading.value = false;
         } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred.');
+            console.error('Error uploading file:', error);
         } finally {
             isLoading.value = false;
             dialogOpened.value = false;
@@ -219,10 +174,14 @@
 
     async function createNewFileInside(id: Number, name: string, extension: string, size: number) {
         if (files.value.find((file) => file.idParent == id && file.name === name)) {
-            return errorCodes.file_already_exists;
+            toast({
+                title: t('file_exists'),
+                description: t('file_exists_desc'),
+                variant: 'destructive',
+            });
         }
         const newFile: File = {
-            id: uploadInfos.value.id,
+            id: id.value,
             name: name,
             date: new Date().toISOString(),
             isFolder: false,
@@ -230,9 +189,12 @@
             idParent: id,
             size: 0,
             statut: 'you',
-            name_in_s3: uploadInfos.value.name_in_s3,
+            name_in_s3: name_in_s3.value,
         };
         files.value.push(newFile);
-        return errorCodes.success;
+        toast({
+            title: t('success'),
+            description: t('file_created'),
+        });
     }
 </script>

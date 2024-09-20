@@ -1,10 +1,6 @@
 import errorCodes, { setFail, setSuccess } from '~/utils/codes';
 import { createFile, fileExists, getFileById, replaceFile } from '~/server/data/files';
-import {
-    createPresignedUrlDownload,
-    createPresignedUrlUpload,
-    generateUniqueName,
-} from '~/server/data/s3';
+import { downloadFile, generateUniqueName, uploadFile } from '~/server/data/s3';
 import { H3Event } from 'h3';
 
 export default defineEventHandler(async (event: H3Event) => {
@@ -43,8 +39,7 @@ async function create(event: H3Event) {
     }
     const uname = generateUniqueName();
     const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
-    event.res.statusCode = 200;
-    return id;
+    return setSuccess(event, id.toString());
 }
 
 async function preview(event: H3Event) {
@@ -52,8 +47,8 @@ async function preview(event: H3Event) {
     // check for ownership
     const body = await readBody(event);
     const name_s3 = body.name_s3;
-    const url = await createPresignedUrlDownload(name_s3);
-    return setSuccess(event, url);
+    const file = await downloadFile(name_s3);
+    return setSuccess(event, file);
 }
 
 async function replace(event: H3Event) {
@@ -61,11 +56,12 @@ async function replace(event: H3Event) {
     const body = await readBody(event);
     const fileId = body.fileId;
     const size = body.size;
-    const file = await getFileById(fileId, user_id);
-    const uname: string = file?.file_name_on_s3;
-    const urlUpload = await createPresignedUrlDownload(uname);
+    const file = body.file;
+    const ref = await getFileById(fileId, user_id);
+    const uname: string = ref?.file_name_on_s3 || generateUniqueName();
+    await uploadFile(file, uname);
     await replaceFile(user_id, fileId, size, uname);
-    return setSuccess(event, urlUpload);
+    return setSuccess(event, fileId);
 }
 
 async function upload(event: H3Event) {
@@ -76,19 +72,20 @@ async function upload(event: H3Event) {
     const statut = body.statut;
     const size = body.size;
     const extension = body.extension;
+    const file = body.file;
     const uname = generateUniqueName();
-    const url = await createPresignedUrlUpload(uname);
     const id = await createFile(name, extension, idParent, size, statut, user_id, uname);
-    event.res.statusCode = 200;
-    return { id, url, name_in_s3: uname };
+    await uploadFile(file, uname);
+    setResponseStatus(event, 200);
+    return { id: id.toString(), name_in_s3: uname };
 }
 
 async function download(event: H3Event) {
     const user_id = event.context.user_id;
     const body = await readBody(event);
     const fileId = body.fileId;
-    const file = await getFileById(fileId, user_id);
-    const name_s3 = file?.file_name_on_s3;
-    const link = await createPresignedUrlDownload(name_s3);
-    return setSuccess(event, link);
+    const ref = await getFileById(fileId, user_id);
+    const name_s3 = ref?.file_name_on_s3 || '';
+    const file = await downloadFile(name_s3);
+    return setSuccess(event, file);
 }
