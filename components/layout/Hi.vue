@@ -27,7 +27,7 @@
 
     let status = ref('unauthenticated');
 
-    const auth = getAddValue();
+    const auth = ref(getAddValue());
 
     if (auth) {
         status.value = 'authenticated';
@@ -48,7 +48,7 @@
             });
             return;
         });
-        auth.value = undefined;
+        setAddValue('');
         status.value = 'unauthenticated';
         setAddValue('');
         setHashAddValue('');
@@ -56,6 +56,7 @@
             title: t('success'),
             description: t('logout_success'),
         });
+        navigateTo('/');
     }
 
     async function doubtAuth() {
