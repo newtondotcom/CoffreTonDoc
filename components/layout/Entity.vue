@@ -5,22 +5,56 @@
                 class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between px-2.5 py-2 hover:bg-secondary"
                 @click="() => {}"
             >
-                <span class="min-w-[15%]"><IconsDate :date="file.date" /></span>
-                <div class="flex min-w-[60%] flex-row items-center">
-                    <div class="relative w-16 shrink-0">
-                        <IconsFolder v-if="file.isFolder" />
-                        <IconsThumbnail :extension="file.extension" v-else />
-                    </div>
-                    <div class="flex min-w-0 flex-col pl-2">
-                        <div
-                            class="mb-0.5 block cursor-text overflow-hidden text-ellipsis whitespace-nowrap pr-4 text-sm font-bold hover:underline lg:pr-0"
-                        >
-                            {{ file.name }}
-                            <span v-if="!file.isFolder">.{{ file.extension }}</span>
+                <div
+                    draggable="true"
+                    @dragstart="onDragStart(file)"
+                    v-if="!file.isFolder"
+                    class="flex w-full flex-row justify-center"
+                >
+                    <span class="min-w-[15%]">
+                        <IconsDate :date="file.date" />
+                    </span>
+                    <div class="flex min-w-[60%] flex-row items-center">
+                        <div class="relative w-16 shrink-0">
+                            <IconsThumbnail :extension="file.extension" />
+                        </div>
+                        <div class="flex min-w-0 flex-col pl-2">
+                            <div
+                                class="mb-0.5 block cursor-text overflow-hidden text-ellipsis whitespace-nowrap pr-4 text-sm font-bold hover:underline lg:pr-0"
+                            >
+                                {{ file.name }}
+                                <span v-if="!file.isFolder">.{{ file.extension }}</span>
+                            </div>
                         </div>
                     </div>
+                    <span class="min-w-[15%]">
+                        <IconsSize :size="file.size" />
+                    </span>
                 </div>
-                <span class="min-w-[15%]"><IconsSize :size="file.size" /></span>
+                <div
+                    @dragover.prevent
+                    @drop="onDrop"
+                    v-else
+                    class="flex w-full flex-row justify-center"
+                >
+                    <span class="min-w-[15%]">
+                        <IconsDate :date="file.date" />
+                    </span>
+                    <div class="flex min-w-[60%] flex-row items-center">
+                        <div class="relative w-16 shrink-0">
+                            <IconsFolder />
+                        </div>
+                        <div class="flex min-w-0 flex-col pl-2">
+                            <div
+                                class="mb-0.5 block cursor-text overflow-hidden text-ellipsis whitespace-nowrap pr-4 text-sm font-bold hover:underline lg:pr-0"
+                            >
+                                {{ file.name }}
+                                <span v-if="!file.isFolder">.{{ file.extension }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="min-w-[15%]"></span>
+                </div>
                 <!--
                 <IconsStatut :statut="file.statut" />
                 -->
@@ -243,6 +277,21 @@
 
     const ethAddress = getAddValue();
     const key = deriveKeyFromEthAddress(ethAddress);
+
+    function onDragStart(file) {
+        console.log('Drag started for file:', file, event);
+        event.dataTransfer.setData('file', JSON.stringify(file));
+    }
+
+    function onDrop(event) {
+        event.preventDefault();
+        const fileData = event.dataTransfer.getData('file');
+        if (fileData) {
+            const file = JSON.parse(fileData);
+            console.log('File dropped:', file);
+            // Handle the dropped file
+        }
+    }
 
     const newName = ref('');
     const newFileName = ref('');
