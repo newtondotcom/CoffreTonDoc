@@ -1,7 +1,7 @@
 export default defineNuxtConfig({
     devtools: { enabled: false },
 
-    modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/i18n'],
+    modules: ['@nuxtjs/tailwindcss', 'shadcn-nuxt', '@nuxtjs/i18n', '@pinia/nuxt'],
 
     shadcn: {
         prefix: '',
