@@ -30,6 +30,7 @@ export async function encryptFile(key: CryptoKey, data: Uint8Array): Promise<Uin
 
     // Combine the IV and the encrypted data for storage or transmission
     const encryptedFile = new Uint8Array(iv.length + encryptedArrayBuffer.length);
+    // encrypt IV before storing it
     encryptedFile.set(iv, 0);
     encryptedFile.set(encryptedArrayBuffer, iv.length);
 
