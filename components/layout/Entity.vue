@@ -34,8 +34,11 @@
                 <div
                     @dragover.prevent
                     @drop="onDrop"
+                    @dragenter="onDragEnter"
+                    @dragleave="onDragLeave"
                     v-else
-                    class="flex w-full flex-row justify-center"
+                    :class="{ 'bg-secondary': dragHovering }"
+                    class="flex w-full flex-row justify-center rounded-xl"
                 >
                     <span class="min-w-[15%]">
                         <IconsDate :date="file.date" />
@@ -278,6 +281,7 @@
     const ethAddress = getAddValue();
     const key = deriveKeyFromEthAddress(ethAddress);
 
+    const dragHovering = ref(false);
     function onDragStart(file) {
         console.log('Drag started for file:', file, event);
         event.dataTransfer.setData('file', JSON.stringify(file));
@@ -291,6 +295,16 @@
             console.log('File dropped:', file);
             // Handle the dropped file
         }
+    }
+
+    function onDragEnter(event) {
+        event.preventDefault();
+        dragHovering.value = true;
+    }
+
+    function onDragLeave(event) {
+        event.preventDefault();
+        dragHovering.value = false;
     }
 
     const newName = ref('');
