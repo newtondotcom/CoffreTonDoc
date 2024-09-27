@@ -36,6 +36,7 @@
         "siwe": "^2.3.2",
         "tailwind-merge": "^2.5.2",
         "tailwindcss-animate": "^1.0.7",
+        "tinykeys": "^3.0.0",
         "twemoji": "^14.0.2",
         "unique-names-generator": "^4.7.1",
         "vee-validate": "^4.13.2",

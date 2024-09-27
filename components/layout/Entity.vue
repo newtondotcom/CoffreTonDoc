@@ -2,14 +2,15 @@
     <Dialog v-model:open="dialogOpened">
         <ContextMenu>
             <ContextMenuTrigger
-                class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between px-2.5 py-2 hover:bg-secondary"
-                @click="() => {}"
+                class="dark:hover:bg-dark-foreground flex w-full flex-row justify-between hover:bg-secondary"
+                @click="selectEntity(file)"
             >
                 <div
                     draggable="true"
                     @dragstart="onDragStart(file)"
                     v-if="!file.isFolder"
                     class="flex w-full flex-row justify-center"
+                    :class="{ 'rounded-lg bg-primary/50': isSelected }"
                 >
                     <span class="min-w-[15%]">
                         <IconsDate :date="file.date" />
@@ -37,7 +38,9 @@
                     @dragenter="onDragEnter"
                     @dragleave="onDragLeave"
                     v-else
-                    :class="{ 'bg-secondary': dragHovering }"
+                    :class="
+                        cn(dragHovering && 'bg-secondary', isSelected && 'rounded-lg bg-primary/50')
+                    "
                     class="flex w-full flex-row justify-center rounded-xl"
                 >
                     <span class="min-w-[15%]">
@@ -270,11 +273,26 @@
     }
     const props = defineProps<EntityProps>();
     const files = defineModel('files', { required: true });
+    const selectedFiles = defineModel('selectedFiles', { required: true });
     const dialogOpened = ref(false);
 
+    import { cn } from '@/lib/utils';
     import { useToast } from '@/components/ui/toast/use-toast';
-    import errorCodes from '~/utils/codes';
     const { toast } = useToast();
+
+    const controlHolded = ref(false);
+    function handleKeydown(event) {
+        if (event.key === 'Control' || event.key == 'Meta') {
+            controlHolded.value = true;
+        }
+    }
+    function handleKeyup(event) {
+        if ((event.key === 'Control' || event.key == 'Meta') && controlHolded.value) {
+            controlHolded.value = false;
+        }
+    }
+    window.addEventListener('keydown', handleKeydown);
+    window.addEventListener('keyup', handleKeyup);
 
     import { allowedFileExtensions } from '~/utils/extensions';
 
@@ -282,6 +300,8 @@
     const key = deriveKeyFromEthAddress(ethAddress);
 
     const dragHovering = ref(false);
+    const isSelected = computed(() => selectedFiles.value.includes(props.file));
+
     function onDragStart(file) {
         console.log('Drag started for file:', file, event);
         event.dataTransfer.setData('file', JSON.stringify(file));
@@ -495,5 +515,17 @@
             description: 'File renamed successfully',
         });
         dialogOpened.value = false;
+    }
+
+    function selectEntity(file) {
+        if (!controlHolded.value) {
+            selectedFiles.value = [file];
+            return;
+        }
+        if (selectedFiles.value.includes(file)) {
+            selectedFiles.value = selectedFiles.value.filter((f) => f !== file);
+        } else {
+            selectedFiles.value = [...selectedFiles.value, file];
+        }
     }
 </script>

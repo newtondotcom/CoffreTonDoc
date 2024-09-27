@@ -56,6 +56,7 @@
                                 :openItem
                                 :createNewFileInside
                                 :createNewFolderInside
+                                v-model:selectedFiles="selectedFiles"
                                 v-model:files="files"
                             />
                             <Separator />
@@ -78,6 +79,7 @@
     const previewedFile = ref(null);
 
     const files = ref<File[]>([]);
+    const selectedFiles = ref<File[]>([]);
     const selectedFolder = ref<number>(-1);
     const breadcrumb = ref<
         {
