@@ -169,7 +169,7 @@
     }
 
     async function createNewFileInside(id: string, name: string, extension: string) {
-        const size = 1000;
+        const size = 0;
         const statut = AccessStatus.USER;
         const body = {
             name,
